@@ -1,5 +1,5 @@
 body {
-  background: url(http://upload.wikimedia.org/wikipedia/commons/a/ac/Australian_Helicopters_%28VH-YXJ%29%2C_operated_for_Ambulance_Victoria%2C_AgustaWestland_AW139_taxiing_at_Wagga_Wagga_Airport.jpg);
+  /*background: url(http://upload.wikimedia.org/wikipedia/commons/a/ac/Australian_Helicopters_%28VH-YXJ%29%2C_operated_for_Ambulance_Victoria%2C_AgustaWestland_AW139_taxiing_at_Wagga_Wagga_Airport.jpg);*/
   background-repeat: no-repeat;
   background-size: cover;
   text-align: center;
@@ -12,11 +12,110 @@ body {
    height:100%;
 }
 
+.report-page{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 4em 30em;
+}
+
+.report-page > .topbar{
+    background-color: red;
+    grid-column: 1/6;
+    grid-row: 1/2;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.report-page > .topbar > img#logo{
+    height: 100%;
+    grid-column: 3/4;
+    margin: auto;
+}
+
+.report-page > .topbar > button#logout{
+    height: 100%;
+    grid-column: 5/6;
+}
+
+.report-page > .map{
+    background: aqua;
+    grid-column: 3/6;
+    grid-row: 2/3;
+}
+
+.report-page > .incident-list{
+    background: green;
+    overflow: auto;
+    grid-column: 1/3;
+    grid-row: 2/3;
+}
+
+.report-page > .incident-list > .searchbar{
+
+}
+
+.report-page > .incident-list > .searchbar input[type=text]{
+    width: 90%;
+    padding: 6px 0px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    border: none;
+}
+
+.report-page > .incident-list > .searchbar button{
+    float: right;
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-right: 2%;
+    background: #ddd;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+.report-page > .incident-list > .incident{
+    background: yellow;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    border: solid;
+}
+
+.report-page > .incident-list > .incident > .incident-id{
+    display: flex;
+    align-items: left;
+    padding-left: 5%;
+    grid-column: 1/3;
+    grid-row: 1/2;
+}
+
+.report-page > .incident-list > .incident > .incident-time{
+    display: grid;
+    align-items: right;
+    background: red;
+    grid-column: 3/4;
+    grid-row: 1/2;
+    justify-items: right;
+}
+
+.report-page > .incident-list > .incident > .incident-description{
+    grid-row: 2/4;
+    grid-column: 1/4;
+    background: blue;
+}
+
+.report-page > .incident-list > .incident > .incident-location{
+    grid-row: 4/5;
+    grid-column: 1/4;
+    background: pink;
+}
+
 .container {
   position: relative;
   padding: 2px 10px;
   margin-left: 25%;
-  margin-right: 25%;
+    margin-right: 25%;
   height: 200%;
   box-shadow: black, 10px, 10px;
   border-radius: 30px;
