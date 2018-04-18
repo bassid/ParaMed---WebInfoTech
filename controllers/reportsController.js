@@ -48,3 +48,12 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         'Error: Your browser doesn\'t support geolocation.');
     infoWindow.open(map);
 }
+
+function openDetailedDescription(){
+    detailedDescription.style.display = "block";
+}
+
+function closeDescription() {
+    var detailedDescription = document.getElementById('detailedDescription');
+    detailedDescription.style.display = "none";
+}

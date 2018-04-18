@@ -27,35 +27,83 @@
                 <input type="text" placeholder="Search Reports">
                 <button type="submit"><i class="fa fa-search"></i></button>
             </div>
-            <div class="incident">
+            <div class="incident" onclick="openDetailedDescription()">
                 <div class="incident-id">ID#021975</div>
                 <div class="incident-time">3:53 PM</div>
                 <div class="incident-description">Vehicular accident, broken leg</div>
                 <div class="incident-location">61 Royal Parade, Parkville</div>
             </div>
-            <div class="incident">
+            <div class="incident" onclick="openDetailedDescription()">
                 <div class="incident-id">ID#021975</div>
                 <div class="incident-time">3:53 PM</div>
                 <div class="incident-description">Vehicular accident, broken leg</div>
                 <div class="incident-location">61 Royal Parade, Parkville</div>
             </div>
-            <div class="incident">
+            <div class="incident" onclick="openDetailedDescription()">
                 <div class="incident-id">ID#021975</div>
                 <div class="incident-time">3:53 PM</div>
                 <div class="incident-description">Vehicular accident, broken leg</div>
                 <div class="incident-location">61 Royal Parade, Parkville</div>
             </div>
-            <div class="incident">
+            <div class="incident" onclick="openDetailedDescription()">
                 <div class="incident-id">ID#021975</div>
                 <div class="incident-time">3:53 PM</div>
                 <div class="incident-description">Vehicular accident, broken leg</div>
                 <div class="incident-location">61 Royal Parade, Parkville</div>
             </div>
-            <div class="incident">
+            <div class="incident" onclick="openDetailedDescription()">
                 <div class="incident-id">ID#021975</div>
                 <div class="incident-time">3:53 PM</div>
                 <div class="incident-description">Vehicular accident, broken leg</div>
                 <div class="incident-location">61 Royal Parade, Parkville</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="detailedDescription" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span id="modalCloseButton" class="modalClose" onclick="closeDescription()">&times;</span>
+                <h2>Incident Breakdown</h2>
+            </div>
+            <div class="modal-body">
+                <div class="incident">
+                    <div class="incident-id">ID#021975</div>
+                    <div class="incident-time">3:53 PM</div>
+                    <div class="incident-description">Vehicular accident, broken leg</div>
+                    <div class="incident-location">61 Royal Parade, Parkville</div>
+                </div>
+                <div class="additional-info-title">
+                    Additional Info
+                </div>
+                <div class="additional-info">
+                    <div class="additional-info-content">
+                        Number of injuries: 3
+                    </div>
+                    <div class="additional-info-timestamp">
+                        3:53 PM
+                    </div>
+                </div>
+                <div class="photos-title">
+                    Photos
+                </div>
+                <div class="photo-grid">
+                    <div class="photo">
+                        <img src="/public/blue-stethoscope.jpg" alt="ParaMed logo"/>
+                    </div>
+                    <div class="photo">
+                        <img src="/public/logo.png" alt="ParaMed logo"/>
+                    </div>
+                    <div class="photo">
+                        <img src="/public/logo.png" alt="ParaMed logo"/>
+                    </div>
+                    <div class="photo">
+                        <img src="/public/logo.png" alt="ParaMed logo"/>
+                    </div>
+                    <div class="photo">
+                        <img src="/public/logo.png" alt="ParaMed logo"/>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
