@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incident Report</title>
+    <link rel="stylesheet" href="/public/stylesheets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="/controllers/reportsController.js"></script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_gGdg1v9AyPZhr4Ahhb1kTiaicC3ip6k&callback=initMap">
+    </script>
+</head>
+
+<body>
+    <div class="report-page">
+        <div class="topbar">
+            <img id="logo" src="/public/logo.png" alt="ParaMed logo"/>
+            <form action="/">
+                <input type="submit" value="Logout" />
+            </form>
+        </div>
+        <div id="map" class="map" onload="initMap()">
+        </div>
+        <div class="incident-list">
+            <div class="searchbar">
+                <input type="text" placeholder="Search Reports">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </div>
+            <div class="incident">
+                <div class="incident-id">ID#021975</div>
+                <div class="incident-time">3:53 PM</div>
+                <div class="incident-description">Vehicular accident, broken leg</div>
+                <div class="incident-location">61 Royal Parade, Parkville</div>
+            </div>
+            <div class="incident">
+                <div class="incident-id">ID#021975</div>
+                <div class="incident-time">3:53 PM</div>
+                <div class="incident-description">Vehicular accident, broken leg</div>
+                <div class="incident-location">61 Royal Parade, Parkville</div>
+            </div>
+            <div class="incident">
+                <div class="incident-id">ID#021975</div>
+                <div class="incident-time">3:53 PM</div>
+                <div class="incident-description">Vehicular accident, broken leg</div>
+                <div class="incident-location">61 Royal Parade, Parkville</div>
+            </div>
+            <div class="incident">
+                <div class="incident-id">ID#021975</div>
+                <div class="incident-time">3:53 PM</div>
+                <div class="incident-description">Vehicular accident, broken leg</div>
+                <div class="incident-location">61 Royal Parade, Parkville</div>
+            </div>
+            <div class="incident">
+                <div class="incident-id">ID#021975</div>
+                <div class="incident-time">3:53 PM</div>
+                <div class="incident-description">Vehicular accident, broken leg</div>
+                <div class="incident-location">61 Royal Parade, Parkville</div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
