@@ -60,6 +60,7 @@ a:hover {
     margin-right: auto;
 }
 
+
 h1 {
     font-size: 28px;
     color: #0157EF;
@@ -158,10 +159,10 @@ button:active {
 .report-page{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 50px 100%;
+    grid-template-rows: 56px 1fr;
     position: absolute;
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 50px);
 }
 
 .report-page > .topbar{
@@ -186,81 +187,105 @@ button:active {
 
 .report-page > .map{
     grid-column: 3/6;
-    grid-row: 2/3;
+    grid-row: 1/3;
 }
 
-.report-page > .incident-list{
-    height: 100%;
-    background: white;
-    overflow: auto;
+.sideBar {
+
+
+}
+
+.searchbar{
+    background-color: #dddddd;
+    text-align: left;
+    height: 56px;
     grid-column: 1/3;
-    grid-row: 2/3;
+    grid-row: 1/2;
 }
 
-.report-page > .incident-list > .searchbar{
-}
-
-.report-page > .incident-list > .searchbar input[type=text]{
-    width: 80%;
-    padding: 15px 10px;
-    margin-top: 8px;
-    margin-bottom: 8px;
+.searchbar input[type=text]{
+    max-width: calc(100% - 80px);
+    height: 40px;
+    margin: 8px;
     font-size: 14px;
+    font-family: Tajawal;
     border: 1px solid black;
+
 }
 
-.report-page > .incident-list > .searchbar > button.search{
-    width: 10%;
-    height: 10%;
-    float: right;
-    padding: 6px 10px;
-    margin-top: 8px;
-    margin-right: 2%;
+.searchbar > button.search{
+    width: 40px;
+    height: 40px;
+    margin: 8px;
     font-size: 14px;
-
     cursor: pointer;
 }
 
-.report-page > .incident-list > .incident{
-    background-color: #8BBEF6;
+.incident-list {
+
+    background: white;
+    overflow: auto;
+    padding: 0 20px;
+    grid-column: 1/3;
+    grid-row: 2/3;
+}
+
+.incident-list > .incident{
+    background-color: #d9e4f1;
     border: 1px solid black;
     box-shadow: 0 1px 5px black ;
     padding: 15px 10px;
-    margin: 10px 20px;
+    margin: 20px 0;
     display: inline-block;
     border-radius: 5px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 100px 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr;
 }
 
-.report-page > .incident-list > .incident > .incident-id{
+.incident-list > .incident > .incident-id{
     display: flex;
     font-weight: bold;
     align-items: left;
-
+    padding: 2px;
     grid-column: 1/3;
-    grid-row: 1/2; padding-left: 5%;
+    grid-row: 1/2;
 }
 
-.report-page > .incident-list > .incident > .incident-time{
+.incident-list > .incident > .incident-time{
     display: grid;
     align-items: right;
+    padding: 2px;
     grid-column: 3/4;
     grid-row: 1/2;
     justify-items: right;
+    font-size: 12px;
 }
 
-.report-page > .incident-list > .incident > .incident-description{
+.incident-list > .incident > .description {
     grid-row: 2/4;
-    grid-column: 1/4;
-    padding-left: 5%;
+    grid-column: 1/2;
+    padding: 2px;
     text-align: left;
 }
 
-.report-page > .incident-list > .incident > .incident-location{
+.incident-list > .incident > .incident-description{
+    grid-row: 2/4;
+    grid-column: 2/4;
+    padding: 2px;
+    text-align: left;
+}
+
+.incident-list > .incident > .location {
     grid-row: 4/5;
-    grid-column: 1/4;
-    padding-left: 5%;
+    grid-column: 1/2;
+    padding: 2px;
+    text-align: left;
+}
+
+.incident-list > .incident > .incident-location{
+    grid-row: 4/5;
+    grid-column: 2/4;
+    padding: 2px;
     text-align: left;
 }
