@@ -8,7 +8,6 @@ body {
 
 body {
    margin:0;
-   padding:2%;
    height:100%;
 }
 
@@ -19,7 +18,8 @@ body {
 }
 
 .report-page > .topbar{
-    background-color: red;
+    background-color: #8bbef6;
+    padding: 10px;
     grid-column: 1/6;
     grid-row: 1/2;
     display: grid;
