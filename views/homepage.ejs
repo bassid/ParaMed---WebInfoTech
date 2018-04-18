@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <title>ParaMed</title>
 
-  <link rel="stylesheet" href="../public/stylesheets/homeStyle.css">
+  <link rel="stylesheet" href="../public/stylesheets/style.css">
 </head>
 
 <body>
 
 <div class="navBar">
-  <a href="about">About</a>
-  <a href="sign-up">Sign up</a>
+  <a class="navLink" href="about">About</a>
+  <a class="navLink" href="sign-up">Sign up</a>
   <div id="teamName">
     A Bright Solutions project
   </div>
@@ -30,7 +30,10 @@
     <label for="password">Password</label><br>
     <input type="password" name="password" required><br>
 
-    <button type="submit">Login</button>
+    <button type="submit">Login</button><br>
+    <div id="appDownload">
+      Not a call operator? Download our <a id="appLink" href="https://play.google.com/store?hl=en" target="_blank">app</a>!
+    </div>
   </form>
 </div>
 </body>
