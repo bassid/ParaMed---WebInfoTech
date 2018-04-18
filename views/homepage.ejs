@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ParaMed</title>
-    <link rel="stylesheet" href="/public/stylesheets/style.css">
+  <meta charset="UTF-8">
+  <title>ParaMed</title>
+
+  <link rel="stylesheet" href="../public/stylesheets/homeStyle.css">
 </head>
 
 <body>
-<div id="container">
-    <ul>
-        <li><a href="/about">About</a></li>
-        <li><a href="/sign-up">Sign up</a></li>
-    </ul>
 
-    <h1><img id="logo" src="../public/logo.png" alt="ParaMed logo"/></h1>
-    <h2>Providing better access to paramedic services</h2>
+<div id="navBar">
+  <a href="about">About</a>
+  <a href="sign-up">Sign up</a>
+</div>
 
-    <form action="/reports" method="get">
-        <label for="username">Username</label>
-        <input type="text" name="username" required><br>
+<div class="container">
 
-        <label for="password">Password</label>
-        <input type="text" name="password" required><br>
+  <img id="logo" src="../public/logo.png" alt="ParaMed logo">
+  <%#<h2>Makes calling for an ambulance easy</h2>#%>
 
-        <button type="submit">Login</button>
-      </form>
-    </div>
+<form class="login" action="">
+  <label for="username">Username</label><br>
+  <input type="text" name="username" required><br>
+
+  <label for="password">Password</label><br>
+  <input type="password" name="password" required><br>
+
+  <button type="submit">Login</button>
+</form>
+</div>
 
 </body>

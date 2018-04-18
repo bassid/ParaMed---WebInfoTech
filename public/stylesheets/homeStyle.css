@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
+html {
+    height: 100%;
+}
+
+body {
+    text-align: center;
+    font-family: 'Raleway', san-serif;
+    /*background: linear-gradient(rgba(226, 226, 226, 0.8), rgba(232, 232, 232, 0.8)), url("https://source.unsplash.com/yo01Z-9HQAw") no-repeat center center fixed;*/
+    background: linear-gradient(rgba(226, 226, 226, 0.8), rgba(247, 247, 247, 0.8)), url("../blue-stethoscope.jpg") no-repeat center center fixed;
+    /*background: url("https://source.unsplash.com/Pd4lRfKo16U");*/
+    /*background: url("https://source.unsplash.com/0-SGyQFiDRI");*/
+    background-size: cover;
+}
+
+
+.container {
+
+}
+
+#signUp, #about {
+    width: 700px;
+    padding: 0 50px 50px;
+    display: inline-block;
+    background-color: white;
+}
+
+#navBar {
+    padding: 5px 20px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+}
+
+#navBar a {
+    float: left;
+    color: white;
+    text-align: center;
+    font-size: 15px;
+    padding: 10px 16px;
+    text-decoration: none;
+}
+
+#navBar a:hover {
+    color: #8bbef6;
+}
+
+#logo {
+    display: block;
+    width: 50%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    font-size: 28px;
+    color: #0157EF;
+    padding: 10px;
+    text-align: left;
+
+}
+
+h2 {
+    font-size: 18px;
+    color: black;
+    padding: 20px;
+}
+
+p {
+    font-size: 16px;
+    color: black;
+    text-align: left;
+    padding: 10px;
+    text-align: justify;
+}
+
+form {
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid black;
+    padding: 15px 10px;
+    width: 500px;
+    display: inline-block;
+    border-radius: 5px;
+
+}
+
+.login {
+
+}
+
+.signUp {
+
+}
+
+label {
+    float: left;
+    padding: 0 10px;
+    font-weight: bold;
+}
+
+input {
+    width: 480px;
+    height: 20px;
+    padding: 12px 10px;
+    margin: 8px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    outline: none;
+}
+
+select {
+    width: 480px;
+    height: 20px;
+
+    margin: 8px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    outline: none;
+}
+
+input:focus {
+    border: 2px solid #0157EF;
+}
+
+button {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 5px;
+    width: 200px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+}
+
+button:hover {
+    border: 1px solid #0157EF;
+    box-shadow: 0 0 10px #8bbef6;
+}
+
+button:active {
+    border: 2px solid #0157EF;
+}
