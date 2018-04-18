@@ -10,26 +10,37 @@
 <div id="navBar">
     <a href="/">Back</a>
 </div>
-<h1>
-Join the growing number of operations centres using ParaMed
-</h1>
-<p>
-    Are you interested in having your operations centre use ParaMed to make responding to triple zero calls easier?
-    Contact us using the form below.
-</p>
-<form class="signUp" action="">
-    <label for="name">Call centre name</label><br>
-    <input type="text" name="name" required><br>
+<div id="signUp" class="container">
+    <h1>
+        Join the growing number of operations centres using ParaMed
+    </h1>
+    <p>
+        Are you interested in having your operations centre use ParaMed to make responding to triple zero calls easier?
+        Contact us using the form below.
+    </p>
+    <form class="signUp" action="">
+        <label for="name">Call centre name</label><br>
+        <input type="text" name="name" required><br>
 
-    <label for="state">State</label><br>
-    <input type="text" name="state" required><br>
+        <label for="state">State</label><br>
+        <select name="state" size="1">
+            <option value="vic" selected>VIC</option>
+            <option value="sa">SA</option>
+            <option value="tas">TAS</option>
+            <option value="wa">WA</option>
+            <option value="nt">NT</option>
+            <option value="qld">QLD</option>
+            <option value="nsw">NSW</option>
+            <option value="act">ACT</option>
+        </select>
 
-    <label for="email">Email</label><br>
-    <input type="text" name="email" required><br>
+        <label for="email">Email</label><br>
+        <input type="text" name="email" required><br>
 
-    <label for="number">Phone number</label><br>
-    <input type="text" name="number" required><br>
+        <label for="number">Phone number</label><br>
+        <input type="text" name="number" required><br>
 
-    <button type="submit">Submit</button>
-</form>
+        <button type="submit">Submit</button>
+    </form>
+</div>
 </body>

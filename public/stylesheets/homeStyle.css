@@ -5,20 +5,26 @@ html {
 }
 
 body {
-
-    background: linear-gradient(rgba(226, 226, 226, 0.8), rgba(232, 232, 232, 0.8)), url("https://source.unsplash.com/yo01Z-9HQAw") no-repeat center center fixed;
+    text-align: center;
+    font-family: 'Raleway', san-serif;
+    /*background: linear-gradient(rgba(226, 226, 226, 0.8), rgba(232, 232, 232, 0.8)), url("https://source.unsplash.com/yo01Z-9HQAw") no-repeat center center fixed;*/
+    background: linear-gradient(rgba(226, 226, 226, 0.8), rgba(247, 247, 247, 0.8)), url("../blue-stethoscope.jpg") no-repeat center center fixed;
     /*background: url("https://source.unsplash.com/Pd4lRfKo16U");*/
     /*background: url("https://source.unsplash.com/0-SGyQFiDRI");*/
     background-size: cover;
-    text-align: center;
-    font-family: 'Raleway', san-serif;
-
 }
+
 
 .container {
-    padding: 30px;
+
 }
 
+#signUp, #about {
+    width: 700px;
+    padding: 0 50px 50px;
+    display: inline-block;
+    background-color: white;
+}
 
 #navBar {
     padding: 5px 20px;
@@ -49,11 +55,11 @@ body {
 }
 
 h1 {
-    font-size: 32px;
+    font-size: 28px;
     color: #0157EF;
-    text-shadow: 1px 1px 1px black;
+    padding: 10px;
     text-align: left;
-    padding: 10px 50px;
+
 }
 
 h2 {
@@ -66,16 +72,18 @@ p {
     font-size: 16px;
     color: black;
     text-align: left;
-    padding: 10px 50px;
+    padding: 10px;
+    text-align: justify;
 }
 
 form {
     background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid black;
     padding: 15px 10px;
     width: 500px;
     display: inline-block;
     border-radius: 5px;
-    text-align: center;
+
 }
 
 .login {
@@ -96,6 +104,16 @@ input {
     width: 480px;
     height: 20px;
     padding: 12px 10px;
+    margin: 8px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    outline: none;
+}
+
+select {
+    width: 480px;
+    height: 20px;
+
     margin: 8px;
     box-sizing: border-box;
     border-radius: 4px;
