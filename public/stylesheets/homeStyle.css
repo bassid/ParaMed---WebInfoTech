@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url('https://fonts.googleapis.com/css?family=Tajawal');
 
 html {
     height: 100%;
@@ -6,17 +6,10 @@ html {
 
 body {
     text-align: center;
-    font-family: 'Raleway', san-serif;
-    /*background: linear-gradient(rgba(226, 226, 226, 0.8), rgba(232, 232, 232, 0.8)), url("https://source.unsplash.com/yo01Z-9HQAw") no-repeat center center fixed;*/
-    background: linear-gradient(rgba(226, 226, 226, 0.8), rgba(247, 247, 247, 0.8)), url("../blue-stethoscope.jpg") no-repeat center center fixed;
-    /*background: url("https://source.unsplash.com/Pd4lRfKo16U");*/
-    /*background: url("https://source.unsplash.com/0-SGyQFiDRI");*/
+    font-family: 'Tajawal', san-serif;
+    background: linear-gradient(rgba(208, 208, 208, 0.8), rgba(249, 249, 249, 0.6)), url("../blue-stethoscope.jpg") no-repeat center center fixed;
     background-size: cover;
-}
-
-
-.container {
-
+    margin: 0;
 }
 
 #signUp, #about {
@@ -26,15 +19,24 @@ body {
     background-color: white;
 }
 
-#navBar {
+.navBar {
+    height: 40px;
     padding: 5px 20px;
     overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 5px;
+    background-color: #4a4c7d;
+    box-shadow: 0 1px 5px black;
 }
 
-#navBar a {
-    float: left;
+#barLogo {
+    height: 100%;
+    width: auto;
+}
+
+#logout {
+    float: right;
+}
+
+a {
     color: white;
     text-align: center;
     font-size: 15px;
@@ -42,7 +44,11 @@ body {
     text-decoration: none;
 }
 
-#navBar a:hover {
+.navBar a {
+    float: left;
+}
+
+a:hover {
     color: #8bbef6;
 }
 
@@ -50,9 +56,9 @@ body {
     display: block;
     width: 50%;
     height: auto;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 20px auto;
 }
+
 
 h1 {
     font-size: 28px;
@@ -76,21 +82,13 @@ p {
     text-align: justify;
 }
 
-form {
+form.login, form.signUp {
     background-color: rgba(255, 255, 255, 0.5);
     border: 1px solid black;
     padding: 15px 10px;
     width: 500px;
     display: inline-block;
     border-radius: 5px;
-
-}
-
-.login {
-
-}
-
-.signUp {
 
 }
 
@@ -129,7 +127,7 @@ button {
     border-radius: 10px;
     padding: 5px;
     width: 200px;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Tajawal', sans-serif;
     font-weight: bold;
 }
 
@@ -140,4 +138,145 @@ button:hover {
 
 button:active {
     border: 2px solid #0157EF;
+}
+
+#teamName {
+    font-size: 10px;
+    float: right;
+    color: white;
+    padding: 10px;
+}
+
+.report-page{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 56px 1fr;
+    position: absolute;
+    width: 100vw;
+    height: calc(100vh - 50px);
+}
+
+.report-page > .topbar{
+    background-color: #4a4c7d;
+    border: 1px solid black;
+
+    grid-column: 1/6;
+    grid-row: 1/2;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.report-page > .topbar > img#logo{
+    grid-column: 3/4;
+    margin: auto;
+}
+
+.report-page > .topbar > a#logout {
+    float: right;
+    grid-column: 5/6;
+}
+
+.report-page > .map{
+    grid-column: 3/6;
+    grid-row: 1/3;
+}
+
+.sideBar {
+
+
+}
+
+.searchbar{
+    background-color: #dddddd;
+    text-align: left;
+    height: 56px;
+    grid-column: 1/3;
+    grid-row: 1/2;
+}
+
+.searchbar input[type=text]{
+    max-width: calc(100% - 80px);
+    height: 40px;
+    margin: 8px;
+    font-size: 14px;
+    font-family: Tajawal;
+    border: 1px solid black;
+
+}
+
+.searchbar > button.search{
+    width: 40px;
+    height: 40px;
+    margin: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.incident-list {
+
+    background: white;
+    overflow: auto;
+    padding: 0 20px;
+    grid-column: 1/3;
+    grid-row: 2/3;
+}
+
+.incident-list > .incident{
+    background-color: #d9e4f1;
+    border: 1px solid black;
+    box-shadow: 0 1px 5px black ;
+    padding: 15px 10px;
+    margin: 20px 0;
+    display: inline-block;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 100px 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+}
+
+.incident-list > .incident > .incident-id{
+    display: flex;
+    font-weight: bold;
+    align-items: left;
+    padding: 2px;
+    grid-column: 1/3;
+    grid-row: 1/2;
+}
+
+.incident-list > .incident > .incident-time{
+    display: grid;
+    align-items: right;
+    padding: 2px;
+    grid-column: 3/4;
+    grid-row: 1/2;
+    justify-items: right;
+    font-size: 12px;
+}
+
+.incident-list > .incident > .description {
+    grid-row: 2/4;
+    grid-column: 1/2;
+    padding: 2px;
+    text-align: left;
+}
+
+.incident-list > .incident > .incident-description{
+    grid-row: 2/4;
+    grid-column: 2/4;
+    padding: 2px;
+    text-align: left;
+}
+
+.incident-list > .incident > .location {
+    grid-row: 4/5;
+    grid-column: 1/2;
+    padding: 2px;
+    text-align: left;
+}
+
+.incident-list > .incident > .incident-location{
+    grid-row: 4/5;
+    grid-column: 2/4;
+    padding: 2px;
+    text-align: left;
 }
