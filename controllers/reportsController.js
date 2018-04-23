@@ -54,6 +54,9 @@ function openDetailedDescription(){
 }
 
 function closeDescription() {
-    var detailedDescription = document.getElementById('detailedDescription');
+    /*var detailedDescription = document.getElementById('detailedDescription');*/
+    var detailedDescription = document.getElementById('dropdown-box');
     detailedDescription.style.display = "none";
 }
+
+
