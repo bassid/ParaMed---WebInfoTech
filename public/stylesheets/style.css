@@ -49,7 +49,7 @@ a#logout {
     float: right;
 }
 
-a#appLink {
+a#appLink, a#signUpLink {
     color: #0157EF;
     text-decoration: none;
 }
@@ -195,7 +195,7 @@ button:active {
     cursor: pointer;
 }
 
-.incident-list {
+#incident-list {
     background: white;
     overflow: auto;
     padding: 0 20px;
@@ -203,21 +203,21 @@ button:active {
     grid-row: 2/3;
 }
 
-.incident-list > .incident{
+#incident-list > .incident {
     font-size: 16px;
     background-color: #d9e4f1;
     border: 1px solid black;
     border-radius: 5px;
     box-shadow: 0 1px 5px black ;
     padding: 15px 10px;
-    margin: 20px 0;
+    margin: 20px 0 0;
     cursor: pointer;
     display: grid;
     grid-template-columns: 100px 1fr 1fr;
     grid-template-rows: repeat(4, 1fr);
 }
 
-.incident-list > .incident > .incident-id{
+#incident-list > .incident > .incident-id{
     display: flex;
     font-weight: bold;
     align-items: left;
@@ -226,7 +226,7 @@ button:active {
     grid-row: 1/2;
 }
 
-.incident-list > .incident > .incident-time {
+#incident-list > .incident > .incident-time {
     display: grid;
     align-items: right;
     padding: 2px;
@@ -236,34 +236,35 @@ button:active {
     font-size: 12px;
 }
 
-.incident-list > .incident > .description {
+#incident-list > .incident > .description {
     grid-row: 2/4;
     grid-column: 1/2;
     padding: 2px;
     text-align: left;
 }
 
-.incident-list > .incident > .incident-description{
+#incident-list > .incident > .incident-description{
     grid-row: 2/4;
     grid-column: 2/4;
     padding: 2px;
     text-align: left;
 }
 
-.incident-list > .incident > .location {
+#incident-list > .incident > .location {
     grid-row: 4/5;
     grid-column: 1/2;
     padding: 2px;
     text-align: left;
 }
 
-.incident-list > .incident > .incident-location{
+#incident-list > .incident > .incident-location{
     grid-row: 4/5;
     grid-column: 2/4;
     padding: 2px;
     text-align: left;
 }
 
+/*
 .modal {
     display: none;
     position: fixed;
@@ -275,9 +276,9 @@ button:active {
     height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.4);
-}
+}*/
 
-.modal > .modal-box {
+.modal-box {
     background-color: #ffffff;
     padding: 10px;
     margin: auto;
@@ -285,12 +286,13 @@ button:active {
     border-radius: 5px;
     box-shadow: 0 2px 10px black;;
     width: 30%;
-    -webkit-animation-name: animatetop;
+    /*-webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
-    animation-duration: 0.4s
+    animation-duration: 0.4s*/
 }
 
+/*
 @-webkit-keyframes animatetop {
     from {top:-300px; opacity:0}
     to {top:0; opacity:1}
@@ -299,53 +301,58 @@ button:active {
 @keyframes animatetop {
     from {top:-300px; opacity:0}
     to {top:0; opacity:1}
-}
+}*/
 
+/*
 .modal-content {
     padding: 20px;
-}
+}*/
 
+/*
 .modal-header {
     font-size: 20px;
     font-weight: bold;
     padding: 12px;
     background-color: #d9e4f1;
     border-radius: 5px;
-}
+}*/
 
+/*
 .modalClose {
     color: #aaaaaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
-}
+}*/
 
+/*
 .modalClose:hover, .modalClose:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
-}
+}*/
 
-.modal-body {
-    padding-top: 10px;
+.dropdown-info {
+    padding: 15px 10px;
     text-align: left;
+    border: 1px solid black;
 }
 
-.modal-body > .additional-info {
+.dropdown-info > .additional-info {
     padding: 10px 0;
 }
 
-.modal-body > .photos-title {
+.dropdown-info > .photos-title {
     text-align: left;
 }
 
-.modal-body > .photo-grid {
+.dropdown-info > .photo-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-column-gap: 1em;
     grid-row-gap: 1em;
 }
 
-.modal-body > .photo-grid > .photo > img {
+.dropdown-info > .photo-grid > .photo > img {
     width: 100%;
 }
