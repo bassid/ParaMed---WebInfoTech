@@ -1,5 +1,5 @@
 var map, infoWindow;
-var mapMarkers = [];
+var mapMarkers = {};
 
 // Retrieves data of incidents from an API call to the database.
 function getIncidents(data) {
@@ -14,8 +14,7 @@ function getIncidents(data) {
 // Adds markers to the map based on database data.
 function addMapMarkers(result){
     for(var i=0; i<result.length; i++){
-        var newMarker = addMarker({lat: result[i]['lat'], lng: result[i]['lon']})
-        mapMarkers.push(newMarker);
+        addMarker({lat: result[i]['lat'], lng: result[i]['lon']}, result[i]['id']);
     }
 }
 
@@ -24,7 +23,7 @@ function populateIncidents(result){
     for(var i=0; i<result.length; i++) {
         $("#incident-list")
             .append(
-                $("<div class=\"incident\">")
+                $("<div class=\"incident\" id=\""+result[i]['id']+"\" onclick=\"incidentZoom(this)\">")
                     .append(
                         $("<div class=\"incident-id\">ID#" + result[i]['id'] + "</div>")
                     )
@@ -80,7 +79,7 @@ function populateIncidents(result){
                         $("<div class=\"photos-title\"><h2>Photos</h2></div>")
                     )
                     .append(
-                        $("<div class=\"photo-grid\" id=\""+result[i]['id']+"\"></div>")
+                        $("<div class=\"photo-grid\" id=\"photogrid"+result[i]['id']+"\"></div>")
                     )
                     .append(
                         $("</div>")
@@ -88,7 +87,7 @@ function populateIncidents(result){
             );
 
         for(var j=0; j<result[i]['photos'].length; j++){
-            $("#"+result[i]['id'])
+            $("#photogrid"+result[i]['id'])
                 .append(
                     $("<div class=\"photo\">")
                         .append(
@@ -113,12 +112,19 @@ function initMap() {
     });
 }
 
-function addMarker(location) {
-    marker = new google.maps.Marker({
+function addMarker(location, id) {
+    var marker = new google.maps.Marker({
         position: location,
         map: map,
-        icon: '/public/incident-icon.png'
+        icon: '/public/incident-icon.png',
+        id: id
     });
+
+    google.maps.event.addListener(marker, 'click', function(){
+        document.getElementById(this.get('id')).click();
+    });
+
+    mapMarkers[id] = marker;
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -127,4 +133,17 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         'Error: The Geolocation service failed.' :
         'Error: Your browser doesn\'t support geolocation.');
     infoWindow.open(map);
+}
+
+function mapZoomIn(latlngPosition){
+    map.panTo(latlngPosition);
+    map.setZoom(13);
+}
+
+function incidentZoom(element){
+    element.scrollIntoView({behavior: 'smooth'});
+    mapZoomIn(mapMarkers[element.id].getPosition());
+    mapMarkers[element.id].setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(function(){ mapMarkers[element.id].setAnimation(null); }, 2800);
+
 }
