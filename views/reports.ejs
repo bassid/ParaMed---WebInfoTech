@@ -5,17 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Incident Report</title>
 
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-        $(function() {
-            $( "#incident-list" ).accordion({
-                active: false,
-                collapsible: true
-            });
-
-        });
-    </script>
 
 
     <link rel="stylesheet" href="/public/stylesheets/style.css">
@@ -25,7 +14,41 @@
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_gGdg1v9AyPZhr4Ahhb1kTiaicC3ip6k&callback=initMap">
     </script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 
+    <script>
+
+        // A working example of creating divs dynamically
+        $(function(){
+            var output = document.getElementById('incident-list');
+            var i=1;
+            while(i<=8) {
+
+                var ele = document.createElement("div");
+                ele.setAttribute("id", "incident");
+                ele.setAttribute("class", "incident")
+                ele.innerHTML = "some more random data";
+                output.appendChild(ele);
+
+                var ele1 = document.createElement("div");
+                ele1.setAttribute("id", "incident");
+                ele1.setAttribute("class", "dropdown-info");
+                ele1.innerHTML = "hi " + i;
+                output.appendChild(ele1);
+
+                i += 2;
+            }
+        });
+
+        $(function(){
+            $("#incident-list").accordion({
+                active: false,
+                collapsible: true
+            });
+        });
+
+    </script>
 </head>
 
 
@@ -42,8 +65,8 @@
             <input type="text" placeholder="Search Reports">
             <button class="search" type="submit"><i class="fa fa-search"></i></button>
         </div>
-        <div id="incident-list">
-            <div class="incident" onclick="openDetailedDescription()">
+        <div id="incident-list" onload="loadReports()">
+            <div class="incident">
                 <div class="incident-id">ID#021975</div>
                 <div class="incident-time">3:53 PM</div>
                 <div class="description">Description:</div>
