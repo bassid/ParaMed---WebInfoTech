@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Incident Report</title>
 
-
-
     <link rel="stylesheet" href="/public/stylesheets/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <script src="/controllers/reportsController.js"></script>
+    <script src="/controllers/reports.js"></script>
+
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_gGdg1v9AyPZhr4Ahhb1kTiaicC3ip6k&callback=initMap">
     </script>
@@ -51,14 +50,13 @@
     </script>
 </head>
 
-
-<body>
+<body onload="getIncidents()">
     <div class="navBar">
         <img id="barLogo" src="../public/logo.png" alt="ParaMed logo">
         <a id="logout" href="/">Logout</a>
     </div>
     <div class="report-page">
-        <div id="map" class="map" onload="initMap()">
+        <div id="map" class="map">
         </div>
 
         <div class="searchbar">
@@ -223,41 +221,4 @@
             </div>
         </div>
     </div>
-
-<%#
-<div id="detailedDescription" class="modal">
-    <div class="modal-box">
-        <span id="modalCloseButton" class="modalClose" onclick="closeDescription()">&times;</span>
-        <div class="modal-content">
-            <div class="modal-header">
-                Incident Breakdown
-            </div>
-            <div class="modal-body">
-                <div class="incident">
-                    <div class="incident-id"><h2>ID#021975</h2></div>
-                    <div class="incident-time">3:53 PM</div><br>
-                    <div class="incident-description">Vehicular accident, broken leg</div>
-                    <div class="incident-location">61 Royal Parade, Parkville, VIC, 3052</div>
-                </div>
-                <div class="additional-info">
-                    <h2>Additional Info</h2>
-                    Number of injuries: 3<br>
-                </div>
-                <div class="photos-title">
-                    <h2>Photos</h2>
-                </div>
-                <div class="photo-grid">
-                    <div class="photo">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Contrasting_Tree_Types_Coexist_in_a_Forest.jpg" alt="ParaMed logo"/>
-                    </div>
-                    <div class="photo">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/27/Snake_bite_6.jpg" alt="ParaMed logo"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-#%>
-
 </body>

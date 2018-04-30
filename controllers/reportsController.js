@@ -1,8 +1,18 @@
 "use strict";
 
+const db = require('../models/exampleIncidents.js');
+const exampleIncidents = db.incidents;
+
 module.exports.showPage = function(req, res) {
     res.render('reports.ejs');
 };
+
+/*
+module.exports.allIncidents =  function(req, res){
+    res.send(exampleIncidents);
+};
+*/
+
 
 var map, infoWindow;
 
@@ -170,5 +180,4 @@ function closeDescription() {
     var detailedDescription = document.getElementById('dropdown-box');
     detailedDescription.style.display = "none";
 }*/
-
 
