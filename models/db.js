@@ -9,9 +9,10 @@ mongoose.connect('mongodb://rserraglio:info30005@ds141796.mlab.com:41796/reports
     }
 });
 
-var activeReports = require('./reports.js');
+var activeReports = require('./reportsSchema.js');
 
 // Testing access to the database
+/*
 activeReports.find({}, function (err, rep) {
     if (err) {
         console.log(err);
@@ -30,3 +31,4 @@ activeReports.find({}, function (err, rep) {
         }
     }
 });
+*/

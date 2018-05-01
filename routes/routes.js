@@ -9,7 +9,7 @@ router.get('/', homeController.showPage);
 router.get('/about', aboutController.showPage);
 router.get('/sign-up', signUpController.showPage);
 router.get('/reports', reportsController.showPage);
-//router.get('/database', reportsController.allIncidents);
-//router.post('/database', reportsController.allIncidents);
+router.get('/database', reportsController.allIncidents);
+router.post('/database', reportsController.allIncidents);
 
 module.exports = router;

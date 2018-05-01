@@ -7,90 +7,25 @@ module.exports.showPage = function(req, res) {
     res.render('reports.ejs');
 };
 
-/*
 module.exports.allIncidents =  function(req, res){
     res.send(exampleIncidents);
 };
-*/
 
 
-var map, infoWindow;
-
-function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -37.793, lng: 144.969},
-        zoom: 10
-    });
-    let marker1 = addMarker({lat: -37.793, lng: 144.969});
-    let marker2 = addMarker({lat: -37.893, lng: 144.989});
-    let marker3 = addMarker({lat: -37.593, lng: 144.669});
-
-    infoWindow = new google.maps.InfoWindow;
-
-    // Try HTML5 geolocation.
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-
-            map.setCenter(pos);
-        }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-        });
-    } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
-    }
-
-    let kmlLayer = new google.maps.KmlLayer();
-
-    const src = 'https://services.land.vic.gov.au/kml1/vic-hospitals.kml';
-    kmlLayer = new google.maps.KmlLayer(src, {
-        suppressInfoWindows: true,
-        preserveViewport: false,
-        map: map
-    });
-}
-
-function addMarker(location) {
-    let marker = new google.maps.Marker({
-        position: location,
-        map: map,
-        icon: '/public/incident-icon.png'
-    });
-}
-
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
-        'Error: The Geolocation service failed.' :
-        'Error: Your browser doesn\'t support geolocation.');
-    infoWindow.open(map);
-}
-
-var activeReports = require('../models/reports.js');
+var activeReports = require('../models/reportsSchema.js');
 
 
 function loadReports() {
     // Alert to test if loadReports is being called successfully
     alert("Load reports function executing");
 
-    // Test for creating new divs
+    // TEST for creating new divs
     var output = document.getElementById('incident-list');
-
     var ele1 = document.createElement("div");
     ele1.setAttribute("id","incident");
     ele1.setAttribute("class","incident");
     ele1.innerHTML="some more random data";
     output.appendChild(ele1);
-
-    var ele2 = document.createElement("div");
-    ele2.setAttribute("id","incident");
-    ele2.setAttribute("class","incident");
-    ele2.innerHTML="some more random data";
-    output.appendChild(ele2);
 
     // NOT WORKING
     activeReports.find({}, function (err, rep) {
@@ -165,19 +100,3 @@ function createDropdown(parent, rep, i) {
 
     parent.appendChild(dropdownElement);
 }
-
-/*function displayIncidents(){
-    console.log(rep)
-}*/
-
-/*
-function openDetailedDescription(){
-    detailedDescription.style.display = "block";
-}
-
-function closeDescription() {
-    var detailedDescription = document.getElementById('detailedDescription');
-    var detailedDescription = document.getElementById('dropdown-box');
-    detailedDescription.style.display = "none";
-}*/
-

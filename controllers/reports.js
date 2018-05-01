@@ -99,6 +99,7 @@ function populateIncidents(result){
                 )
         }
     }
+
     $( "#incident-list" ).accordion({
         active: false,
         collapsible: true
@@ -109,6 +110,15 @@ function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: -37.793, lng: 144.969},
         zoom: 10
+    });
+
+    let kmlLayer = new google.maps.KmlLayer();
+
+    const src = 'https://services.land.vic.gov.au/kml1/vic-hospitals.kml';
+    kmlLayer = new google.maps.KmlLayer(src, {
+        suppressInfoWindows: true,
+        preserveViewport: false,
+        map: map
     });
 }
 
