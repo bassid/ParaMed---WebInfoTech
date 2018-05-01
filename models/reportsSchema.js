@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const reportsSchema = mongoose.Schema(
     {
-        "incidentId" : String,
+        "incidentId" : Number,
         "incidentTime" : String,
         "incidentDescription" : String,
         "incidentLocation" : String,
