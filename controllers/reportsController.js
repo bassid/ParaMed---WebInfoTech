@@ -1,11 +1,38 @@
 "use strict";
 
+var async = require('async');
 var mongoose = require('mongoose');
 var incidents = mongoose.model('reports');
+var logins = mongoose.model('login');
 
-module.exports.showPage = function(req, res) {
-    res.render('reports.ejs');
+module.exports.showPage = function(req, res){
+    logins.findOne({"username": req.body.username}, function(err, user) {
+        var valid = false;
+        if (!err) {
+            if (user) {
+                if (user.password == req.body.password) {
+                    console.log("Successful login!");
+                    valid = true;
+                }
+            }
+        }
+        else {
+            console.log("Login authentication failed.")
+            res.sendStatus(404);
+        }
+        login(res, valid);
+    });
 };
+
+function login(res, valid){
+    if(valid){
+        console.log("success");
+        res.render('reports.ejs');
+    }
+    else{
+        res.redirect('/');
+    }
+}
 
 module.exports.allIncidents =  function(req, res){
     incidents.find(function(err, report){
@@ -82,6 +109,6 @@ module.exports.createIncident = function(req, res){
             else{
                 res.send("Incident created");
             }
-        })
+        });
     }
 }
