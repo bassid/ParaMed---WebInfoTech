@@ -2,19 +2,45 @@ var map, infoWindow;
 var mapMarkers = {};
 
 // Retrieves data of incidents from an API call to the database.
-function getIncidents(data) {
+function getIncidents() {
     $.ajax({
-        url: "http://localhost:3000/database", type: "POST", data: data, success: function (result) {
+        url: "http://localhost:3000/database/all", type: "POST", success: function (result) {
+            clearIncidents();
             populateIncidents(result);
             addMapMarkers(result);
         }
     });
 }
 
+function searchIncidents() {
+    var id = document.getElementById('search').value;
+    var data = {id: id};
+    $.ajax({
+        url: "http://localhost:3000/database/search", type: "POST", data: data, success: function (result) {
+            clearIncidents();
+            populateIncidents(result);
+            addMapMarkers(result);
+        }
+    });
+}
+
+function clearIncidents(){
+    var reportPage = document.getElementById('report-page');
+    reportPage.removeChild(document.getElementById('incident-list'));
+    var incidentList = document.createElement('div');
+    incidentList.setAttribute('id', 'incident-list');
+    reportPage.appendChild(incidentList);
+
+    for(var key in mapMarkers){
+        mapMarkers[key].setMap(null);
+    }
+    mapMarkers = {};
+}
+
 // Adds markers to the map based on database data.
 function addMapMarkers(result){
     for(var i=0; i<result.length; i++){
-        addMarker({lat: result[i]['lat'], lng: result[i]['lon']}, result[i]['id']);
+        addMarker({lat: result[i]['lat'], lng: result[i]['lon']}, result[i]['incidentId']);
     }
 }
 
@@ -23,9 +49,9 @@ function populateIncidents(result){
     for(var i=0; i<result.length; i++) {
         $("#incident-list")
             .append(
-                $("<div class=\"incident\" id=\""+result[i]['id']+"\" onclick=\"incidentZoom(this)\">")
+                $("<div class=\"incident\" id=\""+result[i]['incidentId']+"\" onclick=\"incidentZoom(this)\">")
                     .append(
-                        $("<div class=\"incident-id\">ID#" + result[i]['id'] + "</div>")
+                        $("<div class=\"incident-id\">ID#" + result[i]['incidentId'] + "</div>")
                     )
                     .append(
                         $("<div class=\"incident-time\">" + result[i]['time'] + "</div>")
@@ -51,7 +77,7 @@ function populateIncidents(result){
                     .append(
                         $("<div class=\"incident\">")
                             .append(
-                                $("<div class=\"incident-id\"><h2>ID#" + result[i]['id'] + "</h2></div>")
+                                $("<div class=\"incident-id\"><h2>ID#" + result[i]['incidentId'] + "</h2></div>")
                             )
                             .append(
                                 $("<div class=\"incident-time\">" + result[i]['time'] + "</div><br>")
@@ -79,7 +105,7 @@ function populateIncidents(result){
                         $("<div class=\"photos-title\"><h2>Photos</h2></div>")
                     )
                     .append(
-                        $("<div class=\"photo-grid\" id=\"photogrid"+result[i]['id']+"\"></div>")
+                        $("<div class=\"photo-grid\" id=\"photogrid"+result[i]['incidentId']+"\"></div>")
                     )
                     .append(
                         $("</div>")
@@ -87,7 +113,7 @@ function populateIncidents(result){
             );
 
         for(var j=0; j<result[i]['photos'].length; j++){
-            $("#photogrid"+result[i]['id'])
+            $("#photogrid"+result[i]['incidentId'])
                 .append(
                     $("<div class=\"photo\">")
                         .append(
@@ -100,7 +126,7 @@ function populateIncidents(result){
         }
     }
 
-    $( "#incident-list" ).accordion({
+    $("#incident-list").accordion({
         active: false,
         collapsible: true
     });
@@ -111,15 +137,15 @@ function initMap() {
         center: {lat: -37.793, lng: 144.969},
         zoom: 10
     });
-
-    let kmlLayer = new google.maps.KmlLayer();
-
-    const src = 'https://services.land.vic.gov.au/kml1/vic-hospitals.kml';
-    kmlLayer = new google.maps.KmlLayer(src, {
-        suppressInfoWindows: true,
-        preserveViewport: false,
-        map: map
-    });
+    //
+    // let kmlLayer = new google.maps.KmlLayer();
+    //
+    // const src = 'https://services.land.vic.gov.au/kml1/vic-hospitals.kml';
+    // kmlLayer = new google.maps.KmlLayer(src, {
+    //     suppressInfoWindows: true,
+    //     preserveViewport: false,
+    //     map: map
+    // });
 }
 
 function addMarker(location, id) {
@@ -155,5 +181,4 @@ function incidentZoom(element){
     mapZoomIn(mapMarkers[element.id].getPosition());
     mapMarkers[element.id].setAnimation(google.maps.Animation.BOUNCE);
     setTimeout(function(){ mapMarkers[element.id].setAnimation(null); }, 2800);
-
 }

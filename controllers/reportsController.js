@@ -1,102 +1,87 @@
 "use strict";
 
-const db = require('../models/exampleIncidents.js');
-const exampleIncidents = db.incidents;
+var mongoose = require('mongoose');
+var incidents = mongoose.model('reports');
 
 module.exports.showPage = function(req, res) {
     res.render('reports.ejs');
 };
 
 module.exports.allIncidents =  function(req, res){
-    res.send(exampleIncidents);
-};
-
-
-var activeReports = require('../models/reportsSchema.js');
-
-
-function loadReports() {
-    // Alert to test if loadReports is being called successfully
-    alert("Load reports function executing");
-
-    // TEST for creating new divs
-    var output = document.getElementById('incident-list');
-    var ele1 = document.createElement("div");
-    ele1.setAttribute("id","incident");
-    ele1.setAttribute("class","incident");
-    ele1.innerHTML="some more random data";
-    output.appendChild(ele1);
-
-    // NOT WORKING
-    activeReports.find({}, function (err, rep) {
-        if (err) {
-            res.status(500).send();
+    incidents.find(function(err, report){
+        if(!err){
+            res.send(report);
         }
-        else {
-            let parent = document.getElementById("incident-list");
-
-            for (let i = 0; i < rep.length; i++) {
-                createIncident(parent, rep, i);
-                createDropdown(parent, rep, i);
-            }
+        else{
+            console.log("Finding all incidents failed.")
+            res.sendStatus(404);
         }
     });
-}
+};
 
-function createIncident(parent, rep, i) {
-    let incidentElement, idElement, timeElement, descElement, locElement;
-
-    incidentElement = document.createElement("div");
-    incidentElement.setAttribute("class", "incident");
-
-    idElement = document.createElement("div");
-    idElement.setAttribute("class", "incident-id");
-    idElement.innerHTML = "ID #" + rep[i].incidentId;
-    incidentElement.appendChild(idElement);
-
-    timeElement = document.createElement("div");
-    timeElement.setAttribute("class", "incident-time");
-    timeElement.innerHTML = rep[i].incidentTime;
-    incidentElement.appendChild(timeElement);
-
-    incidentElement.innerHTML = "Description:";
-
-    descElement = document.createElement("div");
-    descElement.setAttribute("class", "incident-description");
-    descElement.innerHTML = rep[i].incidentDescription;
-    incidentElement.appendChild(descElement);
-
-    incidentElement.innerHTML = "Location:";
-
-    locElement = document.createElement("div");
-    locElement.setAttribute("class", "incident-location");
-    locElement.innerHTML = rep[i].incidentLocation;
-    incidentElement.appendChild(locElement);
-
-    parent.appendChild(incidentElement);
-}
-
-function createDropdown(parent, rep, i) {
-    let dropdownElement, addinfoElement, gridElement, photoElement;
-
-    dropdownElement = document.createElement("div");
-    dropdownElement.setAttribute("class", "dropdown-info");
-
-    addinfoElement = document.createElement("div");
-    addinfoElement.setAttribute("class", "additional-info");
-    addinfoElement.innerHTML = rep[i].additionalInfo;
-    dropdownElement.appendChild(addinfoElement);
-
-    for (let j; j < rep[i].photos.length; j++) {
-        gridElement = document.createElement("div");
-        gridElement.setAttribute("class", "photo-grid");
-
-        photoElement = document.createElement("img");
-        photoElement.setAttribute("src", rep[i].photos[j]);
-        photoElement.setAttribute("alt", "photo" + j);
-        gridElement.appendChild(photoElement);
+module.exports.searchIncidents = function(req, res){
+    if(req.body.id){
+        console.log("Searching database for incidents.");
+        incidents.find({"incidentId": {"$regex": req.body.id, "$options": "i"}}, function(err, report){
+            if(!err){
+                res.send(report);
+            }
+            else{
+                console.log("Finding incidents failed.")
+                res.sendStatus(404);
+            }
+        });
     }
-    dropdownElement.appendChild(gridElement);
+    else{
+        console.log("No search parameters specified. Loading all incidents.");
+        incidents.find(function(err, report){
+            if(!err){
+                res.send(report);
+            }
+            else{
+                console.log("Finding all incidents failed.")
+                res.sendStatus(404);
+            }
+        });
+    }
+};
 
-    parent.appendChild(dropdownElement);
+module.exports.deleteIncident = function(req, res) {
+    incidents.findOneAndRemove({"incidentId": req.body.id}).exec(function(err, item){
+        if(err){
+            return res.send("Error removing incident");
+        }
+        if(!item){
+            return res.send("User ID" + req.body.id + " not found");
+        }
+        res.send("ID" + req.body.id + " deleted");
+    });
+};
+
+module.exports.createIncident = function(req, res){
+    if(!(req.body.id && req.body.time && req.body.incidentDescription && req.body.incidentLocation &&
+        req.body.additionalInfo && req.body.photos && req.body.lat && req.body.lon)){
+        res.send("Invalid POST parameters");
+    }
+    else{
+        var newIncident = new incidents({
+            incidentId: req.body.id,
+            time: req.body.time,
+            incidentDescription: req.body.incidentDescription,
+            incidentLocation: req.body.incidentLocation,
+            additionalInfo: req.body.additionalInfo,
+            photos: req.body.photos,
+            lat: req.body.lat,
+            lon: req.body.lon
+        })
+
+        newIncident.save(function(err){
+            if(err){
+                res.send("Error creating incident");
+            }
+            else{
+                res.send("Incident created");
+            }
+        })
+    }
 }

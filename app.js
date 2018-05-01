@@ -12,9 +12,9 @@ app.set('view engine', 'ejs');
 
 const PORT = process.env.PORT || 3000;
 
-const router = require('./routes/routes.js');
-
 require('./models/db.js');
+
+const router = require('./routes/routes.js');
 
 app.use('/public', express.static('public/'));
 app.use('/controllers', express.static('controllers/'));
