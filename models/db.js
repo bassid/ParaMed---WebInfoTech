@@ -9,7 +9,8 @@ mongoose.connect('mongodb://rserraglio:info30005@ds141796.mlab.com:41796/reports
     }
 });
 
-var activeReports = require('./reportsSchema.js');
+require('./reportsSchema.js');
+require('./loginSchema.js');
 
 // Testing access to the database
 /*

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const reportsSchema = mongoose.Schema(
     {
         "incidentId" : String,
-        "incidentTime" : String,
+        "time" : String,
         "incidentDescription" : String,
         "incidentLocation" : String,
         "additionalInfo" : String,
@@ -13,4 +13,4 @@ const reportsSchema = mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model('reports', reportsSchema);
+mongoose.model('reports', reportsSchema);

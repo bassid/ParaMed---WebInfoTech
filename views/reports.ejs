@@ -24,13 +24,12 @@
     <img id="barLogo" src="../public/logo.png" alt="ParaMed logo">
     <a id="logout" href="/">Logout</a>
 </div>
-<div class="report-page">
+<div class="report-page" id="report-page">
     <div id="map" class="map">
     </div>
-
     <div class="searchbar">
-        <input type="text" placeholder="Search Reports">
-        <button class="search" type="submit"><i class="fa fa-search"></i></button>
+        <input type="text" placeholder="Search Reports by ID" id="search">
+        <button class="search" type="submit" onclick="searchIncidents()"><i class="fa fa-search"></i></button>
     </div>
     <div id="incident-list">
     </div>

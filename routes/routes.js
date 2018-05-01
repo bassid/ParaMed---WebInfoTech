@@ -9,7 +9,9 @@ router.get('/', homeController.showPage);
 router.get('/about', aboutController.showPage);
 router.get('/sign-up', signUpController.showPage);
 router.get('/reports', reportsController.showPage);
-router.get('/database', reportsController.allIncidents);
-router.post('/database', reportsController.allIncidents);
+router.post('/database/all', reportsController.allIncidents);
+router.post('/database/search', reportsController.searchIncidents);
+router.post('/database/delete', reportsController.deleteIncident);
+router.post('/database/create', reportsController.createIncident);
 
 module.exports = router;
