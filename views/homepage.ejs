@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>ParaMed</title>
+    <meta charset="UTF-8">
+    <title>ParaMed</title>
 
-  <link rel="stylesheet" href="../public/stylesheets/style.css">
+    <link rel="stylesheet" href="../public/stylesheets/style.css">
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/controllers/homepage.js"></script>
 </head>
 
 <body>
@@ -22,18 +26,19 @@
   <img id="logo" src="../public/logo.png" alt="ParaMed logo">
   <%#<h2>Makes calling for an ambulance easy</h2>#%>
 
-  <form class="login" action="reports">
+  <form class="login" method="post" action="reports">
     <label for="username">Username</label><br>
-    <input type="text" name="username" required><br>
+    <input id="username" type="text" name="username" required><br>
 
 
     <label for="password">Password</label><br>
-    <input type="password" name="password" required><br>
+    <input id="password" type="password" name="password" required><br>
 
     <button type="submit">Login</button><br>
     <div id="appDownload">
       Not a call operator? Download our <a id="appLink" href="https://play.google.com/store?hl=en" target="_blank">app</a>!
     </div>
   </form>
+    <br>
 </div>
 </body>
