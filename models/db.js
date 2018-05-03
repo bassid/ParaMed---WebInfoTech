@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://rserraglio:info30005@ds141796.mlab.com:41796/reports', function(err){
     if(!err) {

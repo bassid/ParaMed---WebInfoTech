@@ -1,23 +1,23 @@
 "use strict";
 
-var async = require('async');
-var mongoose = require('mongoose');
-var incidents = mongoose.model('reports');
-var logins = mongoose.model('login');
+const async = require('async');
+const mongoose = require('mongoose');
+const incidents = mongoose.model('reports');
+const logins = mongoose.model('login');
 
 module.exports.showPage = function(req, res){
     logins.findOne({"username": req.body.username}, function(err, user) {
-        var valid = false;
+        let valid = false;
         if (!err) {
             if (user) {
-                if (user.password == req.body.password) {
+                if (user.password === req.body.password) {
                     console.log("Successful login!");
                     valid = true;
                 }
             }
         }
         else {
-            console.log("Login authentication failed.")
+            console.log("Login authentication failed.");
             res.sendStatus(404);
         }
         login(res, valid);
@@ -40,7 +40,7 @@ module.exports.allIncidents =  function(req, res){
             res.send(report);
         }
         else{
-            console.log("Finding all incidents failed.")
+            console.log("Finding all incidents failed.");
             res.sendStatus(404);
         }
     });
@@ -54,7 +54,7 @@ module.exports.searchIncidents = function(req, res){
                 res.send(report);
             }
             else{
-                console.log("Finding incidents failed.")
+                console.log("Finding incidents failed.");
                 res.sendStatus(404);
             }
         });
@@ -66,7 +66,7 @@ module.exports.searchIncidents = function(req, res){
                 res.send(report);
             }
             else{
-                console.log("Finding all incidents failed.")
+                console.log("Finding all incidents failed.");
                 res.sendStatus(404);
             }
         });
@@ -122,9 +122,9 @@ module.exports.createIncident = function(req, res){
                 }
             }
             else{
-                console.log("Validating unique ID failed.")
+                console.log("Validating unique ID failed.");
                 res.sendStatus(404);
             }
         });
     }
-}
+};
