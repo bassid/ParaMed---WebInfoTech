@@ -39,6 +39,18 @@ function clearIncidents(){
     mapMarkers = {};
 }
 
+function searchIncidents() {
+    var id = document.getElementById('search').value;
+    var data = {id: id};
+    $.ajax({
+        url: "http://localhost:3000/database/search", type: "POST", data: data, success: function (result) {
+            clearIncidents();
+            populateIncidents(result);
+            addMapMarkers(result);
+        }
+    });
+}
+
 // Adds markers to the map based on database data.
 function addMapMarkers(result){
     for(var i=0; i<result.length; i++){
@@ -191,6 +203,7 @@ function incidentZoom(element){
 }
 
 function displayModalBox(incidentId) {
+
     /*deleteIncident.style.display = "block";*/
     const response = confirm("Are you sure you want to remove incident #" + incidentId + "?");
 

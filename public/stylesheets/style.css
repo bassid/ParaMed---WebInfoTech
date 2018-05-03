@@ -278,7 +278,7 @@ button:active {
 
 #incident-list > .incident > .incident-time {
     padding: 2px;
-    grid-column: 1/2;
+    grid-column: 1/4;
     grid-row: 2/3;
     text-align: left;
     font-size: 12px;
