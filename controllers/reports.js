@@ -40,11 +40,10 @@ function clearIncidents(){
 }
 
 function deleteIncident(id) {
-    //var id = document.getElementById('search').value;
-    var data = {incidentId: id};
+    const data = {incidentId: id};
     $.ajax({
         url: "http://localhost:3000/database/delete", type: "POST", data: data, success: function (result) {
-            searchIncidents();
+            getIncidents();
         }
     });
 }
@@ -153,7 +152,7 @@ function initMap() {
         zoom: 10
     });
 
-    let kmlLayer = new google.maps.KmlLayer();
+    /*let kmlLayer = new google.maps.KmlLayer();
 
     const src = 'http://www.health.vic.gov.au/maps/downloads/vic_hospitals.kmz';
     //const src = 'https://services.land.vic.gov.au/kml1/vic-hospitals.kml';
@@ -162,7 +161,7 @@ function initMap() {
         preserveViewport: false,
         map: map,
         //icon: '/public/Hospital-pin.png'
-    });
+    });*/
 }
 
 function addMarker(location, id) {
@@ -201,19 +200,23 @@ function incidentZoom(element){
 }
 
 function displayModalBox(incidentId) {
+    // Disable dropdown box being displayed when delete button pressed
+    $("#incident-list").accordion({
+        active: false,
+        collapsible: true,
+        disabled: true
+    });
 
-    /*deleteIncident.style.display = "block";*/
-    //const response = confirm("Are you sure you want to remove incident #" + incidentId + "?");
+    document.getElementById('idToDelete').innerHTML = incidentId;
 
-    /*if (response) {
-        //$("#" + incidentId).remove();
-        //deleteIncident(incidentId);
-    }*/
+    deleteIncidentBox.style.display = "block";
 
-    deleteIncident(incidentId);
+    $("#buttonYes").on('click', function() {
+        deleteIncident(incidentId);
+        hideModalBox();
+    });
 }
 
-
 function hideModalBox() {
-    deleteIncident.style.display = "none";
+    deleteIncidentBox.style.display = "none";
 }
