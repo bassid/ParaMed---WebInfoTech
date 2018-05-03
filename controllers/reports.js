@@ -1,3 +1,5 @@
+"use strict"
+
 var map, infoWindow;
 var mapMarkers = {};
 
@@ -37,6 +39,16 @@ function clearIncidents(){
     mapMarkers = {};
 }
 
+function deleteIncident(id) {
+    //var id = document.getElementById('search').value;
+    var data = {incidentId: id};
+    $.ajax({
+        url: "http://localhost:3000/database/delete", type: "POST", data: data, success: function (result) {
+            searchIncidents();
+        }
+    });
+}
+
 // Adds markers to the map based on database data.
 function addMapMarkers(result){
     for(var i=0; i<result.length; i++){
@@ -50,6 +62,9 @@ function populateIncidents(result){
         $("#incident-list")
             .append(
                 $("<div class=\"incident\" id=\""+result[i]['incidentId']+"\" onclick=\"incidentZoom(this)\">")
+                    .append(
+                        $("<span class=\"closeButton\" onclick=\"displayModalBox(" + result[i]['incidentId'] + ")\">&times;</span>")
+                    )
                     .append(
                         $("<div class=\"incident-id\">ID#" + result[i]['incidentId'] + "</div>")
                     )
@@ -74,7 +89,7 @@ function populateIncidents(result){
             )
             .append(
                 $("<div class=\"dropdown-info\">")
-                    .append(
+                    /*.append(
                         $("<div class=\"incident\">")
                             .append(
                                 $("<div class=\"incident-id\"><h2>ID#" + result[i]['incidentId'] + "</h2></div>")
@@ -91,7 +106,7 @@ function populateIncidents(result){
                             .append(
                                 $("</div>")
                             )
-                    )
+                    )*/
                     .append(
                         $("<div class=\"additional-info\">")
                             .append(
@@ -137,15 +152,17 @@ function initMap() {
         center: {lat: -37.793, lng: 144.969},
         zoom: 10
     });
-    //
-    // let kmlLayer = new google.maps.KmlLayer();
-    //
-    // const src = 'https://services.land.vic.gov.au/kml1/vic-hospitals.kml';
-    // kmlLayer = new google.maps.KmlLayer(src, {
-    //     suppressInfoWindows: true,
-    //     preserveViewport: false,
-    //     map: map
-    // });
+
+    let kmlLayer = new google.maps.KmlLayer();
+
+    const src = 'http://www.health.vic.gov.au/maps/downloads/vic_hospitals.kmz';
+    //const src = 'https://services.land.vic.gov.au/kml1/vic-hospitals.kml';
+    kmlLayer = new google.maps.KmlLayer(src, {
+        suppressInfoWindows: true,
+        preserveViewport: false,
+        map: map,
+        //icon: '/public/Hospital-pin.png'
+    });
 }
 
 function addMarker(location, id) {
@@ -181,4 +198,22 @@ function incidentZoom(element){
     mapZoomIn(mapMarkers[element.id].getPosition());
     mapMarkers[element.id].setAnimation(google.maps.Animation.BOUNCE);
     setTimeout(function(){ mapMarkers[element.id].setAnimation(null); }, 2800);
+}
+
+function displayModalBox(incidentId) {
+
+    /*deleteIncident.style.display = "block";*/
+    //const response = confirm("Are you sure you want to remove incident #" + incidentId + "?");
+
+    /*if (response) {
+        //$("#" + incidentId).remove();
+        //deleteIncident(incidentId);
+    }*/
+
+    deleteIncident(incidentId);
+}
+
+
+function hideModalBox() {
+    deleteIncident.style.display = "none";
 }
