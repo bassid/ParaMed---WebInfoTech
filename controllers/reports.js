@@ -39,12 +39,12 @@ function clearIncidents(){
     mapMarkers = {};
 }
 
-function searchIncidents() {
-    var id = document.getElementById('search').value;
-    var data = {id: id};
+function deleteIncident(data) {
+    //var id = document.getElementById('search').value;
+    //var data = {id: id};
     $.ajax({
-        url: "http://localhost:3000/database/search", type: "POST", data: data, success: function (result) {
-            clearIncidents();
+        url: "http://localhost:3000/database/delete", type: "POST", data: data, success: function (result) {
+            //clearIncidents();
             populateIncidents(result);
             addMapMarkers(result);
         }
@@ -205,11 +205,14 @@ function incidentZoom(element){
 function displayModalBox(incidentId) {
 
     /*deleteIncident.style.display = "block";*/
-    const response = confirm("Are you sure you want to remove incident #" + incidentId + "?");
+    //const response = confirm("Are you sure you want to remove incident #" + incidentId + "?");
 
-    if (response) {
-        $("#" + incidentId).remove();
-    }
+    /*if (response) {
+        //$("#" + incidentId).remove();
+        //deleteIncident(incidentId);
+    }*/
+
+    deleteIncident(incidentId);
 }
 
 
