@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '10mb'}));
 
 app.set('view engine', 'ejs');
 
