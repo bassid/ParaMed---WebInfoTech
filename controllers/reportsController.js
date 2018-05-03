@@ -47,9 +47,9 @@ module.exports.allIncidents =  function(req, res){
 };
 
 module.exports.searchIncidents = function(req, res){
-    if(req.body.id){
+    if(req.body.incidentId){
         console.log("Searching database for incidents.");
-        incidents.find({"incidentId": {"$regex": req.body.id, "$options": "i"}}, function(err, report){
+        incidents.find({"incidentId": {"$regex": req.body.incidentId, "$options": "i"}}, function(err, report){
             if(!err){
                 res.send(report);
             }
@@ -74,14 +74,14 @@ module.exports.searchIncidents = function(req, res){
 };
 
 module.exports.deleteIncident = function(req, res) {
-    incidents.findOneAndRemove({"incidentId": req.body.id}).exec(function(err, item){
+    incidents.findOneAndRemove({"incidentId": req.body.incidentId}).exec(function(err, item){
         if(err){
             return res.send("Error removing incident");
         }
         if(!item){
-            return res.send("User ID" + req.body.id + " not found");
+            return res.send("User ID" + req.body.incidentId + " not found");
         }
-        res.send("ID" + req.body.id + " deleted");
+        res.send("ID" + req.body.incidentId + " deleted");
     });
 };
 
@@ -91,25 +91,39 @@ module.exports.createIncident = function(req, res){
         res.send("Invalid POST parameters");
     }
     else{
-        var newIncident = new incidents({
-            incidentId: req.body.id,
-            time: req.body.time,
-            date: req.body.date,
-            incidentDescription: req.body.incidentDescription,
-            incidentLocation: req.body.incidentLocation,
-            additionalInfo: req.body.additionalInfo,
-            photos: req.body.photos,
-            photos_base64: req.body.photos_base64,
-            lat: req.body.lat,
-            lon: req.body.lon
-        });
+        incidents.find({"incidentId": req.body.incidentId}, function(err, report){
+            if(!err){
+                if(!report[0]){
+                    var newIncident = new incidents({
+                        incidentId: req.body.incidentId,
+                        time: req.body.time,
+                        date: req.body.date,
+                        incidentDescription: req.body.incidentDescription,
+                        incidentLocation: req.body.incidentLocation,
+                        additionalInfo: req.body.additionalInfo,
+                        photos: req.body.photos,
+                        photos_base64: req.body.photos_base64,
+                        lat: req.body.lat,
+                        lon: req.body.lon
+                    });
 
-        newIncident.save(function(err){
-            if(err){
-                res.send("Error creating incident");
+                    newIncident.save(function(err){
+                        if(err){
+                            res.send("Error creating incident");
+                        }
+                        else{
+                            res.send("Incident created");
+                        }
+                    });
+                }
+                else{
+                    // res.send("already exists");
+                    res.sendStatus(406);
+                }
             }
             else{
-                res.send("Incident created");
+                console.log("Validating unique ID failed.")
+                res.sendStatus(404);
             }
         });
     }

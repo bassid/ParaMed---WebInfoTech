@@ -14,7 +14,7 @@ function getIncidents() {
 
 function searchIncidents() {
     var id = document.getElementById('search').value;
-    var data = {id: id};
+    var data = {incidentId: id};
     $.ajax({
         url: "http://localhost:3000/database/search", type: "POST", data: data, success: function (result) {
             clearIncidents();
