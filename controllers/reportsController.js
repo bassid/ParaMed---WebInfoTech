@@ -74,14 +74,14 @@ module.exports.searchIncidents = function(req, res){
 };
 
 module.exports.deleteIncident = function(req, res) {
-    incidents.findOneAndRemove({"incidentId": req.body.id}).exec(function(err, item){
+    incidents.findOneAndRemove({"incidentId": req.body.incidentId}).exec(function(err, item){
         if(err){
             return res.send("Error removing incident");
         }
         if(!item){
-            return res.send("User ID" + req.body.id + " not found");
+            return res.send("User ID" + req.body.incidentId + " not found");
         }
-        res.send("ID" + req.body.id + " deleted");
+        res.send("ID" + req.body.incidentId + " deleted");
     });
 };
 
