@@ -71,6 +71,9 @@ function populateIncidents(result){
                         $("<div class=\"incident-time\">" + result[i]['time'] + "</div>")
                     )
                     .append(
+                        $("<div class=\"incident-date\">" + result[i]['date'] + "</div>")
+                    )
+                    .append(
                         $("<div class=\"description\">Description:</div>")
                     )
                     .append(
@@ -213,6 +216,9 @@ function displayModalBox(incidentId) {
 
     $("#buttonYes").on('click', function() {
         deleteIncident(incidentId);
+        hideModalBox();
+    });
+    $("#buttonNo").on('click', function() {
         hideModalBox();
     });
 }

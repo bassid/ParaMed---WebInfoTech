@@ -28,16 +28,18 @@
     <div class="modal-box">
         <div class="modal-content">
             <p>Are you sure you want to delete incident #<span id="idToDelete"></span>?</p>
-            <button id="buttonYes" onclick="deleteIncident()">Yes</button><button id="buttonNo" onclick="hideModalBox()">No</button>
+            <button id="buttonYes">Yes</button><button id="buttonNo">No</button>
         </div>
     </div>
 </div>
 <div class="report-page" id="report-page">
     <div id="map" class="map">
     </div>
-    <div class="searchbar">
-        <input type="text" placeholder="Search Reports by ID" id="search">
-        <button class="search" type="submit" onclick="searchIncidents()"><i class="fa fa-search"></i></button>
+    <div class="searchContainer">
+        <div class="searchbar">
+            <span class="icon" onclick="searchIncidents()"><i class="fa fa-search"></i></span>
+            <input type="search" placeholder="Search Reports by ID" id="search">
+        </div>
     </div>
     <div id="incident-list"></div>
 </div>

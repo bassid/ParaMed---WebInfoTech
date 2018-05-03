@@ -9,5 +9,4 @@ mongoose.connect('mongodb://rserraglio:info30005@ds141796.mlab.com:41796/reports
     }
 });
 
-require('./reportsSchema.js');
-require('./loginSchema.js');
+require('./reportsSchema.js');require('./loginSchema.js');
