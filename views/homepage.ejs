@@ -9,6 +9,10 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="/controllers/homepage.js"></script>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -23,21 +27,32 @@
 
 <div class="home">
 
-  <img id="logo" src="../public/logo.png" alt="ParaMed logo">
+    <%# In the event of an invalid login, display error box when rendering page #%>
+    <% if(typeof invalidLogin != 'undefined') { %>
+        <div id="errorBox" class="modal">
+            <div class="modal-box">
+                <div class="modal-content">
+                    <p>Invalid username or password. Please try again.</p>
+                    <button id="buttonOkay">Okay</button>
+                </div>
+            </div>
+        </div>
+    <% } %>
 
-  <form class="login" method="post" action="reports">
-    <label for="username">Username</label><br>
-    <input id="username" type="text" name="username" required><br>
+    <img id="logo" src="../public/logo.png" alt="ParaMed logo">
+
+    <form class="login" method="post" action="reports">
+        <label for="username">Username</label><br>
+        <input id="username" type="text" name="username" required><br>
 
 
-    <label for="password">Password</label><br>
-    <input id="password" type="password" name="password" required><br>
+        <label for="password">Password</label><br>
+        <input id="password" type="password" name="password" required><br>
 
-    <button type="submit">Login</button><br>
-    <div id="appDownload">
-      Not a call operator? Download our <a id="appLink" href="https://play.google.com/store?hl=en" target="_blank">app</a>!
-    </div>
-  </form>
-    <br>
+        <button type="submit">Login</button><br>
+        <div id="appDownload">
+          Not a call operator? Download our <a id="appLink" href="https://play.google.com/store?hl=en" target="_blank">app</a>!
+        </div>
+    </form>
 </div>
 </body>
