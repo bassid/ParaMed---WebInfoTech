@@ -1,6 +1,6 @@
 "use strict"
 
-var map, infoWindow;
+var map, infoWindow, service;
 var mapMarkers = {};
 
 // Retrieves data of incidents from an API call to the database.
@@ -9,11 +9,12 @@ function getIncidents() {
         url: "http://localhost:3000/database/all", type: "POST", success: function (result) {
             clearIncidents();
             populateIncidents(result);
-            addMapMarkers(result);
+            addIncidentMarkers(result);
         }
     });
 }
 
+// Retrieves specific incidents based on search input
 function searchIncidents() {
     var id = document.getElementById('search').value;
     var data = {incidentId: id};
@@ -21,11 +22,12 @@ function searchIncidents() {
         url: "http://localhost:3000/database/search", type: "POST", data: data, success: function (result) {
             clearIncidents();
             populateIncidents(result);
-            addMapMarkers(result);
+            addIncidentMarkers(result);
         }
     });
 }
 
+// Clears all incidents from report page
 function clearIncidents(){
     var reportPage = document.getElementById('report-page');
     reportPage.removeChild(document.getElementById('incident-list'));
@@ -39,19 +41,21 @@ function clearIncidents(){
     mapMarkers = {};
 }
 
+// Deletes a specific incident and repopulated report page with all non-deleted incidents
 function deleteIncident(id) {
     const data = {incidentId: id};
     $.ajax({
-        url: "http://localhost:3000/database/delete", type: "POST", data: data, success: function (result) {
+        url: "http://localhost:3000/database/delete", type: "POST", data: data, success: function () {
             getIncidents();
         }
     });
 }
 
 // Adds markers to the map based on database data.
-function addMapMarkers(result){
+function addIncidentMarkers(result){
     for(let i=0; i<result.length; i++){
-        addMarker({lat: result[i]['lat'], lng: result[i]['lon']}, result[i]['incidentId']);
+        createIncidentMarker({lat: result[i]['lat'], lng: result[i]['lon']}, result[i]['incidentId']);
+
     }
 }
 
@@ -141,29 +145,30 @@ function populateIncidents(result){
     });
 }
 
+// Initialises the map
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -37.793, lng: 144.969},
-        zoom: 10
+        center: {lat: -36.3833, lng: 145.400},
+        zoom: 7
     });
 
-    /*let kmlLayer = new google.maps.KmlLayer();
-
-    const src = 'http://www.health.vic.gov.au/maps/downloads/vic_hospitals.kmz';
-    //const src = 'https://services.land.vic.gov.au/kml1/vic-hospitals.kml';
-    kmlLayer = new google.maps.KmlLayer(src, {
-        suppressInfoWindows: true,
-        preserveViewport: false,
-        map: map,
-        //icon: '/public/Hospital-pin.png'
-    });*/
+    infoWindow = new google.maps.InfoWindow();
+    service = new google.maps.places.PlacesService(map);
 }
 
-function addMarker(location, id) {
+// Adds a marker to the map for a specific incident and adds nearby hospital markers
+function createIncidentMarker(location, id) {
+    // Add markers for nearby hospitals for this location
+    service.nearbySearch({
+        location: location,
+        radius: 10000,
+        type: ['hospital']
+    }, addHospitalMarkers);
+
     let marker = new google.maps.Marker({
         position: location,
         map: map,
-        icon: '/public/incident-icon.png',
+        icon: '/public/incident-pin.png',
         id: id
     });
 
@@ -174,19 +179,46 @@ function addMarker(location, id) {
     mapMarkers[id] = marker;
 }
 
+// Finds nearby hospital markers for a specific location
+function addHospitalMarkers(results, status) {
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+        for (let i = 0; i < results.length; i++) {
+            createHospitalMarker(results[i]);
+        }
+    }
+}
+
+// Adds hospital marker to the map
+function createHospitalMarker(place) {
+    let placeLoc = place.geometry.location;
+    let marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location,
+        icon: '/public/hospital-pin.png'
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+        infoWindow.setContent(place.name);
+        infoWindow.open(map, this);
+    });
+}
+
+/*
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.setPosition(pos);
     infoWindow.setContent(browserHasGeolocation ?
         'Error: The Geolocation service failed.' :
         'Error: Your browser doesn\'t support geolocation.');
     infoWindow.open(map);
-}
+}*/
 
+// Zooms in on a position on the map
 function mapZoomIn(latlngPosition){
     map.panTo(latlngPosition);
     map.setZoom(13);
 }
 
+// Centres and zooms in on an incident
 function incidentZoom(element){
     element.scrollIntoView({behavior: 'smooth'});
     mapZoomIn(mapMarkers[element.id].getPosition());
@@ -194,6 +226,7 @@ function incidentZoom(element){
     setTimeout(function(){ mapMarkers[element.id].setAnimation(null); }, 2800);
 }
 
+// Displays the modal box that confirms whether to delete an incident
 function displayModalBox(incidentId) {
     // Disable dropdown box being displayed when delete button pressed
     $("#incident-list").accordion({
@@ -215,6 +248,7 @@ function displayModalBox(incidentId) {
     });
 }
 
+// Hides the modal box
 function hideModalBox() {
     deleteIncidentBox.style.display = "none";
 }
