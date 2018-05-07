@@ -50,14 +50,14 @@ function deleteIncident(id) {
 
 // Adds markers to the map based on database data.
 function addMapMarkers(result){
-    for(var i=0; i<result.length; i++){
+    for(let i=0; i<result.length; i++){
         addMarker({lat: result[i]['lat'], lng: result[i]['lon']}, result[i]['incidentId']);
     }
 }
 
 // Builds the incident list using results from the database data
 function populateIncidents(result){
-    for(var i=0; i<result.length; i++) {
+    for(let i=0; i<result.length; i++) {
         $("#incident-list")
             .append(
                 $("<div class=\"incident\" id=\""+result[i]['incidentId']+"\" onclick=\"incidentZoom(this)\">")
@@ -85,9 +85,7 @@ function populateIncidents(result){
                     .append(
                         $("<div class=\"incident-location\">" + result[i]['incidentLocation'] + "</div>")
                     )
-                    .append(
-                        $("</div>")
-                    )
+
             )
             .append(
                 $("<div class=\"dropdown-info\">")
@@ -114,9 +112,6 @@ function populateIncidents(result){
                             .append(
                                 $("<h2>Additional Info</h2>" + result[i]['additionalInfo'] + "<br>")
                             )
-                            .append(
-                                $("</div>")
-                            )
                     )
                     .append(
                         $("<div class=\"photos-title\"><h2>Photos</h2></div>")
@@ -124,12 +119,9 @@ function populateIncidents(result){
                     .append(
                         $("<div class=\"photo-grid\" id=\"photogrid"+result[i]['incidentId']+"\"></div>")
                     )
-                    .append(
-                        $("</div>")
-                    )
             );
 
-        for(var j=0; j<result[i]['photos'].length; j++){
+        for(let j=0; j<result[i]['photos'].length; j++){
             $("#photogrid"+result[i]['incidentId'])
                 .append(
                     $("<div class=\"photo\">")
@@ -168,7 +160,7 @@ function initMap() {
 }
 
 function addMarker(location, id) {
-    var marker = new google.maps.Marker({
+    let marker = new google.maps.Marker({
         position: location,
         map: map,
         icon: '/public/incident-icon.png',

@@ -30,7 +30,7 @@ function login(res, valid){
         res.render('reports.ejs');
     }
     else{
-        res.redirect('/');
+        res.redirect('/error');
     }
 }
 
