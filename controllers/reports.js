@@ -6,7 +6,7 @@ var mapMarkers = {};
 // Retrieves data of incidents from an API call to the database.
 function getIncidents() {
     $.ajax({
-        url: "http://localhost:3000/database/all", type: "POST", success: function (result) {
+        url: "http://afternoon-garden-45550.herokuapp.com/database/all", type: "POST", success: function (result) {
             clearIncidents();
             populateIncidents(result);
             addIncidentMarkers(result);
@@ -19,7 +19,7 @@ function searchIncidents() {
     var id = document.getElementById('search').value;
     var data = {incidentId: id};
     $.ajax({
-        url: "http://localhost:3000/database/search", type: "POST", data: data, success: function (result) {
+        url: "http://afternoon-garden-45550.herokuapp.com/database/search", type: "POST", data: data, success: function (result) {
             clearIncidents();
             populateIncidents(result);
             addIncidentMarkers(result);
@@ -45,7 +45,7 @@ function clearIncidents(){
 function deleteIncident(id) {
     const data = {incidentId: id};
     $.ajax({
-        url: "http://localhost:3000/database/delete", type: "POST", data: data, success: function () {
+        url: "http://afternoon-garden-45550.herokuapp.com/database/delete", type: "POST", data: data, success: function () {
             getIncidents();
         }
     });
