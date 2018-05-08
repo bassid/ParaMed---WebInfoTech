@@ -215,12 +215,14 @@ button:hover {
 .tasksContainer > #showHideHospitals,
 .tasksContainer > #updateReports,
 .tasksContainer > #zoomOut {
+    border-radius: 5px;
     width: 70px;
     height: 40px;
     margin: 8px;
     font-size: 12px;
     font-weight: normal;
     position: relative;
+    cursor: pointer;
 }
 
 .modal {
