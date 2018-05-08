@@ -54,6 +54,22 @@ function deleteIncident(id) {
     });
 }
 
+function activateAccordion() {
+    $("#incident-list").accordion({
+        active: false,
+        collapsible: true,
+        disabled: false
+    });
+}
+
+function disableAccordion() {
+    $("#incident-list").accordion({
+        active: false,
+        collapsible: true,
+        disabled: true
+    });
+}
+
 // Builds the incident list using results from the database data
 function populateIncidents(result){
     for(let i=0; i<result.length; i++) {
@@ -146,10 +162,7 @@ function populateIncidents(result){
         }
     }
 
-    $("#incident-list").accordion({
-        active: false,
-        collapsible: true
-    });
+    activateAccordion();
 }
 
 // Initialises the map
@@ -204,13 +217,36 @@ function addHospitalMarkers(id) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             for (let i = 0; i < results.length; i++) {
                 markers.push(createHospitalMarker(results[i], id));
-                markers[i].setMap(null);
+                if (markers[i]) {
+                    markers[i].setMap(null);
+                }
             }
         }
         hospitalMarkers[id] = markers;
     }
 }
 
+// Adds hospital marker to the map
+function createHospitalMarker(place, id) {
+    if (place.name.includes("Hospital")) {
+        let placeLoc = place.geometry.location;
+        let marker = new google.maps.Marker({
+            map: map,
+            position: place.geometry.location,
+            icon: '/public/hospital-pin.png'
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+            infoWindow.setContent(place.name);
+            infoWindow.open(map, this);
+        });
+
+        return marker;
+    }
+    return null;
+}
+
+// Removes any hospital markers that don't correspond to an incident
 function removeHospitalMarkers() {
     for (let key in hospitalMarkers) {
         // If the incident corresponding to those hospitals doesn't exist, remove those hospitals
@@ -221,23 +257,6 @@ function removeHospitalMarkers() {
             hospitalMarkers[key] = null;
         }
     }
-}
-
-// Adds hospital marker to the map
-function createHospitalMarker(place, id) {
-    let placeLoc = place.geometry.location;
-    let marker = new google.maps.Marker({
-        map: map,
-        position: place.geometry.location,
-        icon: '/public/hospital-pin.png'
-    });
-
-    google.maps.event.addListener(marker, 'click', function() {
-        infoWindow.setContent(place.name);
-        infoWindow.open(map, this);
-    });
-
-    return marker;
 }
 
 // Zooms in on a position on the map
@@ -257,11 +276,7 @@ function incidentZoom(element){
 // Displays the modal box that confirms whether to delete an incident
 function displayModalBox(incidentId) {
     // Disable dropdown box being displayed when delete button pressed
-    $("#incident-list").accordion({
-        active: false,
-        collapsible: true,
-        disabled: true
-    });
+    disableAccordion();
 
     document.getElementById('idToDelete').innerHTML = incidentId;
 
@@ -270,9 +285,12 @@ function displayModalBox(incidentId) {
     $("#buttonYes").on('click', function() {
         deleteIncident(incidentId);
         hideModalBox();
+        activateAccordion();
     });
+
     $("#buttonNo").on('click', function() {
         hideModalBox();
+        activateAccordion();
     });
 }
 
@@ -287,17 +305,30 @@ function showHideHospitals() {
     if (buttonText === "Show hospitals") {
         document.getElementById('showHideHospitals').innerHTML = "Hide hospitals";
 
-        for(let key in hospitalMarkers) {
+        let marker;
+
+        for(let key in hospitalMarkers){
             for (let hospital in hospitalMarkers[key]) {
-                hospitalMarkers[key][hospital].setMap(map);
+                marker = hospitalMarkers[key][hospital];
+
+                if(marker) {
+                    hospitalMarkers[key][hospital].setMap(map);
+                }
             }
         }
     }
     else {
         document.getElementById('showHideHospitals').innerHTML = "Show hospitals";
+
+        let marker;
+
         for(let key in hospitalMarkers){
             for (let hospital in hospitalMarkers[key]) {
-                hospitalMarkers[key][hospital].setMap(null);
+                marker = hospitalMarkers[key][hospital];
+
+                if(marker) {
+                    hospitalMarkers[key][hospital].setMap(null);
+                }
             }
         }
     }
