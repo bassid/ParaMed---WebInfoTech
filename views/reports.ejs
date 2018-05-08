@@ -35,13 +35,14 @@
 <div class="report-page" id="report-page">
     <div id="map" class="map">
     </div>
-    <div class="searchContainer">
+    <div class="tasksContainer">
         <div class="searchbar">
             <span class="icon" onclick="searchIncidents()"><i class="fa fa-search"></i></span>
             <input type="search" placeholder="Search Reports by ID" id="search">
         </div>
-        <button id="showHideHospitals">Show hospitals</button>
-        <button id="updateReports">Update reports</button>
+        <button id="showHideHospitals" onclick="showHideHospitals()">Show hospitals</button>
+        <button id="updateReports" onclick="updateReports()">Update reports</button>
+        <button id="zoomOut" onclick="zoomOut()">Zoom<br>out</button>
     </div>
     <div id="incident-list"></div>
 </div>

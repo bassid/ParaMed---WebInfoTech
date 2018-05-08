@@ -126,8 +126,10 @@ input:focus {
 }
 
 button {
-    border: 1px solid black;
+    background-colorcolor: #aeaeae;
+    border: none;
     border-radius: 10px;
+    box-shadow: 0 0 5px #494949;
     padding: 5px;
     margin: 0 10px;
     width: 100px;
@@ -166,7 +168,7 @@ button:hover {
     grid-row: 1/3;
 }
 
-.searchContainer {
+.tasksContainer {
     background-color: #777777;
     text-align: left;
     height: 56px;
@@ -174,35 +176,33 @@ button:hover {
     grid-row: 1/2;
 }
 
-.searchContainer > .searchbar {
+.tasksContainer > .searchbar {
     vertical-align: middle;
     white-space: nowrap;
     position: relative;
 }
 
-.searchContainer > .searchbar > input[type=search]{
-    width: calc(100% - 16px - 116px - 116px - 5px);
+.tasksContainer > .searchbar > input[type=search]{
+    width: calc(100% - 16px - 86px - 86px - 86px - 10px);
     height: 40px;
     margin: 8px;
     font-size: 14px;
     font-family: 'Muli', sans-serif;
     border: none;
+    border-radius: 5px;
     background-color: #ffffff;
     float: left;
     padding-left: 45px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
 }
 
-.searchContainer > .searchbar > input[type=search]:focus,
-.searchContainer > .searchbar > input[type=search]:active {
+.tasksContainer > .searchbar > input[type=search]:focus,
+.tasksContainer > .searchbar > input[type=search]:active {
     background-color: #fff;
     color: #000;
     border: 1px solid #000;
 }
 
-.searchContainer > .searchbar > .icon {
+.tasksContainer > .searchbar > .icon {
     cursor: pointer;
     position: absolute;
     top: 50%;
@@ -212,9 +212,10 @@ button:hover {
     color: #4f5b66;
 }
 
-.searchContainer > #showHideHospitals,
-.searchContainer > #updateReports {
-    width: 100px;
+.tasksContainer > #showHideHospitals,
+.tasksContainer > #updateReports,
+.tasksContainer > #zoomOut {
+    width: 70px;
     height: 40px;
     margin: 8px;
     font-size: 12px;

@@ -269,33 +269,33 @@ function hideModalBox() {
     deleteIncidentBox.style.display = "none";
 }
 
-$(function() {
-    $('#showHideHospitals').on('click', function() {
-        let buttonText = document.getElementById('showHideHospitals').innerHTML;
+function showHideHospitals() {
+    let buttonText = document.getElementById('showHideHospitals').innerHTML;
 
-        if (buttonText === "Show hospitals") {
-            document.getElementById('showHideHospitals').innerHTML = "Hide hospitals";
+    if (buttonText === "Show hospitals") {
+        document.getElementById('showHideHospitals').innerHTML = "Hide hospitals";
 
-
-            for(let key in hospitalMarkers) {
-                for (let hospital in hospitalMarkers[key]) {
-                    hospitalMarkers[key][hospital].setMap(map);
-                }
+        for(let key in hospitalMarkers) {
+            for (let hospital in hospitalMarkers[key]) {
+                hospitalMarkers[key][hospital].setMap(map);
             }
         }
-        else {
-            document.getElementById('showHideHospitals').innerHTML = "Show hospitals";
-            for(let key in hospitalMarkers){
-                for (let hospital in hospitalMarkers[key]) {
-                    hospitalMarkers[key][hospital].setMap(null);
-                }
+    }
+    else {
+        document.getElementById('showHideHospitals').innerHTML = "Show hospitals";
+        for(let key in hospitalMarkers){
+            for (let hospital in hospitalMarkers[key]) {
+                hospitalMarkers[key][hospital].setMap(null);
             }
         }
-    })
-});
+    }
+}
 
-$(function() {
-    $('#updateReports').on('click', function() {
-        getIncidents();
-    })
-})
+function updateReports() {
+    getIncidents();
+}
+
+function zoomOut() {
+    map.panTo({lat: -36.3833, lng: 145.400});
+    map.setZoom(7);
+}
