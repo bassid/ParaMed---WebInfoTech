@@ -1,7 +1,8 @@
 "use strict"
 
 var map, infoWindow, service;
-var mapMarkers = {};
+var mapMarkers = {}, hospitalMarkers = {};
+
 
 // Retrieves data of incidents from an API call to the database.
 function getIncidents() {
@@ -35,10 +36,15 @@ function clearIncidents(){
     incidentList.setAttribute('id', 'incident-list');
     reportPage.appendChild(incidentList);
 
-    for(var key in mapMarkers){
-        mapMarkers[key].setMap(null);
+    for(let m_key in mapMarkers) {
+        mapMarkers[m_key].setMap(null);
     }
+    for(let h_key in hospitalMarkers) {
+        hospitalMarkers[h_key].setMap(null);
+    }
+
     mapMarkers = {};
+    hospitalMarkers = {};
 }
 
 // Deletes a specific incident and repopulated report page with all non-deleted incidents
@@ -161,7 +167,7 @@ function createIncidentMarker(location, id) {
     // Add markers for nearby hospitals for this location
     service.nearbySearch({
         location: location,
-        radius: 10000,
+        radius: 50000,
         type: ['hospital']
     }, addHospitalMarkers);
 
@@ -201,6 +207,10 @@ function createHospitalMarker(place) {
         infoWindow.setContent(place.name);
         infoWindow.open(map, this);
     });
+
+    const numHospitals = Object.keys(hospitalMarkers).length;
+    hospitalMarkers[numHospitals] = marker;
+    hospitalMarkers[numHospitals].setMap(null);
 }
 
 /*
@@ -252,3 +262,23 @@ function displayModalBox(incidentId) {
 function hideModalBox() {
     deleteIncidentBox.style.display = "none";
 }
+
+$(function() {
+    $('#showHideHospitals').on('click', function() {
+        let buttonText = document.getElementById('showHideHospitals').innerHTML;
+
+        if (buttonText === "Show hospitals") {
+            document.getElementById('showHideHospitals').innerHTML = "Hide hospitals";
+
+            for(let key in hospitalMarkers){
+                hospitalMarkers[key].setMap(map);
+            }
+        }
+        else {
+            document.getElementById('showHideHospitals').innerHTML = "Show hospitals";
+            for(let key in hospitalMarkers){
+                hospitalMarkers[key].setMap(null);
+            }
+        }
+    })
+})
