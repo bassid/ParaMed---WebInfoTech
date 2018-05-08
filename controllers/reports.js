@@ -17,8 +17,8 @@ function getIncidents() {
 
 // Retrieves specific incidents based on search input
 function searchIncidents() {
-    var id = document.getElementById('search').value;
-    var data = {incidentId: id};
+    const id = document.getElementById('search').value;
+    const data = {incidentId: id};
     $.ajax({
         url: "/database/search", type: "POST", data: data, success: function (result) {
             clearIncidents();
@@ -30,21 +30,18 @@ function searchIncidents() {
 
 // Clears all incidents from report page
 function clearIncidents(){
-    var reportPage = document.getElementById('report-page');
+    const reportPage = document.getElementById('report-page');
     reportPage.removeChild(document.getElementById('incident-list'));
-    var incidentList = document.createElement('div');
+    const incidentList = document.createElement('div');
     incidentList.setAttribute('id', 'incident-list');
     reportPage.appendChild(incidentList);
 
-    for(let m_key in mapMarkers) {
-        mapMarkers[m_key].setMap(null);
-    }
-    for(let h_key in hospitalMarkers) {
-        hospitalMarkers[h_key].setMap(null);
+    for(let key in mapMarkers) {
+        mapMarkers[key].setMap(null);
+        mapMarkers[key] = null;
     }
 
     mapMarkers = {};
-    hospitalMarkers = {};
 }
 
 // Deletes a specific incident and repopulated report page with all non-deleted incidents
@@ -55,14 +52,6 @@ function deleteIncident(id) {
             getIncidents();
         }
     });
-}
-
-// Adds markers to the map based on database data.
-function addIncidentMarkers(result){
-    for(let i=0; i<result.length; i++){
-        createIncidentMarker({lat: result[i]['lat'], lng: result[i]['lon']}, result[i]['incidentId']);
-
-    }
 }
 
 // Builds the incident list using results from the database data
@@ -99,24 +88,24 @@ function populateIncidents(result){
             )
             .append(
                 $("<div class=\"dropdown-info\">")
-                    /*.append(
-                        $("<div class=\"incident\">")
-                            .append(
-                                $("<div class=\"incident-id\"><h2>ID#" + result[i]['incidentId'] + "</h2></div>")
-                            )
-                            .append(
-                                $("<div class=\"incident-time\">" + result[i]['time'] + "</div><br>")
-                            )
-                            .append(
-                                $("<div class=\"incident-description\">" + result[i]['incidentDescription'] + "</div>")
-                            )
-                            .append(
-                                $("<div class=\"incident-location\">" + result[i]['incidentLocation'] + "</div>")
-                            )
-                            .append(
-                                $("</div>")
-                            )
-                    )*/
+                /*.append(
+                    $("<div class=\"incident\">")
+                        .append(
+                            $("<div class=\"incident-id\"><h2>ID#" + result[i]['incidentId'] + "</h2></div>")
+                        )
+                        .append(
+                            $("<div class=\"incident-time\">" + result[i]['time'] + "</div><br>")
+                        )
+                        .append(
+                            $("<div class=\"incident-description\">" + result[i]['incidentDescription'] + "</div>")
+                        )
+                        .append(
+                            $("<div class=\"incident-location\">" + result[i]['incidentLocation'] + "</div>")
+                        )
+                        .append(
+                            $("</div>")
+                        )
+                )*/
                     .append(
                         $("<div class=\"additional-info\">")
                             .append(
@@ -162,14 +151,25 @@ function initMap() {
     service = new google.maps.places.PlacesService(map);
 }
 
+// Adds markers to the map based on database data.
+function addIncidentMarkers(result){
+    for(let i=0; i<result.length; i++){
+        createIncidentMarker({lat: result[i]['lat'], lng: result[i]['lon']}, result[i]['incidentId']);
+    }
+
+    removeHospitalMarkers();
+}
+
 // Adds a marker to the map for a specific incident and adds nearby hospital markers
 function createIncidentMarker(location, id) {
-    // Add markers for nearby hospitals for this location
-    service.nearbySearch({
-        location: location,
-        radius: 50000,
-        type: ['hospital']
-    }, addHospitalMarkers);
+    // Add markers for nearby hospitals for this location if the id doesn't exist in hospitalMarkers already
+    if (!hospitalMarkers[id]) {
+        service.nearbySearch({
+            location: location,
+            radius: 50000,
+            type: ['hospital']
+        }, addHospitalMarkers(id));
+    }
 
     let marker = new google.maps.Marker({
         position: location,
@@ -186,16 +186,33 @@ function createIncidentMarker(location, id) {
 }
 
 // Finds nearby hospital markers for a specific location
-function addHospitalMarkers(results, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-        for (let i = 0; i < results.length; i++) {
-            createHospitalMarker(results[i]);
+function addHospitalMarkers(id) {
+    return function(results, status) {
+        let markers = [];
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            for (let i = 0; i < results.length; i++) {
+                markers.push(createHospitalMarker(results[i], id));
+                markers[i].setMap(null);
+            }
+        }
+        hospitalMarkers[id] = markers;
+    }
+}
+
+function removeHospitalMarkers() {
+    for (let key in hospitalMarkers) {
+        // If the incident corresponding to those hospitals doesn't exist, remove those hospitals
+        if (typeof mapMarkers[key] === "undefined") {
+            for (let hospital in hospitalMarkers[key]) {
+                hospitalMarkers[key][hospital].setMap(null);
+            }
+            hospitalMarkers[key] = null;
         }
     }
 }
 
 // Adds hospital marker to the map
-function createHospitalMarker(place) {
+function createHospitalMarker(place, id) {
     let placeLoc = place.geometry.location;
     let marker = new google.maps.Marker({
         map: map,
@@ -208,19 +225,8 @@ function createHospitalMarker(place) {
         infoWindow.open(map, this);
     });
 
-    const numHospitals = Object.keys(hospitalMarkers).length;
-    hospitalMarkers[numHospitals] = marker;
-    hospitalMarkers[numHospitals].setMap(null);
+    return marker;
 }
-
-/*
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
-        'Error: The Geolocation service failed.' :
-        'Error: Your browser doesn\'t support geolocation.');
-    infoWindow.open(map);
-}*/
 
 // Zooms in on a position on the map
 function mapZoomIn(latlngPosition){
@@ -270,15 +276,26 @@ $(function() {
         if (buttonText === "Show hospitals") {
             document.getElementById('showHideHospitals').innerHTML = "Hide hospitals";
 
-            for(let key in hospitalMarkers){
-                hospitalMarkers[key].setMap(map);
+
+            for(let key in hospitalMarkers) {
+                for (let hospital in hospitalMarkers[key]) {
+                    hospitalMarkers[key][hospital].setMap(map);
+                }
             }
         }
         else {
             document.getElementById('showHideHospitals').innerHTML = "Show hospitals";
             for(let key in hospitalMarkers){
-                hospitalMarkers[key].setMap(null);
+                for (let hospital in hospitalMarkers[key]) {
+                    hospitalMarkers[key][hospital].setMap(null);
+                }
             }
         }
+    })
+});
+
+$(function() {
+    $('#updateReports').on('click', function() {
+        getIncidents();
     })
 })

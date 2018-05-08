@@ -136,12 +136,8 @@ button {
 }
 
 button:hover {
-    border: 1px solid #0157EF;
-    box-shadow: 0 0 10px #8bbef6;
-}
-
-button:active {
-    border: 2px solid #0157EF;
+    border: 0.5px solid #0157EF;
+    box-shadow: 0 0 5px #8bbef6;
 }
 
 #teamName {
@@ -185,7 +181,7 @@ button:active {
 }
 
 .searchContainer > .searchbar > input[type=search]{
-    width: calc(50% - 16px);
+    width: calc(100% - 16px - 116px - 116px - 5px);
     height: 40px;
     margin: 8px;
     font-size: 14px;
@@ -214,6 +210,16 @@ button:active {
     margin-top: 17px;
     z-index: 1;
     color: #4f5b66;
+}
+
+.searchContainer > #showHideHospitals,
+.searchContainer > #updateReports {
+    width: 100px;
+    height: 40px;
+    margin: 8px;
+    font-size: 12px;
+    font-weight: normal;
+    position: relative;
 }
 
 .modal {
