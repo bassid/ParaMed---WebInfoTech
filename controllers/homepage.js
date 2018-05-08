@@ -4,7 +4,7 @@ function login(){
     var data = {username: user, password: pass};
     console.log(user);
     $.ajax({
-        url: "http://afternoon-garden-45550.herokuapp.com/reports", type: "POST", data: data,  success: function (result) {
+        url: "/reports", type: "POST", data: data,  success: function (result) {
             console.log(result);
         }
     });
