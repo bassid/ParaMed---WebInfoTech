@@ -14,5 +14,4 @@ $(function() {
     $("#buttonOkay").on('click', function() {
         errorBox.style.display = "none";
     });
-
 })

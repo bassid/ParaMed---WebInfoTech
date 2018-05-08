@@ -130,7 +130,19 @@ function populateIncidents(result){
                 .append(
                     $("<div class=\"photo\">")
                         .append(
-                            $("<img src=\""+result[i]['photos'][j]+"\" alt=\"ParaMed logo\"/>")
+                            $("<img src=\""+result[i]['photos'][j]+"\"/>")
+                        )
+                        .append(
+                            $("</div>")
+                        )
+                )
+        }
+        for(let j=0; j<result[i]['photos_base64'].length; j++){
+            $("#photogrid"+result[i]['incidentId'])
+                .append(
+                    $("<div class=\"photo\">")
+                        .append(
+                            $("<img src=\""+result[i]['photos_base64'][j]+"\"/>")
                         )
                         .append(
                             $("</div>")
