@@ -153,7 +153,7 @@ module.exports.updateIncident = function(req, res){
                         phoneNumber = req.body.phoneNumber;
                     }
                     if(req.body.additionalInfo != ""){
-                        additionalInfo +=  req.body.additionalInfo;
+                        additionalInfo += '\n' + req.body.additionalInfo;
                     }
 
                     // update incident
