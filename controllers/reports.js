@@ -5,10 +5,182 @@ var mapMarkers = {}, hospitalMarkers = {};
 
 // Initialises the map
 function initMap() {
+    var styledMapType = new google.maps.StyledMapType(
+        [
+            {
+                "featureType": "administrative",
+                "elementType": "labels.text.fill",
+                "stylers": [
+                    {
+                        "color": "#1944b3"
+                    }
+                ]
+            },
+            {
+                "featureType": "administrative",
+                "elementType": "labels.text.stroke",
+                "stylers": [
+                    {
+                        "color": "#ffffff"
+                    }
+                ]
+            },
+            {
+                "featureType": "landscape",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "color": "#f2f2f2"
+                    }
+                ]
+            },
+            {
+                "featureType": "landscape",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "#ffffff"
+                    }
+                ]
+            },
+            {
+                "featureType": "poi",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "visibility": "off"
+                    }
+                ]
+            },
+            {
+                "featureType": "poi.park",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "#e6f3d6"
+                    },
+                    {
+                        "visibility": "on"
+                    }
+                ]
+            },
+            {
+                "featureType": "road",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "saturation": -100
+                    },
+                    {
+                        "lightness": 45
+                    },
+                    {
+                        "visibility": "simplified"
+                    }
+                ]
+            },
+            {
+                "featureType": "road.highway",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "visibility": "simplified"
+                    }
+                ]
+            },
+            {
+                "featureType": "road.highway",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "#f3c580"
+                    },
+                    {
+                        "visibility": "simplified"
+                    }
+                ]
+            },
+            {
+                "featureType": "road.highway",
+                "elementType": "labels.text",
+                "stylers": [
+                    {
+                        "color": "#4e4e4e"
+                    }
+                ]
+            },
+            {
+                "featureType": "road.arterial",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "#f4f4f4"
+                    }
+                ]
+            },
+            {
+                "featureType": "road.arterial",
+                "elementType": "labels.text.fill",
+                "stylers": [
+                    {
+                        "color": "#787878"
+                    }
+                ]
+            },
+            {
+                "featureType": "road.arterial",
+                "elementType": "labels.icon",
+                "stylers": [
+                    {
+                        "visibility": "off"
+                    }
+                ]
+            },
+            {
+                "featureType": "transit",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "visibility": "off"
+                    }
+                ]
+            },
+            {
+                "featureType": "water",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "color": "#eaf6f8"
+                    },
+                    {
+                        "visibility": "on"
+                    }
+                ]
+            },
+            {
+                "featureType": "water",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "#eaf6f8"
+                    }
+                ]
+            }
+        ],
+        {name: 'Styled Map'});
+
+
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: -36.3833, lng: 145.400},
-        zoom: 7
+        zoom: 7,
+        mapTypeControlOptions: {
+            mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
+                'styled_map']
+        }
     });
+
+    map.mapTypes.set('styled_map', styledMapType);
+    map.setMapTypeId('styled_map');
 
     infoWindow = new google.maps.InfoWindow();
     service = new google.maps.places.PlacesService(map);
@@ -93,6 +265,9 @@ function populateIncidents(result){
                         $("<div class=\"incident-id\">ID#" + result[i]['incidentId'] + "</div>")
                     )
                     .append(
+                        $("<div class=\"phone-number\">(" + result[i]['phoneNumber'] + ")</div>")
+                    )
+                    .append(
                         $("<div class=\"incident-time\">" + result[i]['time'] + "</div>")
                     )
                     .append(
@@ -114,24 +289,9 @@ function populateIncidents(result){
             )
             .append(
                 $("<div class=\"dropdown-info\">")
-                /*.append(
-                    $("<div class=\"incident\">")
-                        .append(
-                            $("<div class=\"incident-id\"><h2>ID#" + result[i]['incidentId'] + "</h2></div>")
-                        )
-                        .append(
-                            $("<div class=\"incident-time\">" + result[i]['time'] + "</div><br>")
-                        )
-                        .append(
-                            $("<div class=\"incident-description\">" + result[i]['incidentDescription'] + "</div>")
-                        )
-                        .append(
-                            $("<div class=\"incident-location\">" + result[i]['incidentLocation'] + "</div>")
-                        )
-                        .append(
-                            $("</div>")
-                        )
-                )*/
+                    .append(
+                        $("<div class=\"last-updated-time\">Last updated: " + result[i]['lastUpdatedTime'] + "</div>")
+                    )
                     .append(
                         $("<div class=\"additional-info\">")
                             .append(
@@ -186,7 +346,7 @@ function addIncidentMarkers(result){
 
 // Adds a marker to the map for a specific incident and adds nearby hospital markers
 function createIncidentMarker(location, id) {
-    // Add markers for nearby hospitals for this location if the id doesn't exist in hospitalMarkers already
+    // Add markers for hospitals within a 20km radius of this location if the id doesn't exist in hospitalMarkers already
     if (!hospitalMarkers[id]) {
         service.nearbySearch({
             location: location,
@@ -228,7 +388,6 @@ function addHospitalMarkers(id) {
 // Adds hospital marker to the map
 function createHospitalMarker(place, id) {
     if (place.name.includes("Hospital")) {
-        //alert(place.name);
         let placeLoc = place.geometry.location;
         let marker = new google.maps.Marker({
             map: map,
@@ -262,7 +421,7 @@ function removeHospitalMarkers() {
 // Zooms in on a position on the map
 function mapZoomIn(latlngPosition){
     map.panTo(latlngPosition);
-    map.setZoom(13);
+    map.setZoom(15);
 }
 
 // Centres and zooms in on an incident

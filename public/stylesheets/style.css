@@ -89,18 +89,21 @@ p {
 
 form.login, form.signUp {
     /*background-color: rgba(170, 180, 255, 0.5);*/
-    background-color: rgba(255, 255, 255, 0.5);
-    border: 1px solid black;
+    /*background-color: rgba(255, 255, 255, 0.5);*/
+    background-color: rgba(255, 255, 255, 1);
+    /*border: 1px solid black;*/
+    box-shadow: 0 0 5px #939393;
     padding: 15px 10px;
     width: 500px;
     display: inline-block;
-    border-radius: 5px;
+    /*border-radius: 5px;*/
+    border-radius: 1px;
 }
 
 label {
     float: left;
     padding: 0 10px;
-    font-weight: bold;
+    /*font-weight: bold;*/
 }
 
 input {
@@ -127,10 +130,10 @@ input:focus {
 }
 
 button {
-    background-colorcolor: #aeaeae;
-    border: 0.5px solid #aeaeae;
+    background-color: #d6d6d6;
+    border: 0.5px solid #000;
     border-radius: 10px;
-    box-shadow: 0 0 5px #494949;
+    /*box-shadow: 0 0 5px #494949;*/
     padding: 5px;
     margin: 0 10px;
     width: 100px;
@@ -140,7 +143,8 @@ button {
 
 button:hover {
     border: 0.5px solid #0157EF;
-    box-shadow: 0 0 5px #8bbef6;
+    /*border: 0.5px solid #8bbef6;*/
+    /*box-shadow: 0 0 5px #8bbef6;*/
 }
 
 #teamName {
@@ -170,7 +174,8 @@ button:hover {
 }
 
 .tasksContainer {
-    background-color: #777777;
+    /*background-color: #777777;*/
+    background-color: #e4e4e4;
     text-align: left;
     height: 56px;
     grid-column: 1/3;
@@ -196,11 +201,15 @@ button:hover {
     padding-left: 45px;
 }
 
+.tasksContainer > .searchbar > input[type=search]:hover {
+    border: 1px solid #8bbef6;
+}
+
 .tasksContainer > .searchbar > input[type=search]:focus,
 .tasksContainer > .searchbar > input[type=search]:active {
     background-color: #fff;
     color: #000;
-    border: 1px solid #000;
+    border: 1px solid #0157EF;
 }
 
 .tasksContainer > .searchbar > .icon {
@@ -216,6 +225,8 @@ button:hover {
 .tasksContainer > #showHideHospitals,
 .tasksContainer > #updateReports,
 .tasksContainer > #zoomOut {
+    background-color: #fff;
+    border: 0.5px solid #fff;
     border-radius: 5px;
     width: 70px;
     height: 40px;
@@ -225,6 +236,13 @@ button:hover {
     position: relative;
     cursor: pointer;
 }
+
+.tasksContainer > #showHideHospitals:hover,
+.tasksContainer > #updateReports:hover,
+.tasksContainer > #zoomOut:hover {
+    border: 0.5px solid #8bbef6;
+}
+
 
 .modal {
     position: fixed;
@@ -273,7 +291,8 @@ button:hover {
 }
 
 #incident-list {
-    background: #f8f8f8;
+    box-shadow: inset 0 0 5px #494949;
+    background: #f1f1f1;
     overflow: auto;
     padding: 0 10px 10px;
     grid-column: 1/3;
@@ -281,6 +300,8 @@ button:hover {
 }
 
 #incident-list > .incident {
+    font-size: 14px;
+    text-align: left;
     background-color: #ffffff;
     border-radius: 1px;
     box-shadow: 0 1px 3px #494949;
@@ -307,9 +328,15 @@ button:hover {
     display: flex;
     font-weight: bold;
     font-size: 16px;
-    text-align: left;
     padding: 2px;
-    grid-column: 1/3;
+    grid-column: 1/2;
+    grid-row: 1/2;
+}
+
+#incident-list > .incident > .phone-number {
+    font-size: 16px;
+    padding: 2px;
+    grid-column: 2/3;
     grid-row: 1/2;
 }
 
@@ -317,7 +344,6 @@ button:hover {
     padding: 2px;
     grid-column: 1/4;
     grid-row: 2/3;
-    text-align: left;
     font-size: 12px;
 }
 
@@ -325,7 +351,6 @@ button:hover {
     padding: 2px;
     grid-column: 1/4;
     grid-row: 3/4;
-    text-align: left;
     font-size: 12px;
 }
 
@@ -333,23 +358,18 @@ button:hover {
     grid-row: 4/6;
     grid-column: 1/2;
     padding: 2px;
-    text-align: left;
-    font-size: 14px;
 }
 
 #incident-list > .incident > .incident-description{
     grid-row: 4/6;
     grid-column: 2/4;
     padding: 2px;
-    text-align: left;
-    font-size: 14px;
 }
 
 #incident-list > .incident > .location {
     grid-row: 6/7;
     grid-column: 1/2;
     padding: 2px;
-    text-align: left;
     font-size: 14px;
 }
 
@@ -357,26 +377,26 @@ button:hover {
     grid-row: 6/7;
     grid-column: 2/4;
     padding: 2px;
-    text-align: left;
     font-size: 14px;
 }
 
 .dropdown-info {
+    box-shadow: inset 0 0 5px #494949;
+    font-size: 14px;
     background-color: #fff;
     padding: 15px 20px;
     margin-bottom: 20px;
     text-align: left;
     height: 100%;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
+}
+
+.dropdown-info > .last-updated-time {
+    font-size: 12px;
 }
 
 .dropdown-info > .additional-info {
-    text-align: left;
     padding: 10px 0;
-}
-
-.dropdown-info > .photos-title {
-    text-align: left;
 }
 
 .dropdown-info > .photo-grid {
@@ -389,4 +409,23 @@ button:hover {
 
 .dropdown-info > .photo-grid > .photo > img {
     width: 100%;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #9f9f9f;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #7f7f7f;
 }
