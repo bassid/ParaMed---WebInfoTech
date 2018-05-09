@@ -312,7 +312,6 @@ function showHideHospitals() {
                 marker = hospitalMarkers[key][hospital];
 
                 if(marker) {
-                    alert(marker);
                     hospitalMarkers[key][hospital].setMap(map);
                 }
             }
