@@ -86,25 +86,39 @@ module.exports.deleteIncident = function(req, res) {
 };
 
 module.exports.createIncident = function(req, res){
-    if(!(req.body.incidentId && req.body.time && req.body.date && req.body.incidentDescription &&
-            req.body.incidentLocation && req.body.additionalInfo && req.body.photos && req.body.photos_base64
-            && req.body.lat && req.body.lon && req.body.phoneNumber && req.body.lastUpdatedTime)){
+    if(!(req.body.incidentId && req.body.time && req.body.date && req.body.incidentLocation && req.body.photos
+            && req.body.photos_base64 && req.body.lat && req.body.lon)){
         res.send("Invalid POST parameters");
-
     }
+
     else{
         incidents.find({"incidentId": req.body.incidentId}, function(err, report){
             if(!err){
                 if(!report[0]){
+                    // If there was no data sent from the app, assign values
+                    if (typeof req.body.incidentDescription === "undefined" ) {
+                        const incDesc = "No data provided."
+                    }
+                    if (typeof req.body.additionalInfo === "undefined" ) {
+                        const addInfo = "No data provided."
+                    }
+                    if (typeof req.body.phoneNumber === "undefined" ) {
+                        const phoneNum = "No phone number provided."
+                    }
+                    if (typeof req.body.lastUpdatedTime === "undefined" ) {
+                        const updatedTime = req.body.time;
+                    }
+
+
                     var newIncident = new incidents({
                         incidentId: req.body.incidentId,
-                        phoneNumber: req.body.phoneNumber,
+                        phoneNumber: phoneNum,
                         time: req.body.time,
                         date: req.body.date,
-                        lastUpdatedTime: req.body.lastUpdatedTime,
-                        incidentDescription: req.body.incidentDescription,
+                        lastUpdatedTime: updatedTime,
+                        incidentDescription: incDesc,
                         incidentLocation: req.body.incidentLocation,
-                        additionalInfo: req.body.additionalInfo,
+                        additionalInfo: addInfo,
                         photos: req.body.photos,
                         photos_base64: req.body.photos_base64,
                         lat: req.body.lat,
@@ -134,8 +148,7 @@ module.exports.createIncident = function(req, res){
 };
 
 module.exports.updateIncident = function(req, res){
-    if(!(req.body.incidentId && req.body.time && req.body.date && req.body.incidentDescription &&
-            req.body.incidentLocation && req.body.additionalInfo && req.body.photos && req.body.photos_base64
+    if(!(req.body.incidentId && req.body.time && req.body.photos && req.body.photos_base64
             && req.body.lat && req.body.lon)){
         res.send("Invalid POST parameters");
     }
@@ -146,13 +159,13 @@ module.exports.updateIncident = function(req, res){
                     console.log("error: trying to update an incident ID that doesn't exist");
                 }
                 else{
-                    var phoneNumber = report[0]['phoneNumber'];
-                    var additionalInfo = report[0]['additionalInfo'];
+                    let phoneNumber = report[0]['phoneNumber'];
+                    let additionalInfo = report[0]['additionalInfo'];
 
-                    if(req.body.phoneNumber != "") {
+                    if(typeof req.body.phoneNumber !== "undefined") {
                         phoneNumber = req.body.phoneNumber;
                     }
-                    if(req.body.additionalInfo != ""){
+                    if(typeof req.body.additionalInfo !== "undefined"){
                         additionalInfo += '\n' + report[0]['additionalInfo'];
                     }
 
