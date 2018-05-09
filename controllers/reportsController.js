@@ -128,3 +128,14 @@ module.exports.createIncident = function(req, res){
         });
     }
 };
+
+module.exports.updateIncident = function(req, res){
+    if(!(req.body.incidentId && req.body.time && req.body.date && req.body.incidentDescription && req.body.incidentLocation &&
+            req.body.additionalInfo && req.body.photos && req.body.photos_base64 && req.body.lat && req.body.lon)){
+        res.send("Invalid POST parameters");
+    }
+    else {
+        var query = {'incidentId' : req.body.incidentId};
+        incidents.findOneAndUpdate(query, )
+    }
+}
