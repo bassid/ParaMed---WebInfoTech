@@ -360,46 +360,17 @@ button:hover {
     font-size: 14px;
 }
 
-/*
-.modal-content {
-    padding: 20px;
-}*/
-
-/*
-.modal-header {
-    font-size: 20px;
-    font-weight: bold;
-    padding: 12px;
-    background-color: #d9e4f1;
-    border-radius: 5px;
-}*/
-
-/*
-.modalClose {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}*/
-
-/*
-.modalClose:hover, .modalClose:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}*/
-
 .dropdown-info {
     background-color: #fff;
     padding: 15px 20px;
     margin-bottom: 20px;
     text-align: left;
-    height: 200px;
+    height: 100%;
     border: 1px solid black;
-    display: grid;
 }
 
 .dropdown-info > .additional-info {
+    text-align: left;
     padding: 10px 0;
 }
 
@@ -410,6 +381,7 @@ button:hover {
 .dropdown-info > .photo-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
     grid-column-gap: 1em;
     grid-row-gap: 1em;
 }

@@ -3,6 +3,16 @@
 var map, infoWindow, service;
 var mapMarkers = {}, hospitalMarkers = {};
 
+// Initialises the map
+function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: -36.3833, lng: 145.400},
+        zoom: 7
+    });
+
+    infoWindow = new google.maps.InfoWindow();
+    service = new google.maps.places.PlacesService(map);
+}
 
 // Retrieves data of incidents from an API call to the database.
 function getIncidents() {
@@ -165,17 +175,6 @@ function populateIncidents(result){
     activateAccordion();
 }
 
-// Initialises the map
-function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -36.3833, lng: 145.400},
-        zoom: 7
-    });
-
-    infoWindow = new google.maps.InfoWindow();
-    service = new google.maps.places.PlacesService(map);
-}
-
 // Adds markers to the map based on database data.
 function addIncidentMarkers(result){
     for(let i=0; i<result.length; i++){
@@ -229,6 +228,7 @@ function addHospitalMarkers(id) {
 // Adds hospital marker to the map
 function createHospitalMarker(place, id) {
     if (place.name.includes("Hospital")) {
+        //alert(place.name);
         let placeLoc = place.geometry.location;
         let marker = new google.maps.Marker({
             map: map,
@@ -312,6 +312,7 @@ function showHideHospitals() {
                 marker = hospitalMarkers[key][hospital];
 
                 if(marker) {
+                    alert(marker);
                     hospitalMarkers[key][hospital].setMap(map);
                 }
             }
