@@ -5,7 +5,7 @@ var mapMarkers = {}, hospitalMarkers = {};
 
 // Initialises the map
 function initMap() {
-    var styledMapType = new google.maps.StyledMapType(
+    const styledMapType = new google.maps.StyledMapType(
         [
             {
                 "featureType": "administrative",
