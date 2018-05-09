@@ -86,8 +86,9 @@ module.exports.deleteIncident = function(req, res) {
 };
 
 module.exports.createIncident = function(req, res){
-    if(!(req.body.incidentId && req.body.time && req.body.date && req.body.incidentDescription && req.body.incidentLocation &&
-        req.body.additionalInfo && req.body.photos && req.body.photos_base64 && req.body.lat && req.body.lon)){
+    if(!(req.body.incidentId && req.body.time && req.body.date && req.body.incidentDescription &&
+            req.body.incidentLocation && req.body.additionalInfo && req.body.photos && req.body.photos_base64
+            && req.body.lat && req.body.lon && req.body.phoneNumber && req.body.lastUpdatedTime)){
         res.send("Invalid POST parameters");
     }
     else{
@@ -96,8 +97,10 @@ module.exports.createIncident = function(req, res){
                 if(!report[0]){
                     var newIncident = new incidents({
                         incidentId: req.body.incidentId,
+                        phoneNumber: req.body.phoneNumber,
                         time: req.body.time,
                         date: req.body.date,
+                        lastUpdatedTime: req.body.lastUpdatedTime,
                         incidentDescription: req.body.incidentDescription,
                         incidentLocation: req.body.incidentLocation,
                         additionalInfo: req.body.additionalInfo,
@@ -128,3 +131,50 @@ module.exports.createIncident = function(req, res){
         });
     }
 };
+
+// module.exports.updateIncident = function(req, res){
+//     if(!(req.body.incidentId && req.body.time && req.body.date && req.body.incidentDescription &&
+//             req.body.incidentLocation && req.body.additionalInfo && req.body.photos && req.body.photos_base64
+//             && req.body.lat && req.body.lon && req.body.phoneNumber && req.body.lastUpdatedTime)){
+//         res.send("Invalid POST parameters");
+//     }
+//     else{
+//         incidents.find({"incidentId": req.body.incidentId}, function(err, report){
+//             if(!err){
+//                 if(!report[0]){
+//                     var newIncident = new incidents({
+//                         incidentId: req.body.incidentId,
+//                         phoneNumber: req.body.phoneNumber,
+//                         time: req.body.time,
+//                         date: req.body.date,
+//                         lastUpdatedTime: req.body.lastUpdatedTime,
+//                         incidentDescription: req.body.incidentDescription,
+//                         incidentLocation: req.body.incidentLocation,
+//                         additionalInfo: req.body.additionalInfo,
+//                         photos: req.body.photos,
+//                         photos_base64: req.body.photos_base64,
+//                         lat: req.body.lat,
+//                         lon: req.body.lon
+//                     });
+//
+//                     newIncident.save(function(err){
+//                         if(err){
+//                             res.send("Error creating incident");
+//                         }
+//                         else{
+//                             res.send("Incident created");
+//                         }
+//                     });
+//                 }
+//                 else{
+//                     // res.send("already exists");
+//                     res.sendStatus(406);
+//                 }
+//             }
+//             else{
+//                 console.log("Validating unique ID failed.");
+//                 res.sendStatus(404);
+//             }
+//         });
+//     }
+// }
