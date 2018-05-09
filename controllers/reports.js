@@ -190,7 +190,7 @@ function createIncidentMarker(location, id) {
     if (!hospitalMarkers[id]) {
         service.nearbySearch({
             location: location,
-            radius: 50000,
+            radius: 20000,
             type: ['hospital']
         }, addHospitalMarkers(id));
     }
@@ -237,7 +237,7 @@ function createHospitalMarker(place, id) {
         });
 
         google.maps.event.addListener(marker, 'click', function() {
-            infoWindow.setContent(place.name);
+            infoWindow.setContent('<strong>' + place.name + '</strong');
             infoWindow.open(map, this);
         });
 
