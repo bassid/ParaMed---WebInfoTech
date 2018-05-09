@@ -6,7 +6,7 @@ const reportsSchema = mongoose.Schema(
         "phoneNumber" : String,
         "time" : String,
         "date" : String,
-        "lastUpdatedTime" : String
+        "lastUpdatedTime" : String,
         "incidentDescription" : String,
         "incidentLocation" : String,
         "additionalInfo" : String,

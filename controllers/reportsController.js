@@ -90,6 +90,7 @@ module.exports.createIncident = function(req, res){
             req.body.incidentLocation && req.body.additionalInfo && req.body.photos && req.body.photos_base64
             && req.body.lat && req.body.lon && req.body.phoneNumber && req.body.lastUpdatedTime)){
         res.send("Invalid POST parameters");
+
     }
     else{
         incidents.find({"incidentId": req.body.incidentId}, function(err, report){
@@ -132,49 +133,59 @@ module.exports.createIncident = function(req, res){
     }
 };
 
-// module.exports.updateIncident = function(req, res){
-//     if(!(req.body.incidentId && req.body.time && req.body.date && req.body.incidentDescription &&
-//             req.body.incidentLocation && req.body.additionalInfo && req.body.photos && req.body.photos_base64
-//             && req.body.lat && req.body.lon && req.body.phoneNumber && req.body.lastUpdatedTime)){
-//         res.send("Invalid POST parameters");
-//     }
-//     else{
-//         incidents.find({"incidentId": req.body.incidentId}, function(err, report){
-//             if(!err){
-//                 if(!report[0]){
-//                     var newIncident = new incidents({
-//                         incidentId: req.body.incidentId,
-//                         phoneNumber: req.body.phoneNumber,
-//                         time: req.body.time,
-//                         date: req.body.date,
-//                         lastUpdatedTime: req.body.lastUpdatedTime,
-//                         incidentDescription: req.body.incidentDescription,
-//                         incidentLocation: req.body.incidentLocation,
-//                         additionalInfo: req.body.additionalInfo,
-//                         photos: req.body.photos,
-//                         photos_base64: req.body.photos_base64,
-//                         lat: req.body.lat,
-//                         lon: req.body.lon
-//                     });
-//
-//                     newIncident.save(function(err){
-//                         if(err){
-//                             res.send("Error creating incident");
-//                         }
-//                         else{
-//                             res.send("Incident created");
-//                         }
-//                     });
-//                 }
-//                 else{
-//                     // res.send("already exists");
-//                     res.sendStatus(406);
-//                 }
-//             }
-//             else{
-//                 console.log("Validating unique ID failed.");
-//                 res.sendStatus(404);
-//             }
-//         });
-//     }
-// }
+module.exports.updateIncident = function(req, res){
+    if(!(req.body.incidentId && req.body.time && req.body.date && req.body.incidentDescription &&
+            req.body.incidentLocation && req.body.additionalInfo && req.body.photos && req.body.photos_base64
+            && req.body.lat && req.body.lon)){
+        res.send("Invalid POST parameters");
+    }
+    else{
+        incidents.find({"incidentId": req.body.incidentId}, function(err, report){
+            if(!err){
+                if(!report[0]){
+                    console.log("error: trying to update an incident ID that doesn't exist");
+                }
+                else{
+                    var phoneNumber = report[0]['phoneNumber'];
+                    var additionalInfo = report[0]['additionalInfo'];
+
+                    if(req.body.phoneNumber != "") {
+                        phoneNumber = req.body.phoneNumber;
+                    }
+                    if(req.body.additionalInfo != ""){
+                        additionalInfo += '\n' + report[0]['additionalInfo'];
+                    }
+
+                    // update incident
+                    var updatedIncident = {
+                        incidentId: report[0]['incidentId'],
+                        phoneNumber: phoneNumber,
+                        time: report[0]['time'],
+                        date: report[0]['date'],
+                        lastUpdatedTime: req.body.lastUpdatedTime,
+                        incidentDescription: report[0]['incidentDescription'],
+                        incidentLocation: report[0]['incidentLocation'],
+                        additionalInfo: additionalInfo,
+                        photos: req.body.photos,
+                        photos_base64: req.body.photos_base64,
+                        lat: req.body.lat,
+                        lon: req.body.lon
+                    };
+
+                    incidents.findOneAndUpdate({"incidentId": req.body.incidentId}, {$set: updatedIncident}, function(err, result){
+                        if(err){
+                            res.send(err);
+                        }
+                        else{
+                            res.send(result);
+                        }
+                    })
+                }
+            }
+            else{
+                console.log("Validating unique ID failed.");
+                res.sendStatus(404);
+            }
+        });
+    }
+}
