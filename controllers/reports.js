@@ -316,25 +316,12 @@ function populateIncidents(result){
                             "</div>")
                     )
             );
-
-        for(let j=0; j<result[i]['photos'].length; j++){
-            $("#photogrid"+result[i]['incidentId'])
-                .append(
-                    $("<div class=\"photo\">")
-                        .append(
-                            $("<img src=\""+result[i]['photos'][j]+"\"/>")
-                        )
-                        .append(
-                            $("</div>")
-                        )
-                )
-        }
         for(let j=0; j<result[i]['photos_base64'].length; j++){
             $("#photogrid"+result[i]['incidentId'])
                 .append(
                     $("<div class=\"photo\">")
                         .append(
-                            $("<img src=\""+result[i]['photos_base64'][j]+"\"/>")
+                            $("<img src=\""+result[i]['photos_base64'][j]+"\" onclick=\"showPhotoModal(this)\"/>")
                         )
                         .append(
                             $("</div>")
@@ -541,4 +528,13 @@ function updateReports() {
 function zoomOut() {
     map.panTo({lat: -36.3833, lng: 145.400});
     map.setZoom(7);
+}
+
+function showPhotoModal(photo){
+    document.getElementById('photo-modal').style.display = "block";
+    document.getElementById("photo-modal-image").src = photo.src;
+}
+
+function closePhotoModal(){
+    document.getElementById('photo-modal').style.display = "none";
 }
