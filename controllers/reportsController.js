@@ -37,7 +37,7 @@ function login(res, valid){
 module.exports.allIncidents =  function(req, res){
     incidents.find(function(err, report){
         if(!err){
-            res.send(report);
+            res.send(report.reverse());
         }
         else{
             console.log("Finding all incidents failed.");
@@ -49,13 +49,15 @@ module.exports.allIncidents =  function(req, res){
 module.exports.searchIncidents = function(req, res){
     if(req.body.incidentId){
         console.log("Searching database for incidents.");
-        incidents.find({"incidentId": {"$regex": req.body.incidentId, "$options": "i"}}, function(err, report){
+        incidents.find({$or: [{"incidentId": {"$regex": req.body.incidentId, "$options": "i"}},
+                    {"phoneNumber": {"$regex": req.body.incidentId, "$options": "i"}}]},
+            function(err, report){
             if(!err){
-                res.send(report);
+                res.send(report.reverse());
             }
             else{
                 console.log("Finding incidents failed.");
-                res.sendStatus(404);
+                res.send("Finding incidents failed.");
             }
         });
     }
@@ -63,11 +65,11 @@ module.exports.searchIncidents = function(req, res){
         console.log("No search parameters specified. Loading all incidents.");
         incidents.find(function(err, report){
             if(!err){
-                res.send(report);
+                res.send(report.reverse());
             }
             else{
                 console.log("Finding all incidents failed.");
-                res.sendStatus(404);
+                res.send("Finding all incidents failed.");
             }
         });
     }
@@ -86,11 +88,11 @@ module.exports.deleteIncident = function(req, res) {
 };
 
 module.exports.createIncident = function(req, res){
-    if(!(req.body.incidentId && req.body.time && req.body.date && req.body.incidentDescription &&
-            req.body.incidentLocation && req.body.additionalInfo && req.body.photos && req.body.photos_base64
-            && req.body.lat && req.body.lon && req.body.phoneNumber && req.body.lastUpdatedTime)){
+    if(req.body.incidentId == null || req.body.time == null || req.body.date == null ||
+        req.body.incidentDescription == null || req.body.incidentLocation == null || req.body.additionalInfo == null ||
+        req.body.photos == null || req.body.photos_base64 == null || req.body.lat == null || req.body.lon == null ||
+        req.body.phoneNumber == null || req.body.lastUpdatedTime == null){
         res.send("Invalid POST parameters");
-
     }
     else{
         incidents.find({"incidentId": req.body.incidentId}, function(err, report){
@@ -121,22 +123,21 @@ module.exports.createIncident = function(req, res){
                     });
                 }
                 else{
-                    // res.send("already exists");
-                    res.sendStatus(406);
+                    res.send("ID already exists");
                 }
             }
             else{
                 console.log("Validating unique ID failed.");
-                res.sendStatus(404);
             }
         });
     }
 };
 
 module.exports.updateIncident = function(req, res){
-    if(!(req.body.incidentId && req.body.time && req.body.date && req.body.incidentDescription &&
-            req.body.incidentLocation && req.body.additionalInfo && req.body.photos && req.body.photos_base64
-            && req.body.lat && req.body.lon)){
+    if(req.body.incidentId == null || req.body.time == null || req.body.date == null ||
+        req.body.incidentDescription == null || req.body.incidentLocation == null || req.body.additionalInfo == null ||
+        req.body.photos == null || req.body.photos_base64 == null || req.body.lat == null || req.body.lon == null ||
+        req.body.phoneNumber == null || req.body.lastUpdatedTime == null){
         res.send("Invalid POST parameters");
     }
     else{
@@ -153,7 +154,12 @@ module.exports.updateIncident = function(req, res){
                         phoneNumber = req.body.phoneNumber;
                     }
                     if(req.body.additionalInfo != ""){
-                        additionalInfo += '\n' + req.body.additionalInfo;
+                        if(report[0]['additionalInfo'] == ""){
+                            additionalInfo += req.body.additionalInfo;
+                        }
+                        else{
+                            additionalInfo += "<br>" + req.body.additionalInfo;
+                        }
                     }
 
                     // update incident
