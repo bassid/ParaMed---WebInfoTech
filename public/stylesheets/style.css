@@ -7,7 +7,9 @@ html {
 body {
     text-align: center;
     font-family: 'Muli', sans-serif;
-    background: linear-gradient(rgba(208, 208, 208, 0.8), rgba(249, 249, 249, 0.6)), url("../blue-stethoscope.jpg") no-repeat center center fixed;
+    background: linear-gradient(to bottom right, rgb(30, 30, 30), rgba(183, 183, 183, 0.6)), url("../blue-stethoscope.jpg") no-repeat center center fixed;
+
+    /*background: linear-gradient(to bottom right, dimgrey, white);*/
     background-size: cover;
     margin: 0;
 }
@@ -23,7 +25,7 @@ body {
     height: 40px;
     padding: 5px 20px;
     overflow: hidden;
-    background-color: #47567d;
+    background-color: #224482;
     box-shadow: 0 1px 5px black;
 }
 
@@ -89,8 +91,8 @@ p {
 
 form.login, form.signUp {
     /*background-color: rgba(170, 180, 255, 0.5);*/
-    /*background-color: rgba(255, 255, 255, 0.5);*/
-    background-color: rgba(255, 255, 255, 1);
+    background-color: #fff;
+    /*background: linear-gradient(to bottom left, rgba(75, 101, 170, 0.5), rgba(116, 143, 255, 0.5));*/
     /*border: 1px solid black;*/
     box-shadow: 0 0 5px #939393;
     padding: 15px 10px;
@@ -135,14 +137,14 @@ button {
     border-radius: 10px;
     /*box-shadow: 0 0 5px #494949;*/
     padding: 5px;
-    margin: 0 10px;
+    margin: 0 5px;
     width: 100px;
     font-family: 'Muli', sans-serif;
-    font-weight: bold;
 }
 
 button:hover {
     border: 0.5px solid #0157EF;
+    color: #0157EF;
     /*border: 0.5px solid #8bbef6;*/
     /*box-shadow: 0 0 5px #8bbef6;*/
 }
@@ -162,7 +164,7 @@ button:hover {
 .report-page{
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: 56px 1fr;
+    grid-template-rows: auto 1fr;
     position: absolute;
     width: 100vw;
     height: calc(100vh - 50px);
@@ -175,9 +177,11 @@ button:hover {
 
 .tasksContainer {
     /*background-color: #777777;*/
-    background-color: #e4e4e4;
+    background-color: #d8d8d8;
+    border: 1px solid #aaaaaa;
     text-align: left;
-    height: 56px;
+    /*height: 56px;*/
+    height: auto;
     grid-column: 1/3;
     grid-row: 1/2;
 }
@@ -186,15 +190,17 @@ button:hover {
     vertical-align: middle;
     white-space: nowrap;
     position: relative;
+    height: auto;
 }
 
 .tasksContainer > .searchbar > input[type=search]{
-    width: calc(100% - 16px - 86px - 86px - 86px - 10px);
-    height: 40px;
+    /*width: calc(100% - 16px - 86px - 86px - 86px - 10px);*/
+    width: calc(100% - 16px);
+    height: auto;
     margin: 8px;
     font-size: 14px;
     font-family: 'Muli', sans-serif;
-    border: none;
+    border: 1px solid #b5b5b5;
     border-radius: 5px;
     background-color: #ffffff;
     float: left;
@@ -222,27 +228,36 @@ button:hover {
     color: #4f5b66;
 }
 
-.tasksContainer > #showHideHospitals,
-.tasksContainer > #updateReports,
-.tasksContainer > #zoomOut {
+.taskButtons {
+    text-align: center;
+}
+
+#showHideHospitals, #updateReports, #zoomOut, .buttonResolved, .buttonAmbulance {
     background-color: #fff;
-    border: 0.5px solid #fff;
+    border: 0.5px solid #b5b5b5;
     border-radius: 5px;
-    width: 70px;
-    height: 40px;
-    margin: 8px;
     font-size: 12px;
     font-weight: normal;
     position: relative;
     cursor: pointer;
+    margin: 0 8px 8px;
+    text-align: center;
+    width: calc(33.33% - 16px);
+    height: auto;
+    padding: 10px;
+    float: left;
 }
 
-.tasksContainer > #showHideHospitals:hover,
-.tasksContainer > #updateReports:hover,
-.tasksContainer > #zoomOut:hover {
+.buttonContainer > .buttonAmbulance,
+.buttonContainer >.buttonResolved {
+    width: 120px;
+    float: none;
+}
+
+#showHideHospitals:hover, #updateReports:hover, #zoomOut:hover, .buttonResolved:hover, .buttonAmbulance:hover {
+    color: #8bbef6;
     border: 0.5px solid #8bbef6;
 }
-
 
 .modal {
     position: fixed;
@@ -256,29 +271,22 @@ button:hover {
     background-color: rgba(0,0,0,0.4);
 }
 
-#deleteIncidentBox {
-    display: none;
-}
-
-#errorBox {
-    display: block;
-}
 
 .modal-box {
     background-color: #ffffff;
-    padding: 10px;
+    padding: 10px 10px 20px;
     margin: auto;
     border: 1px solid #000000;
     border-radius: 5px;
     box-shadow: 0 2px 10px black;;
     width: 30%;
-    height: 120px;
+    height: auto;
+    text-align: center;
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
     animation-duration: 0.4s
 }
-
 
 @-webkit-keyframes animatetop {
     from {top:-300px; opacity:0}
@@ -288,6 +296,43 @@ button:hover {
 @keyframes animatetop {
     from {top:-300px; opacity:0}
     to {top:0; opacity:1}
+}
+
+#deleteIncidentModal, #ambulanceSentModal {
+    display: none;
+}
+
+#ambulanceSentBox {
+    display: grid;
+    grid-template-rows: repeat(3, auto);
+}
+
+#ambulanceSentBox > .para {
+    grid-row: 1/2;
+}
+
+#ambulanceSentBox > #amb-gif {
+    grid-row: 2/3;
+    width: 50%;
+}
+
+#ambulanceSentBox > #okay {
+    grid-row: 3/4;
+}
+
+#okay, #amb-gif {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#errorBox {
+    display: block;
+}
+
+#amb-gif {
+    width: 200px;
+    height: auto;
 }
 
 #incident-list {
@@ -302,17 +347,23 @@ button:hover {
 #incident-list > .incident {
     font-size: 14px;
     text-align: left;
-    background-color: #ffffff;
+    background-color: #fff;
+    border: 1px solid #c5c5c5;
     border-radius: 1px;
     box-shadow: 0 1px 3px #494949;
-    padding: 15px 20px;
+    padding: 20px 25px;
     margin: 10px 0 0;
     cursor: pointer;
     display: grid;
-    grid-template-columns: 85px 1fr 1fr;
-    grid-template-rows: 22px 20px repeat(4, 1fr);
+    grid-template-columns: 90px 1fr 160px;
+    grid-template-rows: repeat(6, auto);
 }
 
+#incident-list > .incident:hover, .incident:active, .incident:focus {
+    border: 1px solid #0157EF;
+}
+
+/*
 #incident-list > .incident > .closeButton {
     color: #aeaeae;
     text-align: right;
@@ -322,6 +373,15 @@ button:hover {
 
 #incident-list > .incident > .closeButton:hover {
     color: #0157EF;
+}
+*/
+
+#incident-list > .incident > .status {
+    color: #aeaeae;
+    font-size: 12px;
+    text-align: right;
+    grid-column: 3/4;
+    grid-row: 1/2;
 }
 
 #incident-list > .incident > .incident-id {
@@ -341,29 +401,34 @@ button:hover {
 }
 
 #incident-list > .incident > .incident-time {
-    padding: 2px;
-    grid-column: 1/4;
     grid-row: 2/3;
-    font-size: 12px;
 }
 
 #incident-list > .incident > .incident-date {
+    grid-row: 3/4;
+}
+
+#incident-list > .incident > .incident-date, .incident-time {
     padding: 2px;
     grid-column: 1/4;
-    grid-row: 3/4;
     font-size: 12px;
+    color: #636363;
 }
 
 #incident-list > .incident > .description {
     grid-row: 4/6;
     grid-column: 1/2;
-    padding: 2px;
+    margin-top: 5px;
+    padding: 5px 2px 2px;
+    border-top: 1px solid #e2e2e2;
 }
 
 #incident-list > .incident > .incident-description{
     grid-row: 4/6;
     grid-column: 2/4;
-    padding: 2px;
+    margin-top: 5px;
+    padding: 5px 2px 2px;
+    border-top: 1px solid #e2e2e2;
 }
 
 #incident-list > .incident > .location {
@@ -387,31 +452,43 @@ button:hover {
     padding: 15px 20px;
     margin-bottom: 20px;
     text-align: left;
-    height: 100%;
-    /*border: 1px solid black;*/
+    height: auto;
 }
 
-.dropdown-info > .last-updated-time {
+.extra-info {
+    height: 400px;
+    overflow: auto;
+}
+
+.extra-info > .last-updated-time {
     font-size: 12px;
+    padding-bottom: 10px;
 }
 
-.dropdown-info > .additional-info {
+.extra-info > .additional-info {
     padding: 10px 0;
+    height: auto;
 }
 
-.dropdown-info > .photo-grid {
+.extra-info > .photo-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto;
     grid-column-gap: 1em;
     grid-row-gap: 1em;
+    margin: 10px;
+    height: 320px;
+    overflow: auto;
 }
 
-.dropdown-info > .photo-grid > .photo > img {
+.extra-info > .photo-grid > .photo > img {
     width: 100%;
 }
 
-/* width */
+.dropdown-info > .buttonContainer {
+    text-align: center;
+    padding: 20px;
+}
+
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -422,10 +499,10 @@ button:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #9f9f9f;
+    background: #556897;
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #7f7f7f;
+    background: #47567d;
 }

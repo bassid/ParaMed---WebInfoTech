@@ -259,7 +259,7 @@ function populateIncidents(result){
             .append(
                 $("<div class=\"incident\" id=\""+result[i]['incidentId']+"\" onclick=\"incidentZoom(this)\">")
                     .append(
-                        $("<span class=\"closeButton\" onclick=\"displayModalBox(" + result[i]['incidentId'] + ")\">&times;</span>")
+                        $("<div class=\"status\" id=\"status"+result[i]['incidentId']+"\">Status: unresolved</div></div>")
                     )
                     .append(
                         $("<div class=\"incident-id\">ID#" + result[i]['incidentId'] + "</div>")
@@ -288,21 +288,32 @@ function populateIncidents(result){
 
             )
             .append(
-                $("<div class=\"dropdown-info\">")
+                $("<div class=\"dropdown-info\" id=\"drop"+result[i]['incidentId']+"\">")
                     .append(
-                        $("<div class=\"last-updated-time\">Last updated: " + result[i]['lastUpdatedTime'] + "</div>")
-                    )
-                    .append(
-                        $("<div class=\"additional-info\">")
+                        $("<div class=\"extra-info\">")
                             .append(
-                                $("<h2>Additional Info</h2>" + result[i]['additionalInfo'] + "<br>")
+                                $("<div class=\"last-updated-time\">Last updated: " + result[i]['lastUpdatedTime'] + "</div>")
+                            )
+                            .append(
+                                $("<div class=\"additional-info-title\"><h2>Additional Info</h2></div>")
+                            )
+                            .append(
+                                $("<div class=\"additional-info\">"+ result[i]['additionalInfo'] + "<br></div>")
+                            )
+                            .append(
+                                $("<div class=\"photos-title\"><h2>Photos</h2></div>")
+                            )
+                            .append(
+                                $("<div class=\"photo-grid\" id=\"photogrid"+result[i]['incidentId']+"\"></div>")
                             )
                     )
                     .append(
-                        $("<div class=\"photos-title\"><h2>Photos</h2></div>")
-                    )
-                    .append(
-                        $("<div class=\"photo-grid\" id=\"photogrid"+result[i]['incidentId']+"\"></div>")
+                        $("<div class=\"buttonContainer\">" +
+                            "<button class=\"buttonAmbulance\" id=\"ambulance" + result[i]['incidentId'] + "\" " +
+                            "onclick=\"sendAmbulance(" + result[i]['incidentId'] + ")\">Send ambulance</button>" +
+                            "<button class=\"buttonResolved\" " +
+                            "onclick=\"displayModalBox(" + result[i]['incidentId'] + ")\">Resolve incident</button>" +
+                            "</div>")
                     )
             );
 
@@ -432,30 +443,60 @@ function incidentZoom(element){
     setTimeout(function(){ mapMarkers[element.id].setAnimation(null); }, 2800);
 }
 
+//
+function sendAmbulance(incidentId) {
+    const marker =  mapMarkers[incidentId];
+    marker.setIcon('/public/incident-pin-green.png');
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(function(){ marker.setAnimation(null); }, 2800);
+
+    const status = document.getElementById("status" + incidentId);
+    status.innerHTML = "Status: ambulance sent<br><span onclick=\"displayModalBox(" + incidentId + ")\">Click here to delete</span>";
+    status.style.color = "#008000";
+
+    const button = document.getElementById("ambulance" + incidentId);
+    button.innerHTML = "Ambulance sent";
+    button.style.cursor = "auto";
+    button.style.color = "#c5c5c5";
+    button.style.borderColor = "#c5c5c5";
+    button.onmouseover = function() {
+        this.style.color = "#c5c5c5";
+        this.style.borderColor = "#c5c5c5";
+    }
+    button.setAttribute("onClick", "");
+
+    ambulanceSentModal.style.display = "block";
+
+    $("#okay").on("click", function() {
+        ambulanceSentModal.style.display = "none";
+        }
+    )
+}
+
 // Displays the modal box that confirms whether to delete an incident
 function displayModalBox(incidentId) {
     // Disable dropdown box being displayed when delete button pressed
-    disableAccordion();
+    //disableAccordion();
 
     document.getElementById('idToDelete').innerHTML = incidentId;
 
-    deleteIncidentBox.style.display = "block";
+    deleteIncidentModal.style.display = "block";
 
     $("#buttonYes").on('click', function() {
         deleteIncident(incidentId);
         hideModalBox();
-        activateAccordion();
+        //activateAccordion();
     });
 
     $("#buttonNo").on('click', function() {
         hideModalBox();
-        activateAccordion();
+        //activateAccordion();
     });
 }
 
 // Hides the modal box
 function hideModalBox() {
-    deleteIncidentBox.style.display = "none";
+    deleteIncidentModal.style.display = "none";
 }
 
 function showHideHospitals() {
