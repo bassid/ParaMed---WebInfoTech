@@ -305,19 +305,6 @@ function populateIncidents(result){
                         $("<div class=\"photo-grid\" id=\"photogrid"+result[i]['incidentId']+"\"></div>")
                     )
             );
-
-        for(let j=0; j<result[i]['photos'].length; j++){
-            $("#photogrid"+result[i]['incidentId'])
-                .append(
-                    $("<div class=\"photo\">")
-                        .append(
-                            $("<img src=\""+result[i]['photos'][j]+"\" onclick=\"showPhotoModal(this)\"/>")
-                        )
-                        .append(
-                            $("</div>")
-                        )
-                )
-        }
         for(let j=0; j<result[i]['photos_base64'].length; j++){
             $("#photogrid"+result[i]['incidentId'])
                 .append(

@@ -10,7 +10,6 @@ const reportsSchema = mongoose.Schema(
         "incidentDescription" : String,
         "incidentLocation" : String,
         "additionalInfo" : String,
-        "photos" : [String],
         "photos_base64" : [String],
         "lat" : Number,
         "lon" : Number

@@ -90,7 +90,7 @@ module.exports.deleteIncident = function(req, res) {
 module.exports.createIncident = function(req, res){
     if(req.body.incidentId == null || req.body.time == null || req.body.date == null ||
         req.body.incidentDescription == null || req.body.incidentLocation == null || req.body.additionalInfo == null ||
-        req.body.photos == null || req.body.photos_base64 == null || req.body.lat == null || req.body.lon == null ||
+        req.body.photos_base64 == null || req.body.lat == null || req.body.lon == null ||
         req.body.phoneNumber == null || req.body.lastUpdatedTime == null){
         res.send("Invalid POST parameters");
     }
@@ -107,7 +107,6 @@ module.exports.createIncident = function(req, res){
                         incidentDescription: req.body.incidentDescription,
                         incidentLocation: req.body.incidentLocation,
                         additionalInfo: req.body.additionalInfo,
-                        photos: req.body.photos,
                         photos_base64: req.body.photos_base64,
                         lat: req.body.lat,
                         lon: req.body.lon
@@ -136,7 +135,7 @@ module.exports.createIncident = function(req, res){
 module.exports.updateIncident = function(req, res){
     if(req.body.incidentId == null || req.body.time == null || req.body.date == null ||
         req.body.incidentDescription == null || req.body.incidentLocation == null || req.body.additionalInfo == null ||
-        req.body.photos == null || req.body.photos_base64 == null || req.body.lat == null || req.body.lon == null ||
+        req.body.photos_base64 == null || req.body.lat == null || req.body.lon == null ||
         req.body.phoneNumber == null || req.body.lastUpdatedTime == null){
         res.send("Invalid POST parameters");
     }
@@ -172,7 +171,6 @@ module.exports.updateIncident = function(req, res){
                         incidentDescription: report[0]['incidentDescription'],
                         incidentLocation: report[0]['incidentLocation'],
                         additionalInfo: additionalInfo,
-                        photos: req.body.photos,
                         photos_base64: req.body.photos_base64,
                         lat: req.body.lat,
                         lon: req.body.lon
