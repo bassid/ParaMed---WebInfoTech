@@ -18,7 +18,7 @@ module.exports.showPage = function(req, res){
         }
         else {
             console.log("Login authentication failed.");
-            res.sendStatus(404);
+            res.send("Login authentication failed.");
         }
         login(res, valid);
     });
@@ -41,7 +41,7 @@ module.exports.allIncidents =  function(req, res){
         }
         else{
             console.log("Finding all incidents failed.");
-            res.sendStatus(404);
+            res.send("Finding all incidents failed.");
         }
     });
 };
@@ -144,6 +144,7 @@ module.exports.updateIncident = function(req, res){
             if(!err){
                 if(!report[0]){
                     console.log("error: trying to update an incident ID that doesn't exist");
+                    res.send("error: trying to update an incident ID that doesn't exist");
                 }
                 else{
                     var phoneNumber = report[0]['phoneNumber'];
@@ -188,7 +189,7 @@ module.exports.updateIncident = function(req, res){
             }
             else{
                 console.log("Validating unique ID failed.");
-                res.sendStatus(404);
+                res.send("Validating unique ID failed.");
             }
         });
     }
