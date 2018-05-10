@@ -37,7 +37,7 @@ function login(res, valid){
 module.exports.allIncidents =  function(req, res){
     incidents.find(function(err, report){
         if(!err){
-            res.send(report);
+            res.send(report.reverse());
         }
         else{
             console.log("Finding all incidents failed.");
@@ -53,7 +53,7 @@ module.exports.searchIncidents = function(req, res){
                     {"phoneNumber": {"$regex": req.body.incidentId, "$options": "i"}}]},
             function(err, report){
             if(!err){
-                res.send(report);
+                res.send(report.reverse());
             }
             else{
                 console.log("Finding incidents failed.");
@@ -65,7 +65,7 @@ module.exports.searchIncidents = function(req, res){
         console.log("No search parameters specified. Loading all incidents.");
         incidents.find(function(err, report){
             if(!err){
-                res.send(report);
+                res.send(report.reverse());
             }
             else{
                 console.log("Finding all incidents failed.");
