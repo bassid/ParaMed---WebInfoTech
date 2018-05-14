@@ -8,8 +8,6 @@ body {
     text-align: center;
     font-family: 'Muli', sans-serif;
     background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.651), rgba(255, 255, 255, 0.6)), url("../blue-stethoscope.jpg") no-repeat center center fixed;
-
-    /*background: linear-gradient(to bottom right, dimgrey, white);*/
     background-size: cover;
     margin: 0;
 }
@@ -119,7 +117,6 @@ label {
     float: left;
     padding: 0 10px;
     color: white;
-    /*font-weight: bold;*/
 }
 
 select {
@@ -195,11 +192,9 @@ button:hover {
 }
 
 .tasksContainer {
-    /*background-color: #777777;*/
     background: linear-gradient(to top, #e7e7e7, #bdbdbd);
     border: 1px solid #aaaaaa;
     text-align: left;
-    /*height: 56px;*/
     height: auto;
     grid-column: 1/3;
     grid-row: 1/2;
@@ -213,7 +208,6 @@ button:hover {
 }
 
 .tasksContainer > .searchbar > input[type=search]{
-    /*width: calc(100% - 16px - 86px - 86px - 86px - 10px);*/
     width: calc(100% - 16px);
     height: auto;
     margin: 8px;
@@ -390,19 +384,6 @@ button:hover {
     box-shadow: 0 0 8px 3px #425effa8;
 }
 
-/*
-#incident-list > .incident > .closeButton {
-    color: #aeaeae;
-    text-align: right;
-    grid-column: 3/4;
-    grid-row: 1/2;
-}
-
-#incident-list > .incident > .closeButton:hover {
-    color: #0157EF;
-}
-*/
-
 #incident-list > .incident > .status {
     color: #aeaeae;
     font-size: 12px;
@@ -478,30 +459,14 @@ button:hover {
     background-color: #fff; 
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
-    /* padding: 0px 20px; */
-    /* margin-bottom: 100px; */
-    /* margin-top: 100px; */
     margin-left: 5px;
     margin-right: 5px;
     text-align: left;
-    /* max-height: 150%; */
     height: 60%;
-    /* min-height: 100px; */
-    /* overflow: hidden; */
-    /* overflow-y: auto; */
     border: 1px solid #224482;
     position: relative;
     display: inline-block;
 }
-
-/* .extra-info {
-    height: auto;
-    overflow: auto;
-    margin: 15px 20px;
-    position: absolute;
-    top: 0;
-    z-index: 99;
-} */
 
 .last-updated-time {
     font-size: 15px;
@@ -529,12 +494,7 @@ button:hover {
     margin-left: 10px;
     margin-right: 10px;
     width: 95%;
-    /* margin-bottom: 100%; */
     height: 46%;
-    /* height: auto; */
-    /* height: 80%; */
-    /* height: 50%; */
-    /* height: 100%; */
     overflow: auto;
 }
 
@@ -556,10 +516,7 @@ button:hover {
 
 .row {
     display: flex;
-    /* height: 75%; */
-    margin: 1px
-    /* justify-content: center; */
-    /* border-style: solid; */
+    margin: 1px;
 }
 
 .buttonContainer {

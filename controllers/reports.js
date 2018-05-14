@@ -230,7 +230,7 @@ function activateAccordion() {
         active: false,
         collapsible: true,
         disabled: false
-    });    
+    });
 }
 
 function disableAccordion() {
@@ -331,12 +331,7 @@ function populateIncidents(result) {
                         )
                 }
                 image++;
-                // else {
-                //     break;
-                // }
-
             }
-
         }
     }
 
@@ -438,10 +433,10 @@ function mapZoomIn(latlngPosition) {
 // Centres and zooms in on an incident
 function incidentZoom(element) {
 
-    $("#" + element.id).click(function() {
-         $('#incident-list').animate({
-            scrollTop: $("#" + element.id).offset().top-200,
-            
+    // Scroll to incident animation. Note, this is a little buggy
+    $("#" + element.id).click(function () {
+        $('#incident-list').animate({
+            scrollTop: $("#" + element.id).offset().top - 200
         }, 1, "linear");
     });
 
@@ -455,7 +450,7 @@ function incidentZoom(element) {
     }, 2800);
 }
 
-//
+// Send ambulance button 
 function sendAmbulance(incidentId) {
     const marker = mapMarkers[incidentId];
     marker.setIcon('/public/incident-pin-green.png');
@@ -512,6 +507,7 @@ function hideModalBox() {
     deleteIncidentModal.style.display = "none";
 }
 
+// Toggle hospital locations off
 function showHideHospitals() {
     let buttonText = document.getElementById('showHideHospitals').innerHTML;
 
@@ -546,10 +542,12 @@ function showHideHospitals() {
     }
 }
 
+// Refresh the incidents
 function updateReports() {
     getIncidents();
 }
 
+// Zoom out to the original view
 function resetView() {
     map.panTo({
         lat: -36.3833,
@@ -558,11 +556,13 @@ function resetView() {
     map.setZoom(7);
 }
 
+// Open a photo in a modal
 function showPhotoModal(photo) {
     document.getElementById('photo-modal').style.display = "block";
     document.getElementById("photo-modal-image").src = photo.src;
 }
 
+// Closes the photo modal
 function closePhotoModal() {
     document.getElementById('photo-modal').style.display = "none";
 }
