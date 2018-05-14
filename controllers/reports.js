@@ -1,62 +1,51 @@
 "use strict"
 
 var map, infoWindow, service;
-var mapMarkers = {}, hospitalMarkers = {};
+var mapMarkers = {},
+    hospitalMarkers = {};
 
 // Initialises the map
 function initMap() {
     const styledMapType = new google.maps.StyledMapType(
-        [
-            {
+        [{
                 "featureType": "administrative",
                 "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#1944b3"
-                    }
-                ]
+                "stylers": [{
+                    "color": "#1944b3"
+                }]
             },
             {
                 "featureType": "administrative",
                 "elementType": "labels.text.stroke",
-                "stylers": [
-                    {
-                        "color": "#ffffff"
-                    }
-                ]
+                "stylers": [{
+                    "color": "#ffffff"
+                }]
             },
             {
                 "featureType": "landscape",
                 "elementType": "all",
-                "stylers": [
-                    {
-                        "color": "#f2f2f2"
-                    }
-                ]
+                "stylers": [{
+                    "color": "#f2f2f2"
+                }]
             },
             {
                 "featureType": "landscape",
                 "elementType": "geometry.fill",
-                "stylers": [
-                    {
-                        "color": "#ffffff"
-                    }
-                ]
+                "stylers": [{
+                    "color": "#ffffff"
+                }]
             },
             {
                 "featureType": "poi",
                 "elementType": "all",
-                "stylers": [
-                    {
-                        "visibility": "off"
-                    }
-                ]
+                "stylers": [{
+                    "visibility": "off"
+                }]
             },
             {
                 "featureType": "poi.park",
                 "elementType": "geometry.fill",
-                "stylers": [
-                    {
+                "stylers": [{
                         "color": "#e6f3d6"
                     },
                     {
@@ -67,8 +56,7 @@ function initMap() {
             {
                 "featureType": "road",
                 "elementType": "all",
-                "stylers": [
-                    {
+                "stylers": [{
                         "saturation": -100
                     },
                     {
@@ -82,17 +70,14 @@ function initMap() {
             {
                 "featureType": "road.highway",
                 "elementType": "all",
-                "stylers": [
-                    {
-                        "visibility": "simplified"
-                    }
-                ]
+                "stylers": [{
+                    "visibility": "simplified"
+                }]
             },
             {
                 "featureType": "road.highway",
                 "elementType": "geometry.fill",
-                "stylers": [
-                    {
+                "stylers": [{
                         "color": "#f3c580"
                     },
                     {
@@ -103,53 +88,42 @@ function initMap() {
             {
                 "featureType": "road.highway",
                 "elementType": "labels.text",
-                "stylers": [
-                    {
-                        "color": "#4e4e4e"
-                    }
-                ]
+                "stylers": [{
+                    "color": "#4e4e4e"
+                }]
             },
             {
                 "featureType": "road.arterial",
                 "elementType": "geometry.fill",
-                "stylers": [
-                    {
-                        "color": "#f4f4f4"
-                    }
-                ]
+                "stylers": [{
+                    "color": "#f4f4f4"
+                }]
             },
             {
                 "featureType": "road.arterial",
                 "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#787878"
-                    }
-                ]
+                "stylers": [{
+                    "color": "#787878"
+                }]
             },
             {
                 "featureType": "road.arterial",
                 "elementType": "labels.icon",
-                "stylers": [
-                    {
-                        "visibility": "off"
-                    }
-                ]
+                "stylers": [{
+                    "visibility": "off"
+                }]
             },
             {
                 "featureType": "transit",
                 "elementType": "all",
-                "stylers": [
-                    {
-                        "visibility": "off"
-                    }
-                ]
+                "stylers": [{
+                    "visibility": "off"
+                }]
             },
             {
                 "featureType": "water",
                 "elementType": "all",
-                "stylers": [
-                    {
+                "stylers": [{
                         "color": "#eaf6f8"
                     },
                     {
@@ -160,22 +134,25 @@ function initMap() {
             {
                 "featureType": "water",
                 "elementType": "geometry.fill",
-                "stylers": [
-                    {
-                        "color": "#eaf6f8"
-                    }
-                ]
+                "stylers": [{
+                    "color": "#eaf6f8"
+                }]
             }
-        ],
-        {name: 'Styled Map'});
+        ], {
+            name: 'Styled Map'
+        });
 
 
     map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -36.3833, lng: 145.400},
+        center: {
+            lat: -36.3833,
+            lng: 145.400
+        },
         zoom: 7,
         mapTypeControlOptions: {
             mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
-                'styled_map']
+                'styled_map'
+            ]
         }
     });
 
@@ -189,7 +166,9 @@ function initMap() {
 // Retrieves data of incidents from an API call to the database.
 function getIncidents() {
     $.ajax({
-        url: "/database/all", type: "POST", success: function (result) {
+        url: "/database/all",
+        type: "POST",
+        success: function (result) {
             clearIncidents();
             populateIncidents(result);
             addIncidentMarkers(result);
@@ -200,9 +179,14 @@ function getIncidents() {
 // Retrieves specific incidents based on search input
 function searchIncidents() {
     const id = document.getElementById('search').value;
-    const data = {incidentId: id};
+    const data = {
+        incidentId: id
+    };
     $.ajax({
-        url: "/database/search", type: "POST", data: data, success: function (result) {
+        url: "/database/search",
+        type: "POST",
+        data: data,
+        success: function (result) {
             clearIncidents();
             populateIncidents(result);
             addIncidentMarkers(result);
@@ -211,14 +195,14 @@ function searchIncidents() {
 }
 
 // Clears all incidents from report page
-function clearIncidents(){
+function clearIncidents() {
     const reportPage = document.getElementById('report-page');
     reportPage.removeChild(document.getElementById('incident-list'));
     const incidentList = document.createElement('div');
     incidentList.setAttribute('id', 'incident-list');
     reportPage.appendChild(incidentList);
 
-    for(let key in mapMarkers) {
+    for (let key in mapMarkers) {
         mapMarkers[key].setMap(null);
         mapMarkers[key] = null;
     }
@@ -228,9 +212,14 @@ function clearIncidents(){
 
 // Deletes a specific incident and repopulated report page with all non-deleted incidents
 function deleteIncident(id) {
-    const data = {incidentId: id};
+    const data = {
+        incidentId: id
+    };
     $.ajax({
-        url: "/database/delete", type: "POST", data: data, success: function () {
+        url: "/database/delete",
+        type: "POST",
+        data: data,
+        success: function () {
             getIncidents();
         }
     });
@@ -241,7 +230,7 @@ function activateAccordion() {
         active: false,
         collapsible: true,
         disabled: false
-    });
+    });    
 }
 
 function disableAccordion() {
@@ -253,80 +242,101 @@ function disableAccordion() {
 }
 
 // Builds the incident list using results from the database data
-function populateIncidents(result){
-    for(let i=0; i<result.length; i++) {
+function populateIncidents(result) {
+    for (let i = 0; i < result.length; i++) {
         $("#incident-list")
             .append(
-                $("<div class=\"incident\" id=\""+result[i]['incidentId']+"\" onclick=\"incidentZoom(this)\">")
-                    .append(
-                        $("<div class=\"status\" id=\"status"+result[i]['incidentId']+"\">Status: unresolved</div></div>")
-                    )
-                    .append(
-                        $("<div class=\"incident-id\">ID#" + result[i]['incidentId'] + "</div>")
-                    )
-                    .append(
-                        $("<div class=\"phone-number\">(" + result[i]['phoneNumber'] + ")</div>")
-                    )
-                    .append(
-                        $("<div class=\"incident-time\">" + result[i]['time'] + "</div>")
-                    )
-                    .append(
-                        $("<div class=\"incident-date\">" + result[i]['date'] + "</div>")
-                    )
-                    .append(
-                        $("<div class=\"description\">Description:</div>")
-                    )
-                    .append(
-                        $("<div class=\"incident-description\">" + result[i]['incidentDescription'] + "</div>")
-                    )
-                    .append(
-                        $("<div class=\"location\">Location:</div>")
-                    )
-                    .append(
-                        $("<div class=\"incident-location\">" + result[i]['incidentLocation'] + "</div>")
-                    )
-
+                $("<div class=\"incident\" id=\"" + result[i]['incidentId'] + "\" onclick=\"incidentZoom(this)\">")
+                .append(
+                    $("<div class=\"status\" id=\"status" + result[i]['incidentId'] + "\">Status: Unresolved</div></div>")
+                )
+                .append(
+                    $("<div class=\"incident-id\">ID#" + result[i]['incidentId'] + "</div>")
+                )
+                .append(
+                    $("<div class=\"phone-number\">Mobile: " + result[i]['phoneNumber'] + "</div>")
+                )
+                .append(
+                    $("<div class=\"incident-time\">" + result[i]['time'] + "</div>")
+                )
+                .append(
+                    $("<div class=\"incident-date\">" + result[i]['date'] + "</div>")
+                )
+                .append(
+                    $("<div class=\"description\">Description:</div>")
+                )
+                .append(
+                    $("<div class=\"incident-description\">" + result[i]['incidentDescription'] + "</div>")
+                )
+                .append(
+                    $("<div class=\"location\">Location:</div>")
+                )
+                .append(
+                    $("<div class=\"incident-location\">" + result[i]['incidentLocation'] + "</div>")
+                )
             )
             .append(
-                $("<div class=\"dropdown-info\" id=\"drop"+result[i]['incidentId']+"\">")
-                    .append(
-                        $("<div class=\"extra-info\">")
-                            .append(
-                                $("<div class=\"last-updated-time\">Last updated: " + result[i]['lastUpdatedTime'] + "</div>")
-                            )
-                            .append(
-                                $("<div class=\"additional-info-title\"><h2>Additional Info</h2></div>")
-                            )
-                            .append(
-                                $("<div class=\"additional-info\">"+ result[i]['additionalInfo'] + "<br></div>")
-                            )
-                            .append(
-                                $("<div class=\"photos-title\"><h2>Photos</h2></div>")
-                            )
-                            .append(
-                                $("<div class=\"photo-grid\" id=\"photogrid"+result[i]['incidentId']+"\"></div>")
-                            )
-                    )
-                    .append(
-                        $("<div class=\"buttonContainer\">" +
-                            "<button class=\"buttonAmbulance\" id=\"ambulance" + result[i]['incidentId'] + "\" " +
-                            "onclick=\"sendAmbulance(" + result[i]['incidentId'] + ")\">Send ambulance</button>" +
-                            "<button class=\"buttonResolved\" " +
-                            "onclick=\"displayModalBox(" + result[i]['incidentId'] + ")\">Resolve incident</button>" +
-                            "</div>")
-                    )
-            );
-        for(let j=0; j<result[i]['photos_base64'].length; j++){
-            $("#photogrid"+result[i]['incidentId'])
+                $("<div class=\"dropdown-info\" id=\"drop" + result[i]['incidentId'] + "\">")
                 .append(
-                    $("<div class=\"photo\">")
-                        .append(
-                            $("<img src=\""+result[i]['photos_base64'][j]+"\" onclick=\"showPhotoModal(this)\"/>")
-                        )
-                        .append(
-                            $("</div>")
-                        )
+                    $("<div class=\"last-updated-time\">Last updated: " + result[i]['lastUpdatedTime'] + "</div>")
                 )
+                .append(
+                    $("<div class=\"additional-info-title\"><h2>Additional Info</h2></div>")
+                )
+                .append(
+                    $("<div class=\"additional-info\">" + result[i]['additionalInfo'] + "<br><br></div>")
+                )
+                .append(
+                    $("<div class=\"photos-title\"><h2>Photos</h2></div>")
+                )
+                .append(
+                    $("<div class=\"photo-grid\" id=\"photogrid" + result[i]['incidentId'] + "\"></div>")
+                )
+                .append(
+                    $("<div class=\"buttonContainer\">" +
+                        "<button class=\"buttonAmbulance\" id=\"ambulance" + result[i]['incidentId'] + "\" " +
+                        "onclick=\"sendAmbulance(" + result[i]['incidentId'] + ")\">Send ambulance</button>" +
+                        "<button class=\"buttonResolved\" " +
+                        "onclick=\"displayModalBox(" + result[i]['incidentId'] + ")\">Resolve incident</button>" +
+                        "</div>")
+                )
+            );
+
+        for (let photo = 0; photo < result[i]['photos_base64'].length; photo += 3) {
+
+            let image = photo;
+            let row_num = photo + 1;
+            $("#photogrid" + result[i]['incidentId'])
+                .append(
+                    $("<div class=\"row\" id=\"row" + result[i]['incidentId'] + row_num + "\"></div>")
+                );
+
+            for (let col_num = 1; col_num <= 3; col_num++) {
+
+                if (result[i]['photos_base64'][image]) {
+                    $("#row" + result[i]['incidentId'] + row_num)
+                        .append(
+                            $("<div class=\"col\" id=\"col" + result[i]['incidentId'] + row_num + col_num + "\"></div>")
+                            .append(
+                                $("<img class=\"image\" src=\"" + result[i]['photos_base64'][image] + "\" onclick=\"showPhotoModal(this)\"/>")
+                            )
+                            .append(
+                                $("</div>")
+                            )
+                        )
+                } else {
+                    $("#row" + result[i]['incidentId'] + row_num)
+                        .append(
+                            $("<div class=\"col_empty\" id=\"col" + result[i]['incidentId'] + row_num + col_num + "\"></div>")
+                        )
+                }
+                image++;
+                // else {
+                //     break;
+                // }
+
+            }
+
         }
     }
 
@@ -334,9 +344,12 @@ function populateIncidents(result){
 }
 
 // Adds markers to the map based on database data.
-function addIncidentMarkers(result){
-    for(let i=0; i<result.length; i++){
-        createIncidentMarker({lat: result[i]['lat'], lng: result[i]['lon']}, result[i]['incidentId']);
+function addIncidentMarkers(result) {
+    for (let i = 0; i < result.length; i++) {
+        createIncidentMarker({
+            lat: result[i]['lat'],
+            lng: result[i]['lon']
+        }, result[i]['incidentId']);
     }
 
     removeHospitalMarkers();
@@ -360,7 +373,7 @@ function createIncidentMarker(location, id) {
         id: id
     });
 
-    google.maps.event.addListener(marker, 'click', function(){
+    google.maps.event.addListener(marker, 'click', function () {
         document.getElementById(this.get('id')).click();
     });
 
@@ -369,7 +382,7 @@ function createIncidentMarker(location, id) {
 
 // Finds nearby hospital markers for a specific location
 function addHospitalMarkers(id) {
-    return function(results, status) {
+    return function (results, status) {
         let markers = [];
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             for (let i = 0; i < results.length; i++) {
@@ -393,7 +406,7 @@ function createHospitalMarker(place, id) {
             icon: '/public/hospital-pin.png'
         });
 
-        google.maps.event.addListener(marker, 'click', function() {
+        google.maps.event.addListener(marker, 'click', function () {
             infoWindow.setContent('<strong>' + place.name + '</strong');
             infoWindow.open(map, this);
         });
@@ -417,25 +430,39 @@ function removeHospitalMarkers() {
 }
 
 // Zooms in on a position on the map
-function mapZoomIn(latlngPosition){
+function mapZoomIn(latlngPosition) {
     map.panTo(latlngPosition);
     map.setZoom(15);
 }
 
 // Centres and zooms in on an incident
-function incidentZoom(element){
-    element.scrollIntoView({behavior: 'smooth'});
+function incidentZoom(element) {
+
+    $("#" + element.id).click(function() {
+         $('#incident-list').animate({
+            scrollTop: $("#" + element.id).offset().top-200,
+            
+        }, 1, "linear");
+    });
+
+    element.scrollIntoView({
+        behavior: 'smooth'
+    });
     mapZoomIn(mapMarkers[element.id].getPosition());
     mapMarkers[element.id].setAnimation(google.maps.Animation.BOUNCE);
-    setTimeout(function(){ mapMarkers[element.id].setAnimation(null); }, 2800);
+    setTimeout(function () {
+        mapMarkers[element.id].setAnimation(null);
+    }, 2800);
 }
 
 //
 function sendAmbulance(incidentId) {
-    const marker =  mapMarkers[incidentId];
+    const marker = mapMarkers[incidentId];
     marker.setIcon('/public/incident-pin-green.png');
     marker.setAnimation(google.maps.Animation.BOUNCE);
-    setTimeout(function(){ marker.setAnimation(null); }, 2800);
+    setTimeout(function () {
+        marker.setAnimation(null);
+    }, 2800);
 
     const status = document.getElementById("status" + incidentId);
     status.innerHTML = "Status: ambulance sent<br><span onclick=\"displayModalBox(" + incidentId + ")\">Click here to delete</span>";
@@ -446,7 +473,7 @@ function sendAmbulance(incidentId) {
     button.style.cursor = "auto";
     button.style.color = "#c5c5c5";
     button.style.borderColor = "#c5c5c5";
-    button.onmouseover = function() {
+    button.onmouseover = function () {
         this.style.color = "#c5c5c5";
         this.style.borderColor = "#c5c5c5";
     }
@@ -454,10 +481,9 @@ function sendAmbulance(incidentId) {
 
     ambulanceSentModal.style.display = "block";
 
-    $("#okay").on("click", function() {
+    $("#okay").on("click", function () {
         ambulanceSentModal.style.display = "none";
-        }
-    )
+    })
 }
 
 // Displays the modal box that confirms whether to delete an incident
@@ -469,13 +495,13 @@ function displayModalBox(incidentId) {
 
     deleteIncidentModal.style.display = "block";
 
-    $("#buttonYes").on('click', function() {
+    $("#buttonYes").on('click', function () {
         deleteIncident(incidentId);
         hideModalBox();
         //activateAccordion();
     });
 
-    $("#buttonNo").on('click', function() {
+    $("#buttonNo").on('click', function () {
         hideModalBox();
         //activateAccordion();
     });
@@ -494,26 +520,25 @@ function showHideHospitals() {
 
         let marker;
 
-        for(let key in hospitalMarkers){
+        for (let key in hospitalMarkers) {
             for (let hospital in hospitalMarkers[key]) {
                 marker = hospitalMarkers[key][hospital];
 
-                if(marker) {
+                if (marker) {
                     hospitalMarkers[key][hospital].setMap(map);
                 }
             }
         }
-    }
-    else {
+    } else {
         document.getElementById('showHideHospitals').innerHTML = "Show hospitals";
 
         let marker;
 
-        for(let key in hospitalMarkers){
+        for (let key in hospitalMarkers) {
             for (let hospital in hospitalMarkers[key]) {
                 marker = hospitalMarkers[key][hospital];
 
-                if(marker) {
+                if (marker) {
                     hospitalMarkers[key][hospital].setMap(null);
                 }
             }
@@ -525,16 +550,19 @@ function updateReports() {
     getIncidents();
 }
 
-function zoomOut() {
-    map.panTo({lat: -36.3833, lng: 145.400});
+function resetView() {
+    map.panTo({
+        lat: -36.3833,
+        lng: 145.400
+    });
     map.setZoom(7);
 }
 
-function showPhotoModal(photo){
+function showPhotoModal(photo) {
     document.getElementById('photo-modal').style.display = "block";
     document.getElementById("photo-modal-image").src = photo.src;
 }
 
-function closePhotoModal(){
+function closePhotoModal() {
     document.getElementById('photo-modal').style.display = "none";
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,49 +14,50 @@
 
     <script src="/controllers/reports.js"></script>
 
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_gGdg1v9AyPZhr4Ahhb1kTiaicC3ip6k&libraries=places&callback=initMap">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_gGdg1v9AyPZhr4Ahhb1kTiaicC3ip6k&libraries=places&callback=initMap">
     </script>
 
 </head>
 
 <body onload="getIncidents()">
-<div class="navBar">
-    <img id="barLogo" src="../public/logo.png" alt="ParaMed logo">
-    <a id="logout" href="/">Logout</a>
-</div>
-<div id="deleteIncidentModal" class="modal">
-    <div id="deleteIncidentBox" class="modal-box">
-        <p class="para">Are you sure you want to delete incident #<span id="idToDelete"></span>?</p>
-        <button id="buttonYes">Yes</button><button id="buttonNo">No</button>
+    <div class="navBar">
+        <img id="barLogo" src="../public/logo.png" alt="ParaMed logo">
+        <a id="logout" href="/">Logout</a>
     </div>
-</div>
-<div id="ambulanceSentModal" class="modal">
-    <div id="ambulanceSentBox" class="modal-box">
-        <p class="para">The ambulance has been sent the details and is on the way!</p>
-        <img id="amb-gif" src="../public/amb-gif.gif" alt="ambulance animation">
-        <button id="okay">Okay</button>
-    </div>
-</div>
-<div id="photo-modal" class="photo-modal">
-    <span class="photo-modal-close" onclick="closePhotoModal()">&times;</span>
-    <img class="photo-modal-content" id="photo-modal-image">
-</div>
-<div class="report-page" id="report-page">
-    <div id="map" class="map">
-    </div>
-    <div class="tasksContainer">
-        <div class="searchbar">
-            <span class="icon" onclick="searchIncidents()"><i class="fa fa-search"></i></span>
-            <input type="search" placeholder="Search reports by ID or phone number" id="search">
-        </div>
-        <div class="taskButtons">
-            <button id="showHideHospitals" onclick="showHideHospitals()">Show hospitals</button>
-            <button id="updateReports" onclick="updateReports()">Update reports</button>
-            <button id="zoomOut" onclick="zoomOut()">Zoom out</button>
+    <div id="deleteIncidentModal" class="modal">
+        <div id="deleteIncidentBox" class="modal-box">
+            <p class="para">Are you sure you want to delete incident #
+                <span id="idToDelete"></span>?</p>
+            <button id="buttonYes">Yes</button>
+            <button id="buttonNo">No</button>
         </div>
     </div>
-    <div id="incident-list"></div>
-</div>
-
+    <div id="ambulanceSentModal" class="modal">
+        <div id="ambulanceSentBox" class="modal-box">
+            <p class="para">The ambulance has been sent the details and is on the way!</p>
+            <img id="amb-gif" src="../public/amb-gif.gif" alt="ambulance animation">
+            <button id="okay">Okay</button>
+        </div>
+    </div>
+    <div id="photo-modal" class="photo-modal">
+        <span class="photo-modal-close" onclick="closePhotoModal()">&times;</span>
+        <img class="photo-modal-content" id="photo-modal-image">
+    </div>
+    <div class="report-page" id="report-page">
+        <div id="map" class="map"></div>
+        <div class="tasksContainer">
+            <div class="searchbar">
+                <span class="icon" onclick="searchIncidents()">
+                    <i class="fa fa-search"></i>
+                </span>
+                <input type="search" placeholder="Search reports by ID or phone number" id="search">
+            </div>
+            <div class="taskButtons">
+                <button id="showHideHospitals" onclick="showHideHospitals()">Show hospitals</button>
+                <button id="updateReports" onclick="updateReports()">Update reports</button>
+                <button id="zoomOut" onclick="resetView()">Reset view</button>
+            </div>
+        </div>
+        <div id="incident-list"></div>
+    </div>
 </body>

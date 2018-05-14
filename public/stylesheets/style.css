@@ -7,7 +7,7 @@ html {
 body {
     text-align: center;
     font-family: 'Muli', sans-serif;
-    background: linear-gradient(to bottom right, rgb(30, 30, 30), rgba(183, 183, 183, 0.6)), url("../blue-stethoscope.jpg") no-repeat center center fixed;
+    background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.651), rgba(255, 255, 255, 0.6)), url("../blue-stethoscope.jpg") no-repeat center center fixed;
 
     /*background: linear-gradient(to bottom right, dimgrey, white);*/
     background-size: cover;
@@ -15,10 +15,19 @@ body {
 }
 
 #signUp, #about {
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    height: 55%;
+    border-radius: 10px;
     width: 700px;
     padding: 0 50px 50px;
     display: inline-block;
-    background-color: white;
+    background: rgb(255, 254, 245);
+    box-shadow: 0 0 20px 0.2px rgba(1, 88, 239, 0.712);
 }
 
 .navBar {
@@ -33,7 +42,6 @@ body {
     height: 100%;
     width: auto;
 }
-
 
 a.navLink, a#logout {
     color: white;
@@ -52,7 +60,7 @@ a#logout {
 }
 
 a#appLink, a#signUpLink {
-    color: #0157EF;
+    color: rgb(0, 38, 255);
     text-decoration: none;
 }
 
@@ -90,22 +98,33 @@ p {
 }
 
 form.login, form.signUp {
-    /*background-color: rgba(170, 180, 255, 0.5);*/
-    background-color: #fff;
-    /*background: linear-gradient(to bottom left, rgba(75, 101, 170, 0.5), rgba(116, 143, 255, 0.5));*/
-    /*border: 1px solid black;*/
-    box-shadow: 0 0 5px #939393;
     padding: 15px 10px;
     width: 500px;
+    height: auto;
     display: inline-block;
-    /*border-radius: 5px;*/
-    border-radius: 1px;
+    border-radius: 6px;
+}
+
+form.login {
+    background: linear-gradient(to bottom, rgba(34, 68, 130, 0.671), rgba(34, 68, 130, 0.438));
+    box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.733);
+}
+
+form.signUp {
+    background: rgba(34, 68, 130, 0.808);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.733);
 }
 
 label {
     float: left;
     padding: 0 10px;
+    color: white;
     /*font-weight: bold;*/
+}
+
+select {
+    background-color: white;
+    height: 15%;
 }
 
 input {
@@ -114,8 +133,8 @@ input {
     padding: 12px 10px;
     margin: 8px;
     box-sizing: border-box;
-    border-radius: 4px;
-    outline: none;
+    border-radius: 5px;
+    border-width: 0;
 }
 
 select {
@@ -132,10 +151,10 @@ input:focus {
 }
 
 button {
-    background-color: #d6d6d6;
-    border: 0.5px solid #000;
-    border-radius: 10px;
-    /*box-shadow: 0 0 5px #494949;*/
+    background: #224482;
+    color: white;
+    border: 0.5px solid #8bbef6;
+    border-radius: 5px;
     padding: 5px;
     margin: 0 5px;
     width: 100px;
@@ -143,10 +162,9 @@ button {
 }
 
 button:hover {
-    border: 0.5px solid #0157EF;
-    color: #0157EF;
-    /*border: 0.5px solid #8bbef6;*/
-    /*box-shadow: 0 0 5px #8bbef6;*/
+    border: 0.5px inset #fff;
+    color: white;
+    opacity: 0.9;
 }
 
 #teamName {
@@ -157,8 +175,9 @@ button:hover {
 }
 
 #appDownload {
-    font-size: 12px;
+    font-size: 15px;
     padding: 10px;
+    color: white;
 }
 
 .report-page{
@@ -177,7 +196,7 @@ button:hover {
 
 .tasksContainer {
     /*background-color: #777777;*/
-    background-color: #d8d8d8;
+    background: linear-gradient(to top, #e7e7e7, #bdbdbd);
     border: 1px solid #aaaaaa;
     text-align: left;
     /*height: 56px;*/
@@ -233,7 +252,7 @@ button:hover {
 }
 
 #showHideHospitals, #updateReports, #zoomOut, .buttonResolved, .buttonAmbulance {
-    background-color: #fff;
+    background-color: #224482;
     border: 0.5px solid #b5b5b5;
     border-radius: 5px;
     font-size: 12px;
@@ -251,12 +270,18 @@ button:hover {
 .buttonContainer > .buttonAmbulance,
 .buttonContainer >.buttonResolved {
     width: 120px;
+    height: 100%;
     float: none;
 }
 
 #showHideHospitals:hover, #updateReports:hover, #zoomOut:hover, .buttonResolved:hover, .buttonAmbulance:hover {
-    color: #8bbef6;
+    color: white;
     border: 0.5px solid #8bbef6;
+}
+
+#showHideHospitals:active, #updateReports:active, #zoomOut:active, .buttonResolved:active, .buttonAmbulance:active {
+    transform: translateY(2px);
+    outline: none;
 }
 
 .modal {
@@ -337,7 +362,7 @@ button:hover {
 
 #incident-list {
     box-shadow: inset 0 0 5px #494949;
-    background: #f1f1f1;
+    background: rgb(255, 254, 245);
     overflow: auto;
     padding: 0 10px 10px;
     grid-column: 1/3;
@@ -348,11 +373,11 @@ button:hover {
     font-size: 14px;
     text-align: left;
     background-color: #fff;
-    border: 1px solid #c5c5c5;
-    border-radius: 1px;
+    border: 1px solid #224482;
+    border-radius: 4px;
     box-shadow: 0 1px 3px #494949;
     padding: 20px 25px;
-    margin: 10px 0 0;
+    margin: 15px 5px 0;
     cursor: pointer;
     display: grid;
     grid-template-columns: 90px 1fr 160px;
@@ -360,7 +385,9 @@ button:hover {
 }
 
 #incident-list > .incident:hover, .incident:active, .incident:focus {
-    border: 1px solid #0157EF;
+    border: 1px solid white;
+    background-color: #fff;
+    box-shadow: 0 0 8px 3px #425effa8;
 }
 
 /*
@@ -446,47 +473,108 @@ button:hover {
 }
 
 .dropdown-info {
-    box-shadow: inset 0 0 5px #494949;
+    box-shadow: inset 0 0 15px 0.1px #224482;
     font-size: 14px;
-    background-color: #fff;
-    padding: 15px 20px;
-    margin-bottom: 20px;
+    background-color: #fff; 
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    /* padding: 0px 20px; */
+    /* margin-bottom: 100px; */
+    /* margin-top: 100px; */
+    margin-left: 5px;
+    margin-right: 5px;
     text-align: left;
+    /* max-height: 150%; */
+    height: 60%;
+    /* min-height: 100px; */
+    /* overflow: hidden; */
+    /* overflow-y: auto; */
+    border: 1px solid #224482;
+    position: relative;
+    display: inline-block;
+}
+
+/* .extra-info {
+    height: auto;
+    overflow: auto;
+    margin: 15px 20px;
+    position: absolute;
+    top: 0;
+    z-index: 99;
+} */
+
+.last-updated-time {
+    font-size: 15px;
+    margin-top: 20px;
     height: auto;
 }
 
-.extra-info {
-    height: 400px;
+.last-updated-time, 
+.additional-info-title, 
+.additional-info,
+.photos-title {
+    margin-left: 20px;
+    margin-right: 20px;
+    height: auto;
     overflow: auto;
 }
 
-.extra-info > .last-updated-time {
-    font-size: 12px;
-    padding-bottom: 10px;
-}
-
-.extra-info > .additional-info {
-    padding: 10px 0;
-    height: auto;
-}
-
-.extra-info > .photo-grid {
-    display: grid;
+.photo-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: 1em;
+    grid-column-gap: 0.5em;
     grid-row-gap: 1em;
-    margin: 10px;
-    height: 320px;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 95%;
+    /* margin-bottom: 100%; */
+    height: 46%;
+    /* height: auto; */
+    /* height: 80%; */
+    /* height: 50%; */
+    /* height: 100%; */
     overflow: auto;
 }
 
-.extra-info > .photo-grid > .photo > img {
+.image {
     width: 100%;
+    height: 100%;
 }
 
-.dropdown-info > .buttonContainer {
+.col, .col_empty {
+    flex: 33%;
+    width: 33%;
+    margin: 2px;
+}
+
+.col {
+    border-style: solid;
+    border-radius: 4px;
+}
+
+.row {
+    display: flex;
+    /* height: 75%; */
+    margin: 1px
+    /* justify-content: center; */
+    /* border-style: solid; */
+}
+
+.buttonContainer {
     text-align: center;
-    padding: 20px;
+    padding: 15px;
+    bottom: 0; 
+    left: 0;
+    right: 0;
+    position: absolute;
+    width: auto;
+    height: auto;
+    background-color: white;
+    border-top: 2px solid #224482; 
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
 }
 
 ::-webkit-scrollbar {
@@ -499,12 +587,12 @@ button:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #556897;
+    background: #224482;
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #47567d;
+    background: #224482e3;
 }
 
 .photo-modal {
