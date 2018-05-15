@@ -263,13 +263,13 @@ function populateIncidents(result) {
                     $("<div class=\"incident-date\">" + result[i]['date'] + "</div>")
                 )
                 .append(
-                    $("<div class=\"description\">Description:</div>")
+                    $("<div class=\"description\"><b>Description:</b></div>")
                 )
                 .append(
                     $("<div class=\"incident-description\">" + result[i]['incidentDescription'] + "</div>")
                 )
                 .append(
-                    $("<div class=\"location\">Location:</div>")
+                    $("<div class=\"location\"><b>Location:</b></div>")
                 )
                 .append(
                     $("<div class=\"incident-location\">" + result[i]['incidentLocation'] + "</div>")
