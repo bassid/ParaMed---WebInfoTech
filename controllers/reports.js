@@ -170,8 +170,8 @@ function getIncidents() {
         type: "POST",
         success: function (result) {
             clearIncidents();
-            populateIncidents(result);
             addIncidentMarkers(result);
+            populateIncidents(result);
         }
     });
 }
@@ -188,8 +188,8 @@ function searchIncidents() {
         data: data,
         success: function (result) {
             clearIncidents();
-            populateIncidents(result);
             addIncidentMarkers(result);
+            populateIncidents(result);
         }
     });
 }
@@ -263,13 +263,13 @@ function populateIncidents(result) {
                     $("<div class=\"incident-date\">" + result[i]['date'] + "</div>")
                 )
                 .append(
-                    $("<div class=\"description\">Description:</div>")
+                    $("<div class=\"description\"><b>Description:</b></div>")
                 )
                 .append(
                     $("<div class=\"incident-description\">" + result[i]['incidentDescription'] + "</div>")
                 )
                 .append(
-                    $("<div class=\"location\">Location:</div>")
+                    $("<div class=\"location\"><b>Location:</b></div>")
                 )
                 .append(
                     $("<div class=\"incident-location\">" + result[i]['incidentLocation'] + "</div>")
@@ -335,6 +335,19 @@ function populateIncidents(result) {
                 }
                 image++;
             }
+        }
+
+        if(result[i]['ambulanceSent']){
+            const marker = mapMarkers[result[i]['incidentId']];
+            marker.setIcon('/public/incident-pin-green.png');
+
+            const status = document.getElementById("status" + result[i]['incidentId']);
+            status.innerHTML = "Status: ambulance sent<br><span class=\"clickToDelete\" onclick=\"displayModalBox(" + result[i]['incidentId'] + ")\">Click here to delete</span>";
+            status.style.color = "#008000";
+
+            const button = document.getElementById("ambulance" + result[i]['incidentId']);
+            button.innerHTML = "Send ambulance updated info";
+            button.setAttribute("onclick", "updateInfo()");
         }
     }
 
@@ -435,12 +448,14 @@ function mapZoomIn(latlngPosition) {
 
 // Centres and zooms in on an incident
 function incidentZoom(element) {
-
-    // Scroll to incident animation. Note, this is a little buggy
     $("#" + element.id).click(function () {
-        $('#incident-list').animate({
-            scrollTop: $("#" + element.id).offset().top - 200
-        }, 1, "linear");
+        setTimeout(function () {
+            var firstIncident = document.getElementById('incident-list').firstChild;
+            $('#incident-list').animate({
+                scrollTop: $("#" + element.id).position().top - $("#" + firstIncident.id).position().top
+            }, 300, "linear");
+            console.log($("#532777").position().top)
+        }, 350);
     });
 
     element.scrollIntoView({
@@ -453,7 +468,7 @@ function incidentZoom(element) {
     }, 2800);
 }
 
-// Send ambulance button 
+// Send ambulance button
 function sendAmbulance(incidentId) {
     const marker = mapMarkers[incidentId];
     marker.setIcon('/public/incident-pin-green.png');
@@ -464,25 +479,47 @@ function sendAmbulance(incidentId) {
 
     const status = document.getElementById("status" + incidentId);
     status.innerHTML = "Status: ambulance sent<br><span class=\"clickToDelete\" " +
-                        "onclick=\"displayModalBox(" + incidentId + ")\">Click here to delete</span>";
+        "onclick=\"displayModalBox(" + incidentId + ")\">Click here to delete</span>";
     status.style.color = "#008000";
 
     const button = document.getElementById("ambulance" + incidentId);
     button.innerHTML = "Send ambulance updated info";
-    button.style.cursor = "auto";
-    //button.style.color = "#c5c5c5";
-    //button.style.borderColor = "#c5c5c5";
-    button.onmouseover = function () {
-        //this.style.color = "#c5c5c5";
-        //this.style.borderColor = "#c5c5c5";
-    }
     button.setAttribute("onclick", "updateInfo()");
 
-    ambulanceSentModal.style.display = "block";
+    const data = {
+        incidentId: incidentId
+    };
+    $.ajax({
+        url: "/database/sendAmbulance",
+        type: "POST",
+        data: data,
+        success: function (message) {
+            if(message === "Error: Ambulance already sent"){
+                /*const message = "<p class=\"para\">The ambulance has been sent the updated information.</p>" +
+                                "<button id=\"okay\">Okay</button>";
+                document.getElementById("ambulanceSentBox").innerHTML = message;*/
+                //button.setAttribute("onclick", "updateInfo()");
+            }
+            else{
+                /*const message = "<p class=\"para\">An ambulance has been sent the details and is on the way!</p>" +
+                                "<img id=\"amb-gif\" src=\"../public/amb-gif.gif\" alt=\"ambulance animation\">" +
+                                "<button id=\"okay\">Okay</button>";
+                document.getElementById("ambulanceSentBox").innerHTML = message;*/
 
-    $(".okay").on("click", function () {
-        ambulanceSentModal.style.display = "none";
-    })
+                ambulanceSentModal.style.display = "block";
+
+                $(".okay").on("click", function () {
+                    ambulanceSentModal.style.display = "none";
+                })
+            }
+
+            /*ambulanceSentModal.style.display = "block";
+
+            $(".okay").on("click", function () {
+                ambulanceSentModal.style.display = "none";
+            })*/
+        }
+    });
 }
 
 function updateInfo() {

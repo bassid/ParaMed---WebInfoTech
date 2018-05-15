@@ -24,6 +24,10 @@ module.exports.showPage = function(req, res){
     });
 };
 
+module.exports.redirectHome = function(req, res){
+    res.redirect('/');
+};
+
 function login(res, valid){
     if(valid){
         console.log("success");
@@ -108,6 +112,7 @@ module.exports.createIncident = function(req, res){
                         incidentLocation: req.body.incidentLocation,
                         additionalInfo: req.body.additionalInfo,
                         photos_base64: req.body.photos_base64,
+                        ambulanceSent: false,
                         lat: req.body.lat,
                         lon: req.body.lon
                     });
@@ -173,6 +178,7 @@ module.exports.updateIncident = function(req, res){
                         incidentLocation: report[0]['incidentLocation'],
                         additionalInfo: additionalInfo,
                         photos_base64: req.body.photos_base64,
+                        ambulanceSent: report[0]['ambulanceSent'],
                         lat: req.body.lat,
                         lon: req.body.lon
                     };
@@ -185,6 +191,61 @@ module.exports.updateIncident = function(req, res){
                             res.send(result);
                         }
                     })
+                }
+            }
+            else{
+                console.log("Validating unique ID failed.");
+                res.send("Validating unique ID failed.");
+            }
+        });
+    }
+}
+
+module.exports.sendAmbulance = function(req, res){
+    if(req.body.incidentId == null){
+        res.send("Invalid POST parameters");
+    }
+    else{
+        incidents.find({"incidentId": req.body.incidentId}, function(err, report){
+            if(!err){
+                if(!report[0]){
+                    console.log("error: trying to send ambulance to an incident ID that doesn't exist");
+                    res.send("error: trying to send ambulance to an incident ID that doesn't exist");
+                }
+                else{
+                    if(report[0]['ambulanceSent']){
+                        console.log("Sending updated info");
+
+                        // DON'T CHANGE res.send MESSAGE --- sendAmbulance() function in reports.js relies on
+                        // the specific message "Error: Ambulance already sent"
+                        res.send("Error: Ambulance already sent");
+                    }
+                    else{
+                        // Update incident
+                        var updatedIncident = {
+                            incidentId: report[0]['incidentId'],
+                            phoneNumber: report[0]['phoneNumber'],
+                            time: report[0]['time'],
+                            date: report[0]['date'],
+                            lastUpdatedTime: report[0]['lastUpdatedTime'],
+                            incidentDescription: report[0]['incidentDescription'],
+                            incidentLocation: report[0]['incidentLocation'],
+                            additionalInfo: report[0]['additionalInfo'],
+                            photos_base64: report[0]['photos_base64'],
+                            ambulanceSent: true,
+                            lat: report[0]['lat'],
+                            lon: report[0]['lon']
+                        };
+
+                        incidents.findOneAndUpdate({"incidentId": req.body.incidentId}, {$set: updatedIncident}, function(err, result){
+                            if(err){
+                                res.send(err);
+                            }
+                            else{
+                                res.send("Ambulance status updated to ID" + req.body.incidentId);
+                            }
+                        })
+                    }
                 }
             }
             else{

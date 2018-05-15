@@ -382,7 +382,7 @@ button:hover {
 }
 
 #incident-list > .incident > .status > .clickToDelete:hover {
-    color: #00e100;
+    color: #00d300;
 }
 
 #incident-list > .incident > .incident-id {
