@@ -11,6 +11,7 @@ const reportsSchema = mongoose.Schema(
         "incidentLocation" : String,
         "additionalInfo" : String,
         "photos_base64" : [String],
+        "ambulanceSent" : Boolean,
         "lat" : Number,
         "lon" : Number
     }

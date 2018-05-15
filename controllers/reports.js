@@ -170,8 +170,8 @@ function getIncidents() {
         type: "POST",
         success: function (result) {
             clearIncidents();
-            populateIncidents(result);
             addIncidentMarkers(result);
+            populateIncidents(result);
         }
     });
 }
@@ -188,8 +188,8 @@ function searchIncidents() {
         data: data,
         success: function (result) {
             clearIncidents();
-            populateIncidents(result);
             addIncidentMarkers(result);
+            populateIncidents(result);
         }
     });
 }
@@ -263,13 +263,13 @@ function populateIncidents(result) {
                     $("<div class=\"incident-date\">" + result[i]['date'] + "</div>")
                 )
                 .append(
-                    $("<div class=\"description\">Description:</div>")
+                    $("<div class=\"description\"><b>Description:</b></div>")
                 )
                 .append(
                     $("<div class=\"incident-description\">" + result[i]['incidentDescription'] + "</div>")
                 )
                 .append(
-                    $("<div class=\"location\">Location:</div>")
+                    $("<div class=\"location\"><b>Location:</b></div>")
                 )
                 .append(
                     $("<div class=\"incident-location\">" + result[i]['incidentLocation'] + "</div>")
@@ -332,6 +332,26 @@ function populateIncidents(result) {
                 }
                 image++;
             }
+        }
+
+        if(result[i]['ambulanceSent']){
+            const marker = mapMarkers[result[i]['incidentId']];
+            marker.setIcon('/public/incident-pin-green.png');
+
+            const status = document.getElementById("status" + result[i]['incidentId']);
+            status.innerHTML = "Status: ambulance sent<br><span onclick=\"displayModalBox(" + result[i]['incidentId'] + ")\">Click here to delete</span>";
+            status.style.color = "#008000";
+
+            const button = document.getElementById("ambulance" + result[i]['incidentId']);
+            button.innerHTML = "Ambulance sent";
+            button.style.cursor = "auto";
+            button.style.color = "#c5c5c5";
+            button.style.borderColor = "#c5c5c5";
+            button.onmouseover = function () {
+                this.style.color = "#c5c5c5";
+                this.style.borderColor = "#c5c5c5";
+            }
+            button.setAttribute("onClick", "");
         }
     }
 
@@ -474,11 +494,34 @@ function sendAmbulance(incidentId) {
     }
     button.setAttribute("onClick", "");
 
-    ambulanceSentModal.style.display = "block";
+    const data = {
+        incidentId: incidentId
+    };
+    $.ajax({
+        url: "/database/sendAmbulance",
+        type: "POST",
+        data: data,
+        success: function (message) {
+            if(message == "Error: Ambulance already sent"){
+                const message = "<p class=\"para\">An ambulance has already been sent to this incident by another operator!" +
+                                " Click the Update Reports button to see the current status of all incidents.</p>" +
+                                "<button id=\"okay\">Okay</button>";
+                document.getElementById("ambulanceSentBox").innerHTML = message;
+            }
+            else{
+                const message = "<p class=\"para\">An ambulance has been sent the details and is on the way!</p>" +
+                                "<img id=\"amb-gif\" src=\"../public/amb-gif.gif\" alt=\"ambulance animation\">" +
+                                "<button id=\"okay\">Okay</button>";
+                document.getElementById("ambulanceSentBox").innerHTML = message;
+            }
 
-    $("#okay").on("click", function () {
-        ambulanceSentModal.style.display = "none";
-    })
+            ambulanceSentModal.style.display = "block";
+
+            $("#okay").on("click", function () {
+                ambulanceSentModal.style.display = "none";
+            })
+        }
+    });
 }
 
 // Displays the modal box that confirms whether to delete an incident
