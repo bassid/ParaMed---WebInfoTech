@@ -15,5 +15,6 @@ router.post('/database/delete', reportsController.deleteIncident);
 router.post('/database/create', reportsController.createIncident);
 router.post('/reports', reportsController.showPage);
 router.post('/database/update', reportsController.updateIncident);
+router.post('/database/sendAmbulance', reportsController.sendAmbulance);
 
 module.exports = router;
