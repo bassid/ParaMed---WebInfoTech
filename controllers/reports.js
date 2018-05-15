@@ -452,12 +452,14 @@ function mapZoomIn(latlngPosition) {
 
 // Centres and zooms in on an incident
 function incidentZoom(element) {
-
-    // Scroll to incident animation. Note, this is a little buggy
     $("#" + element.id).click(function () {
-        $('#incident-list').animate({
-            scrollTop: $("#" + element.id).offset().top - 200
-        }, 1, "linear");
+        setTimeout(function () {
+            var firstIncident = document.getElementById('incident-list').firstChild;
+            $('#incident-list').animate({
+                scrollTop: $("#" + element.id).position().top - $("#" + firstIncident.id).position().top
+            }, 300, "linear");
+            console.log($("#532777").position().top)
+        }, 350);
     });
 
     element.scrollIntoView({
