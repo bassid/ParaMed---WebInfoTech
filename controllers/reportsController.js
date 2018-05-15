@@ -24,6 +24,10 @@ module.exports.showPage = function(req, res){
     });
 };
 
+module.exports.redirectHome = function(req, res){
+    res.redirect('/');
+};
+
 function login(res, valid){
     if(valid){
         console.log("success");
