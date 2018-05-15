@@ -276,30 +276,33 @@ function populateIncidents(result) {
                 )
             )
             .append(
-                $("<div class=\"dropdown-info\" id=\"drop" + result[i]['incidentId'] + "\">")
-                .append(
-                    $("<div class=\"last-updated-time\">Last updated: " + result[i]['lastUpdatedTime'] + "</div>")
-                )
-                .append(
-                    $("<div class=\"additional-info-title\"><h2>Additional Info</h2></div>")
-                )
-                .append(
-                    $("<div class=\"additional-info\">" + result[i]['additionalInfo'] + "<br><br></div>")
-                )
-                .append(
-                    $("<div class=\"photos-title\"><h2>Photos</h2></div>")
-                )
-                .append(
-                    $("<div class=\"photo-grid\" id=\"photogrid" + result[i]['incidentId'] + "\"></div>")
-                )
-                .append(
-                    $("<div class=\"buttonContainer\">" +
-                        "<button class=\"buttonAmbulance\" id=\"ambulance" + result[i]['incidentId'] + "\" " +
-                        "onclick=\"sendAmbulance(" + result[i]['incidentId'] + ")\">Send ambulance</button>" +
-                        "<button class=\"buttonResolved\" " +
-                        "onclick=\"displayModalBox(" + result[i]['incidentId'] + ")\">Resolve incident</button>" +
-                        "</div>")
-                )
+                $("<div class=\"dropdown-info\" id=\"drop"+result[i]['incidentId']+"\">")
+                    .append(
+                        $("<div class=\"extra-info\">")
+                            .append(
+                                $("<div class=\"last-updated-time\">Last updated: " + result[i]['lastUpdatedTime'] + "</div>")
+                            )
+                            .append(
+                                $("<div class=\"additional-info-title\"><h2>Additional Info</h2></div>")
+                            )
+                            .append(
+                                $("<div class=\"additional-info\">"+ result[i]['additionalInfo'] + "<br></div>")
+                            )
+                            .append(
+                                $("<div class=\"photos-title\"><h2>Photos</h2></div>")
+                            )
+                            .append(
+                                $("<div class=\"photo-grid\" id=\"photogrid"+result[i]['incidentId']+"\"></div>")
+                            )
+                    )
+                    .append(
+                        $("<div class=\"buttonContainer\">" +
+                            "<button class=\"buttonAmbulance\" id=\"ambulance" + result[i]['incidentId'] + "\" " +
+                            "onclick=\"sendAmbulance(" + result[i]['incidentId'] + ")\">Send ambulance</button>" +
+                            "<button class=\"buttonResolved\" " +
+                            "onclick=\"displayModalBox(" + result[i]['incidentId'] + ")\">Resolve incident</button>" +
+                            "</div>")
+                    )
             );
 
         for (let photo = 0; photo < result[i]['photos_base64'].length; photo += 3) {
@@ -460,24 +463,33 @@ function sendAmbulance(incidentId) {
     }, 2800);
 
     const status = document.getElementById("status" + incidentId);
-    status.innerHTML = "Status: ambulance sent<br><span onclick=\"displayModalBox(" + incidentId + ")\">Click here to delete</span>";
+    status.innerHTML = "Status: ambulance sent<br><span class=\"clickToDelete\" " +
+                        "onclick=\"displayModalBox(" + incidentId + ")\">Click here to delete</span>";
     status.style.color = "#008000";
 
     const button = document.getElementById("ambulance" + incidentId);
-    button.innerHTML = "Ambulance sent";
+    button.innerHTML = "Send ambulance updated info";
     button.style.cursor = "auto";
-    button.style.color = "#c5c5c5";
-    button.style.borderColor = "#c5c5c5";
+    //button.style.color = "#c5c5c5";
+    //button.style.borderColor = "#c5c5c5";
     button.onmouseover = function () {
-        this.style.color = "#c5c5c5";
-        this.style.borderColor = "#c5c5c5";
+        //this.style.color = "#c5c5c5";
+        //this.style.borderColor = "#c5c5c5";
     }
-    button.setAttribute("onClick", "");
+    button.setAttribute("onclick", "updateInfo()");
 
     ambulanceSentModal.style.display = "block";
 
-    $("#okay").on("click", function () {
+    $(".okay").on("click", function () {
         ambulanceSentModal.style.display = "none";
+    })
+}
+
+function updateInfo() {
+    updatedInfoModal.style.display = "block";
+
+    $(".okay").on("click", function () {
+        updatedInfoModal.style.display = "none";
     })
 }
 

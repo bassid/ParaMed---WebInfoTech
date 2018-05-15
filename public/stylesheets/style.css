@@ -110,12 +110,8 @@ form.login, form.signUp {
     height: auto;
     display: inline-block;
     border-radius: 6px;
-    background: rgba(34, 68, 130, 0.6);
-    box-shadow: 0 0 20px #EEEEEE;
-}
-
-form.signUp {
     background: rgba(34, 68, 130, 0.8);
+    box-shadow: 0 0 20px #EEEEEE;
 }
 
 label {
@@ -173,7 +169,7 @@ button:hover {
 
 .report-page{
     display: grid;
-    grid-template-columns: minmax(450px, 2fr) 3fr;
+    grid-template-columns: minmax(475px, 2fr) 3fr;
     grid-template-rows: auto 1fr;
     position: absolute;
     width: 100vw;
@@ -257,7 +253,7 @@ button:hover {
 
 .buttonContainer > .buttonAmbulance,
 .buttonContainer >.buttonResolved {
-    width: 120px;
+    width: 200px;
     height: 100%;
     float: none;
 }
@@ -311,7 +307,7 @@ button:hover {
     to {top:0; opacity:1}
 }
 
-#deleteIncidentModal, #ambulanceSentModal {
+#deleteIncidentModal, #ambulanceSentModal, #updatedInfoModal {
     display: none;
 }
 
@@ -329,11 +325,11 @@ button:hover {
     width: 50%;
 }
 
-#ambulanceSentBox > #okay {
+#ambulanceSentBox > .okay {
     grid-row: 3/4;
 }
 
-#okay, #amb-gif {
+.okay, #amb-gif {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -383,6 +379,10 @@ button:hover {
     text-align: right;
     grid-column: 3/4;
     grid-row: 1/2;
+}
+
+#incident-list > .incident > .status > .clickToDelete:hover {
+    color: #00e100;
 }
 
 #incident-list > .incident > .incident-id {
@@ -447,52 +447,52 @@ button:hover {
 }
 
 .dropdown-info {
-    box-shadow: inset 0 0 10px 0.1px #5e5e5e;
+    box-shadow: inset 0 0 10px #5e5e5e;
     font-size: 14px;
     background-color: #fff;
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
     margin-bottom: 20px;
     text-align: left;
-    height: 100%;
+    height: auto;
     border: 1px solid #224482;
-    position: relative;
-    display: inline-block;
 }
 
-.last-updated-time {
+.extra-info {
+    height: 300px;
+    overflow: auto;
+    padding: 15px 25px;
+}
+
+.extra-info > .last-updated-time {
     font-size: 15px;
-    margin-top: 20px;
-    height: auto;
+    padding-bottom: 10px;
 }
 
-.last-updated-time,
-.additional-info-title,
-.additional-info,
-.photos-title {
-    margin-left: 20px;
-    margin-right: 20px;
+.extra-info > .additional-info {
+    padding: 10px 0;
     height: auto;
+    margin: 0 10px 10px 0;
     overflow: auto;
 }
 
-.photo-grid {
+.extra-info > .photo-grid {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    grid-template-columns: repeat(2, 1fr);
+    /*grid-template-columns: repeat(2, 1fr);
     grid-column-gap: 0.5em;
-    grid-row-gap: 1em;
-    margin-left: 10px;
-    margin-right: 10px;
-    width: 95%;
-    height: 46%;
+    grid-row-gap: 1em;*/
+    margin: 10px 10px 10px 0;
+    height: auto;
     overflow: auto;
 }
 
 .image {
-    width: 100%;
-    height: 100%;
+    width: calc(100% - 6px);
+    height: auto;
+    border: 2px solid #000;
+    border-radius: 4px;
 }
 
 .col, .col_empty {
@@ -501,24 +501,14 @@ button:hover {
     margin: 2px;
 }
 
-.col {
-    border-style: solid;
-    border-radius: 4px;
-}
-
 .row {
     display: flex;
     margin: 1px;
 }
 
-.buttonContainer {
+.dropdown-info > .buttonContainer {
     text-align: center;
-    padding: 15px;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    position: absolute;
-    width: auto;
+    padding: 20px 0;
     height: auto;
     background-color: white;
     border-top: 2px solid #224482;
