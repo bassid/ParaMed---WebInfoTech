@@ -632,7 +632,7 @@ function showHideHospitals() {
 
 // Refresh the incidents
 function updateReports() {
-    getIncidents();
+    searchIncidents();
 }
 
 // Zoom out to the original view
