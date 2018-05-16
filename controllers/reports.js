@@ -491,7 +491,6 @@ function incidentZoom(element) {
             $('#incident-list').animate({
                 scrollTop: $("#" + element.id).position().top - $("#" + firstIncident.id).position().top
             }, 300, "linear");
-            console.log($("#532777").position().top)
         }, 350);
     });
 
