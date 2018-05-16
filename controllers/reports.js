@@ -207,7 +207,20 @@ function clearIncidents() {
         mapMarkers[key] = null;
     }
 
+    /*for (let key in hospitalMarkers) {
+        for (let hospital in hospitalMarkers[key]) {
+            //marker = hospitalMarkers[key][hospital];
+
+            if (hospitalMarkers[key][hospital]) {
+                hospitalMarkers[key][hospital].setMap(null);
+                hospitalMarkers[key][hospital] = null;
+            }
+        }
+        hospitalMarkers[key] = null;
+    }*/
+
     mapMarkers = {};
+    //hospitalMarkers = {};
 }
 
 // Deletes a specific incident and repopulated report page with all non-deleted incidents
@@ -394,12 +407,22 @@ function createIncidentMarker(location, id) {
 // Finds nearby hospital markers for a specific location
 function addHospitalMarkers(id) {
     return function (results, status) {
+
+        const button = document.getElementById(showHideHospitals);
         let markers = [];
+
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             for (let i = 0; i < results.length; i++) {
                 markers.push(createHospitalMarker(results[i], id));
                 if (markers[i]) {
                     markers[i].setMap(null);
+
+                    /*if (button.innerHTML === "Hide hospitals") {
+                        markers[i].setMap(map);
+                    }
+                    else {
+                        markers[i].setMap(null);
+                    }*/
                 }
             }
         }
@@ -432,10 +455,24 @@ function removeHospitalMarkers() {
     for (let key in hospitalMarkers) {
         // If the incident corresponding to those hospitals doesn't exist, remove those hospitals
         if (typeof mapMarkers[key] === "undefined") {
-            for (let hospital in hospitalMarkers[key]) {
-                hospitalMarkers[key][hospital].setMap(null);
+            for (let i = 0; i < hospitalMarkers[key].length; i++) {
+                if (hospitalMarkers[key][i]) {
+                    hospitalMarkers[key][i].setMap(null);
+                }
             }
-            hospitalMarkers[key] = null;
+            //hospitalMarkers[key] = null;
+        }
+        // ISSUE - can't check inner html of button
+        else {
+            const button = document.getElementById('showHideHospitals');
+
+            if (button.innerHTML === "Hide Hospitals") {
+                for (let i = 0; i < hospitalMarkers[key].length; i++) {
+                    if (hospitalMarkers[key][i]) {
+                        hospitalMarkers[key][i].setMap(map);
+                    }
+                }
+            }
         }
     }
 }
@@ -467,6 +504,7 @@ function incidentZoom(element) {
         mapMarkers[element.id].setAnimation(null);
     }, 2800);
 }
+
 
 // Send ambulance button
 function sendAmbulance(incidentId) {
@@ -513,11 +551,11 @@ function sendAmbulance(incidentId) {
                 })
             }
 
-            /*ambulanceSentModal.style.display = "block";
+            ambulanceSentModal.style.display = "block";
 
             $(".okay").on("click", function () {
                 ambulanceSentModal.style.display = "none";
-            })*/
+            })
         }
     });
 }
@@ -561,16 +599,18 @@ function showHideHospitals() {
     let buttonText = document.getElementById('showHideHospitals').innerHTML;
 
     if (buttonText === "Show hospitals") {
-        document.getElementById('showHideHospitals').innerHTML = "Hide hospitals";
+        document.getElementById('showHideHospitals').innerHTML = "Hide Hospitals";
 
         let marker;
 
         for (let key in hospitalMarkers) {
-            for (let hospital in hospitalMarkers[key]) {
-                marker = hospitalMarkers[key][hospital];
+            if (typeof mapMarkers[key] !== "undefined") {
+                for (let hospital in hospitalMarkers[key]) {
+                    marker = hospitalMarkers[key][hospital];
 
-                if (marker) {
-                    hospitalMarkers[key][hospital].setMap(map);
+                    if (marker) {
+                        hospitalMarkers[key][hospital].setMap(map);
+                    }
                 }
             }
         }
