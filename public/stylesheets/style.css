@@ -320,9 +320,11 @@ button:hover {
     grid-row: 1/2;
 }
 
-#ambulanceSentBox > #amb-gif {
+#ambulanceSentBox > #amb-logo {
     grid-row: 2/3;
-    width: 50%;
+    width: 100px;
+    height: auto;
+    margin: 0 auto 20px;
 }
 
 #ambulanceSentBox > .okay {
