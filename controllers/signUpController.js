@@ -1,3 +1,4 @@
-module.exports.showPage = function(req, res) {
+// Render Sign Up page.
+exports.showPage = function(req, res) {
     res.render('signUp.ejs');
 };

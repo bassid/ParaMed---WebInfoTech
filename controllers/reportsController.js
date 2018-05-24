@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const incidents = mongoose.model('reports');
 const logins = mongoose.model('login');
 
+// Render the reports page if login credentials are valid.
 module.exports.showPage = function(req, res){
     logins.findOne({"username": req.body.username}, function(err, user) {
         let valid = false;
@@ -24,10 +25,12 @@ module.exports.showPage = function(req, res){
     });
 };
 
+// Redirect to the home page.
 module.exports.redirectHome = function(req, res){
     res.redirect('/');
 };
 
+// Render the reports page if login credentials are valid, otherwise redirect to the /error page.
 function login(res, valid){
     if(valid){
         console.log("success");
@@ -38,6 +41,7 @@ function login(res, valid){
     }
 }
 
+// Retrieve all incidents from the database.
 module.exports.allIncidents =  function(req, res){
     incidents.find(function(err, report){
         if(!err){
@@ -50,6 +54,7 @@ module.exports.allIncidents =  function(req, res){
     });
 };
 
+// Search incidents from the database according to incidentID or phone number.
 module.exports.searchIncidents = function(req, res){
     if(req.body.incidentId){
         console.log("Searching database for incidents.");
@@ -79,6 +84,7 @@ module.exports.searchIncidents = function(req, res){
     }
 };
 
+// Delete an incident from the database based on incidentID.
 module.exports.deleteIncident = function(req, res) {
     incidents.findOneAndRemove({"incidentId": req.body.incidentId}).exec(function(err, item){
         if(err){
@@ -91,7 +97,9 @@ module.exports.deleteIncident = function(req, res) {
     });
 };
 
+// Create an incident and add it to the database.
 module.exports.createIncident = function(req, res){
+    // Check that all fields posted to the API endpoint are present and valid.
     if(req.body.incidentId == null || req.body.time == null || req.body.date == null ||
         req.body.incidentDescription == null || req.body.incidentLocation == null || req.body.additionalInfo == null ||
         req.body.photos_base64 == null || req.body.lat == null || req.body.lon == null ||
@@ -99,6 +107,7 @@ module.exports.createIncident = function(req, res){
         res.send("Invalid POST parameters");
     }
     else{
+        // Create the incident and save it in the database.
         incidents.find({"incidentId": req.body.incidentId}, function(err, report){
             if(!err){
                 if(!report[0]){
@@ -137,7 +146,9 @@ module.exports.createIncident = function(req, res){
     }
 };
 
+// Find and update an existing incident in the database.
 module.exports.updateIncident = function(req, res){
+    // Check that the POST parameters are all present and valid.
     if(req.body.incidentId == null || req.body.time == null || req.body.date == null ||
         req.body.incidentDescription == null || req.body.incidentLocation == null || req.body.additionalInfo == null ||
         req.body.photos_base64 == null || req.body.lat == null || req.body.lon == null ||
@@ -145,6 +156,7 @@ module.exports.updateIncident = function(req, res){
         res.send("Invalid POST parameters");
     }
     else{
+        // Find and update the incident.
         incidents.find({"incidentId": req.body.incidentId}, function(err, report){
             if(!err){
                 if(!report[0]){
@@ -167,7 +179,7 @@ module.exports.updateIncident = function(req, res){
                         }
                     }
 
-                    // update incident
+                    // Updated incident
                     var updatedIncident = {
                         incidentId: report[0]['incidentId'],
                         phoneNumber: phoneNumber,
@@ -201,11 +213,13 @@ module.exports.updateIncident = function(req, res){
     }
 }
 
+// Update the database to reflect that an ambulance has been sent.
 module.exports.sendAmbulance = function(req, res){
     if(req.body.incidentId == null){
         res.send("Invalid POST parameters");
     }
     else{
+        // Find and update incident
         incidents.find({"incidentId": req.body.incidentId}, function(err, report){
             if(!err){
                 if(!report[0]){
@@ -215,13 +229,10 @@ module.exports.sendAmbulance = function(req, res){
                 else{
                     if(report[0]['ambulanceSent']){
                         console.log("Sending updated info");
-
-                        // DON'T CHANGE res.send MESSAGE --- sendAmbulance() function in reports.js relies on
-                        // the specific message "Error: Ambulance already sent"
                         res.send("Error: Ambulance already sent");
                     }
                     else{
-                        // Update incident
+                        // Updated incident
                         var updatedIncident = {
                             incidentId: report[0]['incidentId'],
                             phoneNumber: report[0]['phoneNumber'],
