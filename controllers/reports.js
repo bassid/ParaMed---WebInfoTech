@@ -1,6 +1,9 @@
 "use strict"
 
+// Objects instantiated through the google maps API.
 var map, infoWindow, service;
+
+// Contains map marker and hospital marker objects for the map.
 var mapMarkers = {},
     hospitalMarkers = {};
 
@@ -8,12 +11,12 @@ var mapMarkers = {},
 function initMap() {
     const styledMapType = new google.maps.StyledMapType(
         [{
-                "featureType": "administrative",
-                "elementType": "labels.text.fill",
-                "stylers": [{
-                    "color": "#1944b3"
-                }]
-            },
+            "featureType": "administrative",
+            "elementType": "labels.text.fill",
+            "stylers": [{
+                "color": "#1944b3"
+            }]
+        },
             {
                 "featureType": "administrative",
                 "elementType": "labels.text.stroke",
@@ -46,8 +49,8 @@ function initMap() {
                 "featureType": "poi.park",
                 "elementType": "geometry.fill",
                 "stylers": [{
-                        "color": "#e6f3d6"
-                    },
+                    "color": "#e6f3d6"
+                },
                     {
                         "visibility": "on"
                     }
@@ -57,8 +60,8 @@ function initMap() {
                 "featureType": "road",
                 "elementType": "all",
                 "stylers": [{
-                        "saturation": -100
-                    },
+                    "saturation": -100
+                },
                     {
                         "lightness": 45
                     },
@@ -78,8 +81,8 @@ function initMap() {
                 "featureType": "road.highway",
                 "elementType": "geometry.fill",
                 "stylers": [{
-                        "color": "#f3c580"
-                    },
+                    "color": "#f3c580"
+                },
                     {
                         "visibility": "simplified"
                     }
@@ -124,8 +127,8 @@ function initMap() {
                 "featureType": "water",
                 "elementType": "all",
                 "stylers": [{
-                        "color": "#eaf6f8"
-                    },
+                    "color": "#eaf6f8"
+                },
                     {
                         "visibility": "on"
                     }
@@ -163,7 +166,7 @@ function initMap() {
     service = new google.maps.places.PlacesService(map);
 }
 
-// Retrieves data of incidents from an API call to the database.
+// Retrieves data of all incidents from an API call to the web server.
 function getIncidents() {
     $.ajax({
         url: "/database/all",
@@ -176,7 +179,7 @@ function getIncidents() {
     });
 }
 
-// Retrieves specific incidents based on search input
+// Retrieves specific incidents based on search input (incident ID or phone number) from an API call to the web server.
 function searchIncidents() {
     const id = document.getElementById('search').value;
     const data = {
@@ -194,7 +197,7 @@ function searchIncidents() {
     });
 }
 
-// Clears all incidents from report page
+// Clears all incidents from reports page.
 function clearIncidents() {
     const reportPage = document.getElementById('report-page');
     reportPage.removeChild(document.getElementById('incident-list'));
@@ -207,23 +210,10 @@ function clearIncidents() {
         mapMarkers[key] = null;
     }
 
-    /*for (let key in hospitalMarkers) {
-        for (let hospital in hospitalMarkers[key]) {
-            //marker = hospitalMarkers[key][hospital];
-
-            if (hospitalMarkers[key][hospital]) {
-                hospitalMarkers[key][hospital].setMap(null);
-                hospitalMarkers[key][hospital] = null;
-            }
-        }
-        hospitalMarkers[key] = null;
-    }*/
-
     mapMarkers = {};
-    //hospitalMarkers = {};
 }
 
-// Deletes a specific incident and repopulated report page with all non-deleted incidents
+// Deletes a specific incident and repopulated report page with all non-deleted incidents.
 function deleteIncident(id) {
     const data = {
         incidentId: id
@@ -238,6 +228,7 @@ function deleteIncident(id) {
     });
 }
 
+// Opens up an incident to display additional information and photos.
 function activateAccordion() {
     $("#incident-list").accordion({
         active: false,
@@ -246,6 +237,7 @@ function activateAccordion() {
     });
 }
 
+// Closes and incident to hide additional information and photos.
 function disableAccordion() {
     $("#incident-list").accordion({
         active: false,
@@ -254,39 +246,39 @@ function disableAccordion() {
     });
 }
 
-// Builds the incident list using results from the database data
+// Builds the incident list in HTML using results from the database data and inject and injects it into the view.
 function populateIncidents(result) {
     for (let i = 0; i < result.length; i++) {
         $("#incident-list")
             .append(
                 $("<div class=\"incident\" id=\"" + result[i]['incidentId'] + "\" onclick=\"incidentZoom(this)\">")
-                .append(
-                    $("<div class=\"status\" id=\"status" + result[i]['incidentId'] + "\">Status: Unresolved</div></div>")
-                )
-                .append(
-                    $("<div class=\"incident-id\">ID#" + result[i]['incidentId'] + "</div>")
-                )
-                .append(
-                    $("<div class=\"phone-number\">Mobile: " + result[i]['phoneNumber'] + "</div>")
-                )
-                .append(
-                    $("<div class=\"incident-time\">" + result[i]['time'] + "</div>")
-                )
-                .append(
-                    $("<div class=\"incident-date\">" + result[i]['date'] + "</div>")
-                )
-                .append(
-                    $("<div class=\"description\"><b>Description:</b></div>")
-                )
-                .append(
-                    $("<div class=\"incident-description\">" + result[i]['incidentDescription'] + "</div>")
-                )
-                .append(
-                    $("<div class=\"location\"><b>Location:</b></div>")
-                )
-                .append(
-                    $("<div class=\"incident-location\">" + result[i]['incidentLocation'] + "</div>")
-                )
+                    .append(
+                        $("<div class=\"status\" id=\"status" + result[i]['incidentId'] + "\">Status: Unresolved</div></div>")
+                    )
+                    .append(
+                        $("<div class=\"incident-id\">ID#" + result[i]['incidentId'] + "</div>")
+                    )
+                    .append(
+                        $("<div class=\"phone-number\">Mobile: " + result[i]['phoneNumber'] + "</div>")
+                    )
+                    .append(
+                        $("<div class=\"incident-time\">" + result[i]['time'] + "</div>")
+                    )
+                    .append(
+                        $("<div class=\"incident-date\">" + result[i]['date'] + "</div>")
+                    )
+                    .append(
+                        $("<div class=\"description\"><b>Description:</b></div>")
+                    )
+                    .append(
+                        $("<div class=\"incident-description\">" + result[i]['incidentDescription'] + "</div>")
+                    )
+                    .append(
+                        $("<div class=\"location\"><b>Location:</b></div>")
+                    )
+                    .append(
+                        $("<div class=\"incident-location\">" + result[i]['incidentLocation'] + "</div>")
+                    )
             )
             .append(
                 $("<div class=\"dropdown-info\" id=\"drop"+result[i]['incidentId']+"\">")
@@ -318,8 +310,8 @@ function populateIncidents(result) {
                     )
             );
 
+        // Adding photos in a photo grid.
         for (let photo = 0; photo < result[i]['photos_base64'].length; photo += 3) {
-
             let image = photo;
             let row_num = photo + 1;
             $("#photogrid" + result[i]['incidentId'])
@@ -328,17 +320,16 @@ function populateIncidents(result) {
                 );
 
             for (let col_num = 1; col_num <= 3; col_num++) {
-
                 if (result[i]['photos_base64'][image]) {
                     $("#row" + result[i]['incidentId'] + row_num)
                         .append(
                             $("<div class=\"col\" id=\"col" + result[i]['incidentId'] + row_num + col_num + "\"></div>")
-                            .append(
-                                $("<img class=\"image\" src=\"" + result[i]['photos_base64'][image] + "\" onclick=\"showPhotoModal(this)\"/>")
-                            )
-                            .append(
-                                $("</div>")
-                            )
+                                .append(
+                                    $("<img class=\"image\" src=\"" + result[i]['photos_base64'][image] + "\" onclick=\"showPhotoModal(this)\"/>")
+                                )
+                                .append(
+                                    $("</div>")
+                                )
                         )
                 } else {
                     $("#row" + result[i]['incidentId'] + row_num)
@@ -350,6 +341,7 @@ function populateIncidents(result) {
             }
         }
 
+        // Configures the 'ambulance sent' display on an incident.
         if(result[i]['ambulanceSent']){
             const marker = mapMarkers[result[i]['incidentId']];
             marker.setIcon('/public/incident-pin-green.png');
@@ -367,7 +359,7 @@ function populateIncidents(result) {
     activateAccordion();
 }
 
-// Adds markers to the map based on database data.
+// Adds markers to the map to display incidents based on database data.
 function addIncidentMarkers(result) {
     for (let i = 0; i < result.length; i++) {
         createIncidentMarker({
@@ -416,13 +408,6 @@ function addHospitalMarkers(id) {
                 markers.push(createHospitalMarker(results[i], id));
                 if (markers[i]) {
                     markers[i].setMap(null);
-
-                    /*if (button.innerHTML === "Hide hospitals") {
-                        markers[i].setMap(map);
-                    }
-                    else {
-                        markers[i].setMap(null);
-                    }*/
                 }
             }
         }
@@ -460,9 +445,7 @@ function removeHospitalMarkers() {
                     hospitalMarkers[key][i].setMap(null);
                 }
             }
-            //hospitalMarkers[key] = null;
         }
-        // ISSUE - can't check inner html of button
         else {
             const button = document.getElementById('showHideHospitals');
 
@@ -494,6 +477,7 @@ function incidentZoom(element) {
         }, 350);
     });
 
+    // Scroll to the incident on the left sidebar
     element.scrollIntoView({
         behavior: 'smooth'
     });
@@ -505,7 +489,8 @@ function incidentZoom(element) {
 }
 
 
-// Send ambulance button
+// Handles when the 'Send Ambulance' button is clicked. Changes the incident marker to green, bounces the marker,
+// changes incident text, and triggers a pop up alert.
 function sendAmbulance(incidentId) {
     const marker = mapMarkers[incidentId];
     marker.setIcon('/public/incident-pin-green.png');
@@ -532,17 +517,8 @@ function sendAmbulance(incidentId) {
         data: data,
         success: function (message) {
             if(message === "Error: Ambulance already sent"){
-                /*const message = "<p class=\"para\">The ambulance has been sent the updated information.</p>" +
-                                "<button id=\"okay\">Okay</button>";
-                document.getElementById("ambulanceSentBox").innerHTML = message;*/
-                //button.setAttribute("onclick", "updateInfo()");
             }
             else{
-                /*const message = "<p class=\"para\">An ambulance has been sent the details and is on the way!</p>" +
-                                "<img id=\"amb-gif\" src=\"../public/amb-gif.gif\" alt=\"ambulance animation\">" +
-                                "<button id=\"okay\">Okay</button>";
-                document.getElementById("ambulanceSentBox").innerHTML = message;*/
-
                 ambulanceSentModal.style.display = "block";
 
                 $(".okay").on("click", function () {
@@ -559,6 +535,7 @@ function sendAmbulance(incidentId) {
     });
 }
 
+// Update information on a specific incident.
 function updateInfo() {
     updatedInfoModal.style.display = "block";
 
@@ -569,9 +546,6 @@ function updateInfo() {
 
 // Displays the modal box that confirms whether to delete an incident
 function displayModalBox(incidentId) {
-    // Disable dropdown box being displayed when delete button pressed
-    //disableAccordion();
-
     document.getElementById('idToDelete').innerHTML = incidentId;
 
     deleteIncidentModal.style.display = "block";
@@ -579,16 +553,14 @@ function displayModalBox(incidentId) {
     $("#buttonYes").on('click', function () {
         deleteIncident(incidentId);
         hideModalBox();
-        //activateAccordion();
     });
 
     $("#buttonNo").on('click', function () {
         hideModalBox();
-        //activateAccordion();
     });
 }
 
-// Hides the modal box
+// Hides the delete incident modal box
 function hideModalBox() {
     deleteIncidentModal.style.display = "none";
 }
