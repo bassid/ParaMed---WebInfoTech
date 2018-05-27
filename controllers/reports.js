@@ -237,16 +237,7 @@ function activateAccordion() {
     });
 }
 
-// Closes and incident to hide additional information and photos.
-function disableAccordion() {
-    $("#incident-list").accordion({
-        active: false,
-        collapsible: true,
-        disabled: true
-    });
-}
-
-// Builds the incident list in HTML using results from the database data and inject and injects it into the view.
+// Builds the incident list using results from the database data
 function populateIncidents(result) {
     for (let i = 0; i < result.length; i++) {
         $("#incident-list")
@@ -341,25 +332,34 @@ function populateIncidents(result) {
             }
         }
 
-        // Configures the 'ambulance sent' display on an incident.
-        if(result[i]['ambulanceSent']){
-            const marker = mapMarkers[result[i]['incidentId']];
-            marker.setIcon('/public/incident-pin-green.png');
-
-            const status = document.getElementById("status" + result[i]['incidentId']);
-            status.innerHTML = "Status: ambulance sent<br><span class=\"clickToDelete\" onclick=\"displayModalBox(" + result[i]['incidentId'] + ")\">Click here to delete</span>";
-            status.style.color = "#008000";
-
-            const button = document.getElementById("ambulance" + result[i]['incidentId']);
-            button.innerHTML = "Send ambulance updated info";
-            button.setAttribute("onclick", "updateInfo()");
+        if(result[i]['ambulanceSent']) {
+            markAsAmbulanceSent(result[i]['incidentId']);
         }
     }
 
     activateAccordion();
 }
 
-// Adds markers to the map to display incidents based on database data.
+// If the ambulance has been sent, change the map pin to green, change the status of the incident,
+// and change the button text
+function markAsAmbulanceSent(incident) {
+    const marker = mapMarkers[incident];
+    marker.setIcon('/public/incident-pin-green.png');
+    setTimeout(function () {
+        marker.setAnimation(null);
+    }, 2800);
+
+    const status = document.getElementById("status" + incident);
+    status.innerHTML = "Status: ambulance sent<br><span class=\"clickToDelete\" " +
+        "onclick=\"displayModalBox(" + incident + ")\">Click here to delete</span>";
+    status.style.color = "#008000";
+
+    const button = document.getElementById("ambulance" + incident);
+    button.innerHTML = "Send ambulance updated info";
+    button.setAttribute("onclick", "updateInfo()");
+}
+
+// Adds markers to the map based on database data.
 function addIncidentMarkers(result) {
     for (let i = 0; i < result.length; i++) {
         createIncidentMarker({
@@ -399,8 +399,6 @@ function createIncidentMarker(location, id) {
 // Finds nearby hospital markers for a specific location
 function addHospitalMarkers(id) {
     return function (results, status) {
-
-        const button = document.getElementById(showHideHospitals);
         let markers = [];
 
         if (status === google.maps.places.PlacesServiceStatus.OK) {
@@ -470,7 +468,7 @@ function mapZoomIn(latlngPosition) {
 function incidentZoom(element) {
     $("#" + element.id).click(function () {
         setTimeout(function () {
-            var firstIncident = document.getElementById('incident-list').firstChild;
+            const firstIncident = document.getElementById('incident-list').firstChild;
             $('#incident-list').animate({
                 scrollTop: $("#" + element.id).position().top - $("#" + firstIncident.id).position().top
             }, 300, "linear");
@@ -492,21 +490,9 @@ function incidentZoom(element) {
 // Handles when the 'Send Ambulance' button is clicked. Changes the incident marker to green, bounces the marker,
 // changes incident text, and triggers a pop up alert.
 function sendAmbulance(incidentId) {
-    const marker = mapMarkers[incidentId];
-    marker.setIcon('/public/incident-pin-green.png');
-    marker.setAnimation(google.maps.Animation.BOUNCE);
-    setTimeout(function () {
-        marker.setAnimation(null);
-    }, 2800);
+    const ambulanceSentModal = document.getElementById('ambulanceSentModal');
 
-    const status = document.getElementById("status" + incidentId);
-    status.innerHTML = "Status: ambulance sent<br><span class=\"clickToDelete\" " +
-        "onclick=\"displayModalBox(" + incidentId + ")\">Click here to delete</span>";
-    status.style.color = "#008000";
-
-    const button = document.getElementById("ambulance" + incidentId);
-    button.innerHTML = "Send ambulance updated info";
-    button.setAttribute("onclick", "updateInfo()");
+    markAsAmbulanceSent(incidentId);
 
     const data = {
         incidentId: incidentId
@@ -514,29 +500,20 @@ function sendAmbulance(incidentId) {
     $.ajax({
         url: "/database/sendAmbulance",
         type: "POST",
-        data: data,
-        success: function (message) {
-            if(message === "Error: Ambulance already sent"){
-            }
-            else{
-                ambulanceSentModal.style.display = "block";
-
-                $(".okay").on("click", function () {
-                    ambulanceSentModal.style.display = "none";
-                })
-            }
-
-            ambulanceSentModal.style.display = "block";
-
-            $(".okay").on("click", function () {
-                ambulanceSentModal.style.display = "none";
-            })
-        }
+        data: data
     });
+
+    ambulanceSentModal.style.display = "block";
+
+    $(".okay").on("click", function () {
+        ambulanceSentModal.style.display = "none";
+    })
 }
 
 // Update information on a specific incident.
 function updateInfo() {
+    const updatedInfoModal = document.getElementById('updatedInfoModal');
+
     updatedInfoModal.style.display = "block";
 
     $(".okay").on("click", function () {
@@ -569,7 +546,7 @@ function hideModalBox() {
 function showHideHospitals() {
     let buttonText = document.getElementById('showHideHospitals').innerHTML;
 
-    if (buttonText === "Show hospitals") {
+    if (buttonText === "Show Hospitals") {
         document.getElementById('showHideHospitals').innerHTML = "Hide Hospitals";
 
         let marker;
@@ -586,7 +563,7 @@ function showHideHospitals() {
             }
         }
     } else {
-        document.getElementById('showHideHospitals').innerHTML = "Show hospitals";
+        document.getElementById('showHideHospitals').innerHTML = "Show Hospitals";
 
         let marker;
 

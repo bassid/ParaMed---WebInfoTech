@@ -1,3 +1,4 @@
+// Send a POST request with login credentials to the web server's API endpoint for authentication.
 function login(){
     var user = document.getElementById('username').value;
     var pass = document.getElementById('password').value;
@@ -10,6 +11,7 @@ function login(){
     });
 }
 
+// Display an error box if login credentials are invalid.
 $(function() {
     $("#buttonOkay").on('click', function() {
         errorBox.style.display = "none";
