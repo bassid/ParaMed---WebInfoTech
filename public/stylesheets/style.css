@@ -482,9 +482,6 @@ button:hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    /*grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: 0.5em;
-    grid-row-gap: 1em;*/
     margin: 10px 10px 10px 0;
     height: auto;
     overflow: auto;
