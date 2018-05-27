@@ -1,6 +1,9 @@
 "use strict"
 
+// Objects instantiated through the google maps API.
 var map, infoWindow, service;
+
+// Contains map marker and hospital marker objects for the map.
 var mapMarkers = {},
     hospitalMarkers = {};
 
